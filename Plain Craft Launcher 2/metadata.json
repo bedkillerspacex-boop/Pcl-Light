@@ -8,12 +8,6 @@
   },
   "licenses": [
     {
-      "name": "PCL-Symbio-Edition",
-      "info": "Copyright © Hydrogen-Peroxide\n基岩版下载、安装与启动逻辑移植自此项目，Licensed under the Apache-2.0 License.",
-      "website": "https://github.com/Hydrogen-Peroxide/PCL-Symbio-Edition",
-      "license": "https://github.com/Hydrogen-Peroxide/PCL-Symbio-Edition/blob/main/LICENSE"
-    },
-    {
       "name": "LegacyFix",
       "info": "Copyright © betacraftuk\nLicensed under the GPL-3.0 license.",
       "website": "https://github.com/betacraftuk/legacyfix",
