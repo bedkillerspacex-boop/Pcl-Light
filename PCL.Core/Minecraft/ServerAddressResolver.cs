@@ -357,7 +357,8 @@ public static class ServerAddressResolver
             var (ok, ip) = await done.ConfigureAwait(false);
             if (!ok) continue;
             // 取消其余连接尝试
-            try { await cts.CancelAsync().ConfigureAwait(false); } catch { /* ignore */ }
+            // CancelAsync is unavailable on .NET 6; preserve immediate cancellation semantics.
+            try { cts.Cancel(); } catch { /* ignore */ }
             return ip;
         }
 
@@ -373,7 +374,7 @@ public static class ServerAddressResolver
 
             using var timeoutCts = new CancellationTokenSource(_ConnectTimeout);
             using var linked = CancellationTokenSource.CreateLinkedTokenSource(ct, timeoutCts.Token);
-#if NET8_0_OR_GREATER
+#if NET5_0_OR_GREATER
             await sock.ConnectAsync(new IPEndPoint(ip, port), linked.Token).ConfigureAwait(false);
 #else
             await sock.ConnectAsync(new IPEndPoint(ip, port)).WaitAsync(_ConnectTimeout, linked.Token).ConfigureAwait(false);

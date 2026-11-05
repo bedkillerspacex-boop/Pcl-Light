@@ -476,7 +476,7 @@ public sealed class LunarSocialClient : IAsyncDisposable
 
     public async ValueTask DisposeAsync()
     {
-        await _lifetime.CancelAsync().ConfigureAwait(false);
+        _lifetime.Cancel();
         await DisconnectAsync().ConfigureAwait(false);
         _lifetime.Dispose();
         _writeGate.Dispose();

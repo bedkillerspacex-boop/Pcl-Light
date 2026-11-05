@@ -146,7 +146,7 @@ public sealed class TcpForwardWorker : IDisposable
 
             // 等待任意一个方向的数据转发完成
             await Task.WhenAny(forwardTask1, forwardTask2).ConfigureAwait(false);
-            await cts.CancelAsync().ConfigureAwait(false);
+            cts.Cancel();
 
             LogWrapper.Debug(ModuleName, $"TCP 转发 {connectionId} 已结束");
         }

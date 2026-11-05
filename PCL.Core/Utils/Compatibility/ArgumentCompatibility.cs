@@ -83,11 +83,6 @@ public static class StreamCompatibility
     }
 }
 
-public static class CancellationTokenSourceCompatibility
-{
-    public static Task CancelAsync(this CancellationTokenSource source) => Task.Run(source.Cancel);
-}
-
 public static class ArgumentOutOfRangeCompatibility
 {
     public static void ThrowIfGreaterThanOrEqual<T>(T value, T other,
