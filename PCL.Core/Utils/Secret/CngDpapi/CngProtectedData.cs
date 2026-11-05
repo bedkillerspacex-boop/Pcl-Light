@@ -472,10 +472,8 @@ public static class CngProtectedData
 
     private static void CheckPlatformSupport()
     {
-        if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-        {
-            throw new PlatformNotSupportedException();
-        }
+        if (!OperatingSystem.IsWindowsVersionAtLeast(6, 2))
+            throw new PlatformNotSupportedException("CNG DPAPI requires Windows 8 or later.");
     }
 
     // PlainToolkit.CngProtectedData 的自定义包装数据如下：

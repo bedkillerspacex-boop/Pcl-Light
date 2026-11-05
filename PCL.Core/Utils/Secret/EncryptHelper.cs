@@ -196,13 +196,11 @@ public static class EncryptHelper
                 return CngProtectedData.Unprotect(data.Data, _Key, DataProtectionScope.CurrentUser);
             case 1:
                 var legacyKey = ProtectedData.Unprotect(data.Data, _Key, System.Security.Cryptography.DataProtectionScope.CurrentUser);
-                if (_TryProtect(legacyKey, out var migrated) && _WriteKeyFile(keyFile, migrated))
+                if (_TryProtect(legacyKey, out var migrated))
                 {
                     var migratedVersion = EncryptionData.FromBytes(migrated).Version;
-                    var message = migratedVersion == 2
-                        ? "用户密钥已迁移至 version 2（CNG DPAPI）"
-                        : "当前系统不支持 CNG DPAPI，用户密钥继续使用 version 1（DPAPI）";
-                    LogWrapper.Info("Encryption", $"{message}：{keyFile}");
+                    if (migratedVersion == 2 && _WriteKeyFile(keyFile, migrated))
+                        LogWrapper.Info("Encryption", $"用户密钥已迁移至 version 2（CNG DPAPI）：{keyFile}");
                 }
                 return legacyKey;
             default:
@@ -236,31 +234,35 @@ public static class EncryptHelper
     /// </summary>
     private static bool _TryProtect(byte[] rawKey, out byte[] storeData)
     {
+        if (OperatingSystem.IsWindowsVersionAtLeast(6, 2))
+        {
+            try
+            {
+                var blob = CngProtectedData.Protect(rawKey, _Key, DataProtectionScope.CurrentUser);
+                var roundTrip = CngProtectedData.Unprotect(blob, _Key, DataProtectionScope.CurrentUser);
+                storeData = EncryptionData.ToBytes(new EncryptionData { Version = 2, Data = blob });
+                return rawKey.AsSpan().SequenceEqual(roundTrip);
+            }
+            catch (Exception ex)
+            {
+                LogWrapper.Warn(ex, "Encryption", "CNG DPAPI 自检失败，本机可能无法保存用户密钥");
+            }
+        }
+
         try
         {
-            var blob = CngProtectedData.Protect(rawKey, _Key, DataProtectionScope.CurrentUser);
-            var roundTrip = CngProtectedData.Unprotect(blob, _Key, DataProtectionScope.CurrentUser);
-            storeData = EncryptionData.ToBytes(new EncryptionData { Version = 2, Data = blob });
+            var blob = ProtectedData.Protect(rawKey, _Key,
+                System.Security.Cryptography.DataProtectionScope.CurrentUser);
+            var roundTrip = ProtectedData.Unprotect(blob, _Key,
+                System.Security.Cryptography.DataProtectionScope.CurrentUser);
+            storeData = EncryptionData.ToBytes(new EncryptionData { Version = 1, Data = blob });
             return rawKey.AsSpan().SequenceEqual(roundTrip);
         }
         catch (Exception ex)
         {
-            LogWrapper.Warn(ex, "Encryption", "CNG DPAPI 自检失败，本机可能无法保存用户密钥");
-            try
-            {
-                var blob = ProtectedData.Protect(rawKey, _Key,
-                    System.Security.Cryptography.DataProtectionScope.CurrentUser);
-                var roundTrip = ProtectedData.Unprotect(blob, _Key,
-                    System.Security.Cryptography.DataProtectionScope.CurrentUser);
-                storeData = EncryptionData.ToBytes(new EncryptionData { Version = 1, Data = blob });
-                return rawKey.AsSpan().SequenceEqual(roundTrip);
-            }
-            catch (Exception legacyException)
-            {
-                LogWrapper.Warn(legacyException, "Encryption", "DPAPI 自检失败，本机无法保存用户密钥");
-                storeData = [];
-                return false;
-            }
+            LogWrapper.Warn(ex, "Encryption", "DPAPI 自检失败，本机无法保存用户密钥");
+            storeData = [];
+            return false;
         }
     }
 
