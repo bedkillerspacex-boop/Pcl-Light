@@ -207,18 +207,22 @@ public sealed class DependencyCollectorGenerator : IIncrementalGenerator
             {
                 sb.Append("            [AttributeTargets.").Append(target).Append("] = new DependencyGroup<");
                 typeStr ??= info.DependencyType.GetFullyQualifiedName();
+                string itemType;
                 switch (target)
                 {
                     case AttributeTargets.Class:
-                        sb.Append("Action<").Append(typeStr).Append(">");
+                        itemType = $"Action<{typeStr}>";
                         break;
                     case AttributeTargets.Method:
-                        sb.Append(typeStr);
+                        itemType = typeStr;
                         break;
                     case AttributeTargets.Property:
-                        sb.Append("PropertyAccessor<").Append(typeStr).Append(">");
+                        itemType = $"PropertyAccessor<{typeStr}>";
                         break;
+                    default:
+                        throw new InvalidOperationException($"Unsupported dependency target: {target}");
                 }
+                sb.Append(itemType);
                 argTypeList ??= ((Func<string>)(() =>
                 {
                     var ctor = info.CollectorAttrSymbol.InstanceConstructors.FirstOrDefault();
@@ -230,9 +234,9 @@ public sealed class DependencyCollectorGenerator : IIncrementalGenerator
                     return "(" + string.Join(", ", args) + ")";
                 }))();
                 if (argTypeList != string.Empty) sb.Append(", ").Append(argTypeList);
-                var itemType = argTypeList == string.Empty ? typeStr : $"({typeStr}, {argTypeList})";
+                var collectionItemType = argTypeList == string.Empty ? itemType : $"({itemType}, {argTypeList})";
                 sb.Append("> { Items = ImmutableList.CreateRange(new ")
-                    .Append(itemType).AppendLine("[] {");
+                    .Append(collectionItemType).AppendLine("[] {");
                 foreach (var dep in deps)
                 {
                     sb.Append("                (");
