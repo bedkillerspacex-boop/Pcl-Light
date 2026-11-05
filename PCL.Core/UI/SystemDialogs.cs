@@ -115,7 +115,7 @@ public static class SystemDialogs
     ///     显示文件夹选择对话框，要求用户选择一个文件夹。
     /// </summary>
     /// <param name="title">对话框标题。为 <c>null</c> 时使用本地化的默认标题。</param>
-    /// <param name="initialDirectory">初始目录，默认为桌面。</param>
+    /// <param name="initialDirectory">有效的初始目录；未提供或目录不存在时保留系统的上次选择位置。</param>
     /// <returns>用户选择的文件夹路径（以 \ 结尾），如果取消则返回空字符串。</returns>
     public static string SelectFolder(string? title = null, string? initialDirectory = null)
     {
@@ -124,10 +124,10 @@ public static class SystemDialogs
         {
             Description = dialogTitle,
             UseDescriptionForTitle = true,
-            SelectedPath = initialDirectory
-                               ?? Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
             Multiselect = false
         };
+        if (!string.IsNullOrWhiteSpace(initialDirectory) && Directory.Exists(initialDirectory))
+            folderDialog.SelectedPath = initialDirectory;
 
         LogWrapper.Info("Dialog", $"打开选择文件夹对话框: {dialogTitle}");
         var result = folderDialog.ShowDialog();

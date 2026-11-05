@@ -11,16 +11,16 @@ using System.Threading.Tasks;
 
 namespace PCL.Core.Utils.Compatibility;
 
-internal static class ArgumentCompatibility
+public static class ArgumentCompatibility
 {
-    internal static void ThrowIfNullOrEmpty(string? value,
+    public static void ThrowIfNullOrEmpty(string? value,
         [CallerArgumentExpression(nameof(value))] string? paramName = null)
     {
         if (value is null) throw new ArgumentNullException(paramName);
         if (value.Length == 0) throw new ArgumentException("The value cannot be an empty string.", paramName);
     }
 
-    internal static void ThrowIfNullOrWhiteSpace(string? value,
+    public static void ThrowIfNullOrWhiteSpace(string? value,
         [CallerArgumentExpression(nameof(value))] string? paramName = null)
     {
         if (value is null) throw new ArgumentNullException(paramName);
