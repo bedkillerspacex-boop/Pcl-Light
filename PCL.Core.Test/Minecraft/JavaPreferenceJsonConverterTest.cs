@@ -20,6 +20,17 @@ public class JavaPreferenceJsonConverterTest
     }
 
     [TestMethod]
+    public void ReadsCaseInsensitiveDiscriminatorWithDefaultOptions()
+    {
+        const string json = "{\"RelativePath\":\"runtime/java.exe\",\"KIND\":\"relative\"}";
+
+        var preference = JsonSerializer.Deserialize<JavaPreference>(json);
+
+        Assert.AreEqual(typeof(UseRelativePath), preference?.GetType());
+        Assert.AreEqual("runtime/java.exe", ((UseRelativePath)preference!).RelativePath);
+    }
+
+    [TestMethod]
     public void WritesExistingDiscriminatorShape()
     {
         var json = JsonSerializer.Serialize<JavaPreference>(

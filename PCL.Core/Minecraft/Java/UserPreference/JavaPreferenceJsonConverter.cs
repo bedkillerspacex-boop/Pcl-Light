@@ -13,8 +13,20 @@ public sealed class JavaPreferenceJsonConverter : JsonConverter<JavaPreference>
     {
         using var document = JsonDocument.ParseValue(ref reader);
         var root = document.RootElement;
+        var hasKind = false;
+        var kindElement = default(JsonElement);
+        if (root.ValueKind == JsonValueKind.Object)
+        {
+            foreach (var property in root.EnumerateObject())
+            {
+                if (!string.Equals(property.Name, "kind", StringComparison.OrdinalIgnoreCase)) continue;
+                kindElement = property.Value;
+                hasKind = true;
+            }
+        }
+
         if (root.ValueKind != JsonValueKind.Object ||
-            !root.TryGetProperty("kind", out var kindElement) ||
+            !hasKind ||
             kindElement.ValueKind != JsonValueKind.String)
         {
             throw new JsonException("Java preference is missing its kind discriminator.");
