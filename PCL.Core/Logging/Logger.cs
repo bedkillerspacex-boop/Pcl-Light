@@ -125,7 +125,7 @@ public sealed class Logger : IAsyncDisposable
                     batch.AppendLine(message);
                     lineCount++;
 
-                    var elapsed = Stopwatch.GetElapsedTime(lastFlush);
+                    var elapsed = StopwatchCompatibility.GetElapsedTime(lastFlush);
                     if (lineCount >= maxBatchLines || elapsed > writeTimeout)
                     {
                         await DoRefreshAsync().ConfigureAwait(false);

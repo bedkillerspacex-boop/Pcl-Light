@@ -6,11 +6,7 @@ using PCL.Core.UI.Animation.Core;
 namespace PCL.Core.UI;
 
 public struct NScaleTransform : 
-    IEquatable<NScaleTransform>,
-    IAdditionOperators<NScaleTransform, NScaleTransform, NScaleTransform>,
-    ISubtractionOperators<NScaleTransform, NScaleTransform, NScaleTransform>,
-    IMultiplyOperators<NScaleTransform, float, NScaleTransform>,
-    IDivisionOperators<NScaleTransform, float, NScaleTransform>
+    IEquatable<NScaleTransform>
 {
     private Vector4 _scale;
 

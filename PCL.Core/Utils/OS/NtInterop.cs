@@ -6,8 +6,8 @@ namespace PCL.Core.Utils.OS;
 
 public static partial class NtInterop
 {
-    [LibraryImport("ntdll.dll")]
-    private static partial void RtlGetNtVersionNumbers(
+    [DllImport("ntdll.dll")]
+    private static extern void RtlGetNtVersionNumbers(
         out int major,
         out int minor,
         out int build);

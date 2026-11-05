@@ -1170,8 +1170,9 @@ public static class LunarClientService
         if (string.IsNullOrWhiteSpace(expectedSha1)) return true;
 
         await using var stream = File.OpenRead(path);
-        var hash = await SHA1.HashDataAsync(stream, cancellationToken).ConfigureAwait(false);
-        return string.Equals(Convert.ToHexStringLower(hash), expectedSha1, StringComparison.OrdinalIgnoreCase);
+        using var sha1 = SHA1.Create();
+        var hash = await sha1.ComputeHashAsync(stream, cancellationToken).ConfigureAwait(false);
+        return string.Equals(Convert.ToHexString(hash).ToLowerInvariant(), expectedSha1, StringComparison.OrdinalIgnoreCase);
     }
 
     /// <summary>

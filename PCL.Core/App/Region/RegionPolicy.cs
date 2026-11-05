@@ -115,7 +115,7 @@ public static partial class RegionPolicy
 
     private static bool IsValidCountryCode(string? name)
     {
-        if (string.IsNullOrWhiteSpace(name) || name.Length != 2 || !name.All(char.IsAsciiLetter))
+        if (string.IsNullOrWhiteSpace(name) || name.Length != 2 || !name.All(PCL.Core.Utils.Compatibility.Ascii.IsLetter))
             return false;
         try
         {
@@ -274,19 +274,19 @@ public static partial class RegionPolicy
         return null;
     }
 
-    [LibraryImport("kernel32.dll", EntryPoint = "GetUserDefaultGeoName")]
-    private static unsafe partial int GetUserDefaultGeoName(char* geoName, int geoNameCount);
+    [DllImport("kernel32.dll", EntryPoint = "GetUserDefaultGeoName")]
+    private static unsafe extern int GetUserDefaultGeoName(char* geoName, int geoNameCount);
 
-    [LibraryImport("kernel32.dll", EntryPoint = "GetUserDefaultLocaleName")]
-    private static unsafe partial int GetUserDefaultLocaleName(char* localeName, int localeNameCount);
+    [DllImport("kernel32.dll", EntryPoint = "GetUserDefaultLocaleName")]
+    private static unsafe extern int GetUserDefaultLocaleName(char* localeName, int localeNameCount);
 
-    [LibraryImport("kernel32.dll", EntryPoint = "GetUserPreferredUILanguages")]
-    private static unsafe partial int GetUserPreferredUILanguages(uint flags, uint* languageCount,
+    [DllImport("kernel32.dll", EntryPoint = "GetUserPreferredUILanguages")]
+    private static unsafe extern int GetUserPreferredUILanguages(uint flags, uint* languageCount,
         char* languageBuffer, uint* bufferChars);
 
-    [LibraryImport("kernel32.dll", EntryPoint = "GetUserGeoID")]
-    private static partial int GetUserGeoID(int geoClass);
+    [DllImport("kernel32.dll", EntryPoint = "GetUserGeoID")]
+    private static extern int GetUserGeoID(int geoClass);
 
-    [LibraryImport("kernel32.dll", EntryPoint = "GetGeoInfoW")]
-    private static unsafe partial int GetGeoInfoW(int location, int geoType, char* geoData, int dataSize, int flags);
+    [DllImport("kernel32.dll", EntryPoint = "GetGeoInfoW")]
+    private static unsafe extern int GetGeoInfoW(int location, int geoType, char* geoData, int dataSize, int flags);
 }

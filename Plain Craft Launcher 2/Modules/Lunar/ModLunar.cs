@@ -745,7 +745,7 @@ public static class ModLunar
 
                 found = true;
                 return false;
-            }, nint.Zero);
+            }, IntPtr.Zero);
         }
         catch (Exception ex)
         {

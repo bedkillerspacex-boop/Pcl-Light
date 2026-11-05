@@ -21,7 +21,6 @@ public class JsonFileProvider : CommonFileProvider, IEnumerableKeyProvider
     private static readonly JsonSerializerOptions _SerializerOptions = new(JsonCompat.SerializerOptions)
     {
         DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
-        AllowOutOfOrderMetadataProperties = true,
     };
 
     private static readonly JsonWriterOptions _WriterOptions = new()

@@ -5,8 +5,8 @@ namespace PCL.Core.UI.Controls.SvgIcon;
 
 internal static partial class SvgNumberParser
 {
-    [GeneratedRegex(@"[-+]?(?:\d+\.?\d*|\.\d+)(?:[eE][-+]?\d+)?")]
-    private static partial Regex _NumberRegex();
+
+    private static Regex _NumberRegex() => PCL.Core.Utils.Compatibility.RegexCompatibility.Get(@"[-+]?(?:\d+\.?\d*|\.\d+)(?:[eE][-+]?\d+)?");
 
     public static double TryParse(string? value, double fallback = 0D)
     {

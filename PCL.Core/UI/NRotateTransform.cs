@@ -6,11 +6,7 @@ using PCL.Core.UI.Animation.Core;
 namespace PCL.Core.UI;
 
 public struct NRotateTransform : 
-    IEquatable<NRotateTransform>,
-    IAdditionOperators<NRotateTransform, NRotateTransform, NRotateTransform>,
-    ISubtractionOperators<NRotateTransform, NRotateTransform, NRotateTransform>,
-    IMultiplyOperators<NRotateTransform, float, NRotateTransform>,
-    IDivisionOperators<NRotateTransform, float, NRotateTransform>
+    IEquatable<NRotateTransform>
 {
     private Vector3 _rotate;
     

@@ -35,7 +35,7 @@ public class LoggerTest
                 {
                     logger.Info($"Current we got {current}:{j}");
                 }
-            }, TestContext.CancellationToken));
+            }));
         }
         await Task.WhenAll(tasks.ToArray());
     }

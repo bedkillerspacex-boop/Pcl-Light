@@ -477,8 +477,10 @@ internal static class GameFileTools
 
                     if (expectedHash.Length > 0)
                     {
-                        var actual = Convert.ToHexString(await SHA256.HashDataAsync(
-                            File.OpenRead(tempPath), token).ConfigureAwait(false));
+                        using var sha256 = SHA256.Create();
+                        using var input = File.OpenRead(tempPath);
+                        var actual = Convert.ToHexString(await sha256.ComputeHashAsync(
+                            input, token).ConfigureAwait(false));
                         if (!string.Equals(actual, expectedHash.Replace("-", "").Trim(),
                                 StringComparison.OrdinalIgnoreCase))
                             return McpResults.Error(

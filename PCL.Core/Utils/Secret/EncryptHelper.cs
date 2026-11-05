@@ -186,7 +186,7 @@ public static class EncryptHelper
         return _CreateKey(keyFile);
     }
 
-    /// <summary>读取密钥；v1 密钥会在解密成功后惰性迁移为 v2。内容不可用时抛出。</summary>
+    /// <summary>读取密钥；可用 CNG DPAPI 时将 v1 密钥惰性迁移为 v2，否则保留 v1。</summary>
     private static byte[] _ReadKey(string keyFile)
     {
         var data = EncryptionData.FromBytes(File.ReadAllBytes(keyFile));
@@ -197,7 +197,13 @@ public static class EncryptHelper
             case 1:
                 var legacyKey = ProtectedData.Unprotect(data.Data, _Key, System.Security.Cryptography.DataProtectionScope.CurrentUser);
                 if (_TryProtect(legacyKey, out var migrated) && _WriteKeyFile(keyFile, migrated))
-                    LogWrapper.Info("Encryption", $"用户密钥已迁移至 version 2（CNG DPAPI）：{keyFile}");
+                {
+                    var migratedVersion = EncryptionData.FromBytes(migrated).Version;
+                    var message = migratedVersion == 2
+                        ? "用户密钥已迁移至 version 2（CNG DPAPI）"
+                        : "当前系统不支持 CNG DPAPI，用户密钥继续使用 version 1（DPAPI）";
+                    LogWrapper.Info("Encryption", $"{message}：{keyFile}");
+                }
                 return legacyKey;
             default:
                 throw new NotSupportedException($"Unsupported key version: {data.Version}");
@@ -215,7 +221,11 @@ public static class EncryptHelper
         if (!_WriteKeyFile(keyFile, storeData))
             LogWrapper.Error("Encryption", $"用户密钥写入失败，本次运行仅使用内存密钥：{keyFile}");
         else
-            LogWrapper.Warn("Encryption", "用户密钥已重建（version 2）。旧密钥保护的数据无法恢复，需要重新登录。");
+        {
+            var version = EncryptionData.FromBytes(storeData).Version;
+            var format = version == 2 ? "version 2（CNG DPAPI）" : "version 1（DPAPI）";
+            LogWrapper.Warn("Encryption", $"用户密钥已重建（{format}）。旧密钥保护的数据无法恢复，需要重新登录。");
+        }
         return key;
     }
 
@@ -236,8 +246,21 @@ public static class EncryptHelper
         catch (Exception ex)
         {
             LogWrapper.Warn(ex, "Encryption", "CNG DPAPI 自检失败，本机可能无法保存用户密钥");
-            storeData = [];
-            return false;
+            try
+            {
+                var blob = ProtectedData.Protect(rawKey, _Key,
+                    System.Security.Cryptography.DataProtectionScope.CurrentUser);
+                var roundTrip = ProtectedData.Unprotect(blob, _Key,
+                    System.Security.Cryptography.DataProtectionScope.CurrentUser);
+                storeData = EncryptionData.ToBytes(new EncryptionData { Version = 1, Data = blob });
+                return rawKey.AsSpan().SequenceEqual(roundTrip);
+            }
+            catch (Exception legacyException)
+            {
+                LogWrapper.Warn(legacyException, "Encryption", "DPAPI 自检失败，本机无法保存用户密钥");
+                storeData = [];
+                return false;
+            }
         }
     }
 

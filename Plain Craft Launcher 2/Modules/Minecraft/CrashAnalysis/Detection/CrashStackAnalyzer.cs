@@ -187,13 +187,13 @@ internal sealed partial class CrashStackAnalyzer
         return result;
     }
 
-    [GeneratedRegex(
-        @"(?<=\n[^{]+)[a-zA-Z_]+\w+\.[a-zA-Z_]+[\w\.]+(?=\.[\w\.$]+\.)",
-        RegexOptions.Compiled)]
-    private static partial Regex PackageRegex();
 
-    [GeneratedRegex(
+    private static Regex PackageRegex() => PCL.Core.Utils.Compatibility.RegexCompatibility.Get(
+        @"(?<=\n[^{]+)[a-zA-Z_]+\w+\.[a-zA-Z_]+[\w\.]+(?=\.[\w\.$]+\.)",
+        RegexOptions.Compiled);
+
+
+    private static Regex MixinStackRegex() => PCL.Core.Utils.Compatibility.RegexCompatibility.Get(
         @"(?<=at [^(]+?\.\w+\$\w+\$)[\w\$]+?(?=\$\w+\()",
-        RegexOptions.Compiled)]
-    private static partial Regex MixinStackRegex();
+        RegexOptions.Compiled);
 }

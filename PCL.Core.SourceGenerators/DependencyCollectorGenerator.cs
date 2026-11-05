@@ -230,7 +230,9 @@ public sealed class DependencyCollectorGenerator : IIncrementalGenerator
                     return "(" + string.Join(", ", args) + ")";
                 }))();
                 if (argTypeList != string.Empty) sb.Append(", ").Append(argTypeList);
-                sb.AppendLine("> { Items = [");
+                var itemType = argTypeList == string.Empty ? typeStr : $"({typeStr}, {argTypeList})";
+                sb.Append("> { Items = ImmutableList.CreateRange(new ")
+                    .Append(itemType).AppendLine("[] {");
                 foreach (var dep in deps)
                 {
                     sb.Append("                (");
@@ -264,7 +266,7 @@ public sealed class DependencyCollectorGenerator : IIncrementalGenerator
                     }
                     sb.AppendLine("),");
                 }
-                sb.AppendLine("            ] },");
+                sb.AppendLine("            }) },");
             }
             sb.AppendLine("        },");
         }

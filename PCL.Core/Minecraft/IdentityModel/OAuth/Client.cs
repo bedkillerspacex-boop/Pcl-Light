@@ -26,7 +26,7 @@ public sealed class SimpleOAuthClient(OAuthClientOptions options):IOAuthClient
     /// <returns></returns>
     public string GetAuthorizeUrl(string[] scopes,string state,Dictionary<string,string>? extData = null)
     {
-        ArgumentException.ThrowIfNullOrWhiteSpace(options.Meta.AuthorizeEndpoint);
+        ArgumentCompatibility.ThrowIfNullOrWhiteSpace(options.Meta.AuthorizeEndpoint);
         var values = new Dictionary<string, string>(extData ?? [])
         {
             ["response_type"] = "code",
@@ -80,7 +80,7 @@ public sealed class SimpleOAuthClient(OAuthClientOptions options):IOAuthClient
     public async Task<DeviceCodeData?> GetCodePairAsync
         (string[] scopes,CancellationToken token, Dictionary<string, string>? extData = null)
     {
-        ArgumentException.ThrowIfNullOrEmpty(options.Meta.DeviceEndpoint);
+        ArgumentCompatibility.ThrowIfNullOrEmpty(options.Meta.DeviceEndpoint);
         var client = options.GetClient.Invoke();
         extData = new Dictionary<string, string>(extData ?? []);
         extData["scope"] = string.Join(" ", scopes);

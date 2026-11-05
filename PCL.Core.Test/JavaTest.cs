@@ -29,7 +29,7 @@ namespace PCL.Core.Test
             foreach (var ja in firstSacnned)
             {
                 Console.WriteLine(ja.ToString());
-                Assert.IsGreaterThan(0, ja.Installation.Version.Major, "Java version is not valid: " + ja.Installation.JavaFolder);
+                Assert.IsTrue(ja.Installation.Version.Major > 0, "Java version is not valid: " + ja.Installation.JavaFolder);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(ja.Installation.JavaFolder));
             }
             await jas.ScanJavaAsync();

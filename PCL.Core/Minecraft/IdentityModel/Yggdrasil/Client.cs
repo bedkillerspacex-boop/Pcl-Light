@@ -22,8 +22,8 @@ public sealed class YggdrasilLegacyClient(YggdrasilLegacyAuthenticateOptions opt
     /// <exception cref="ArgumentException">用户名或密码无效</exception>
     public async Task<YggdrasilAuthenticateResult?> AuthenticateAsync(CancellationToken token)
     {
-        ArgumentException.ThrowIfNullOrEmpty(options.Username);
-        ArgumentException.ThrowIfNullOrEmpty(options.Password);
+        ArgumentCompatibility.ThrowIfNullOrEmpty(options.Username);
+        ArgumentCompatibility.ThrowIfNullOrEmpty(options.Password);
 
         var credential = new YggdrasilCredential
         {
@@ -52,7 +52,7 @@ public sealed class YggdrasilLegacyClient(YggdrasilLegacyAuthenticateOptions opt
     /// <param name="seleectedProfile">如果需要选择角色，请填写此参数</param>
     public async Task<YggdrasilAuthenticateResult?> RefreshAsync(CancellationToken token, Profile? seleectedProfile)
     {
-        ArgumentException.ThrowIfNullOrEmpty(options.AccessToken);
+        ArgumentCompatibility.ThrowIfNullOrEmpty(options.AccessToken);
 
         var refreshData = new YggdrasilRefresh
         {
@@ -82,7 +82,7 @@ public sealed class YggdrasilLegacyClient(YggdrasilLegacyAuthenticateOptions opt
     /// <returns></returns>
     public async Task<bool> ValidateAsync(CancellationToken token)
     {
-        ArgumentException.ThrowIfNullOrEmpty(options.AccessToken);
+        ArgumentCompatibility.ThrowIfNullOrEmpty(options.AccessToken);
 
         var validateData = new YggdrasilRefresh
         {
@@ -107,7 +107,7 @@ public sealed class YggdrasilLegacyClient(YggdrasilLegacyAuthenticateOptions opt
     /// <param name="token"></param>
     public async Task InvalidateAsync(CancellationToken token)
     {
-        ArgumentException.ThrowIfNullOrEmpty(options.AccessToken);
+        ArgumentCompatibility.ThrowIfNullOrEmpty(options.AccessToken);
 
         var validateData = new YggdrasilRefresh
         {

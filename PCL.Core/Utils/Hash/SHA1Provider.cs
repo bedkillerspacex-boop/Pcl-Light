@@ -30,11 +30,13 @@ public class SHA1Provider : IHashProvider
 
     public byte[] ComputeHash(Stream input)
     {
-        return SHA1.HashData(input);
+        using var algorithm = SHA1.Create();
+        return algorithm.ComputeHash(input);
     }
 
     public async ValueTask<byte[]> ComputeHashAsync(Stream input, CancellationToken cancellationToken = default)
     {
-        return await SHA1.HashDataAsync(input, cancellationToken).ConfigureAwait(false);
+        using var algorithm = SHA1.Create();
+        return await algorithm.ComputeHashAsync(input, cancellationToken).ConfigureAwait(false);
     }
 }

@@ -66,7 +66,7 @@ public sealed record LunarIpcPush(string TypeUrl, byte[] Payload)
     /// <param name="serverIp">形如 <c>mc.example.com</c> 或 <c>mc.example.com:25565</c>。</param>
     public static LunarIpcPush PlayServer(string serverIp)
     {
-        ArgumentException.ThrowIfNullOrWhiteSpace(serverIp);
+        ArgumentCompatibility.ThrowIfNullOrWhiteSpace(serverIp);
 
         // PlayServerPush { string autoJoinServerIp = 1; }
         using var payload = new MemoryStream();

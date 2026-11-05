@@ -27,7 +27,7 @@ public sealed class TcpForwardWorker : IDisposable
     public IPEndPoint? LocalEndPoint { get; private set; }
 
     public int ActiveConnectionCount => _cfg.MaxConnection - _connectionSemaphore.CurrentCount;
-    private readonly Lock _operationLock = new();
+    private readonly object _operationLock = new();
 
     public void Start()
     {

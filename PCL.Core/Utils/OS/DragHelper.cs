@@ -103,7 +103,7 @@ public partial class DragHelper
 
     #region Drop parsing
 
-    private static bool TryGetDropInfo(
+    private static unsafe bool TryGetDropInfo(
         int msg,
         IntPtr hDrop,
         out string[]? filePaths,
@@ -126,7 +126,8 @@ public partial class DragHelper
             var len = DragQueryFile(hDrop, i, IntPtr.Zero, 0) + 1;
             if (len > maxPath) len = maxPath;
             var buffer = len <= smallerMaxPath ? gBuffer[..(int)len] : new char[len];
-            _ = DragQueryFile(hDrop, i, buffer, len);
+            fixed (char* pBuffer = buffer)
+                _ = DragQueryFile(hDrop, i, (IntPtr)pBuffer, len);
             filePaths[i] = new string(buffer[..(int)(len - 1)]);
         }
 
@@ -145,40 +146,37 @@ public partial class DragHelper
     private const uint MSGFLT_ALLOW = 1;
     private const uint MSGFLT_ADD = 1;
 
-    [LibraryImport("user32.dll", SetLastError = true)]
+    [DllImport("user32.dll", SetLastError = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
-    private static partial bool ChangeWindowMessageFilter(
+    private static extern bool ChangeWindowMessageFilter(
         uint msg,
         uint flags);
 
-    [LibraryImport("user32.dll", SetLastError = true)]
+    [DllImport("user32.dll", SetLastError = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
-    private static partial bool ChangeWindowMessageFilterEx(
+    private static extern bool ChangeWindowMessageFilterEx(
         IntPtr hwnd,
         uint msg,
         uint action,
         ref CHANGEFILTERSTRUCT filter);
 
-    [LibraryImport("shell32.dll")]
-    private static partial void DragAcceptFiles(
+    [DllImport("shell32.dll")]
+    private static extern void DragAcceptFiles(
         IntPtr hwnd,
         [MarshalAs(UnmanagedType.Bool)] bool accept);
 
-    [LibraryImport("shell32.dll", EntryPoint = "DragQueryFileW", StringMarshalling = StringMarshalling.Utf16)]
-    private static partial uint DragQueryFile(IntPtr hDrop, uint iFile, Span<char> lpszFile, uint cch);
-    
-    [LibraryImport("shell32.dll", EntryPoint = "DragQueryFileW")]
-    private static partial uint DragQueryFile(IntPtr hDrop, uint iFile, IntPtr lpszFile, uint cch);
+    [DllImport("shell32.dll", EntryPoint = "DragQueryFileW")]
+    private static extern uint DragQueryFile(IntPtr hDrop, uint iFile, IntPtr lpszFile, uint cch);
 
-    [LibraryImport("shell32.dll")]
-    private static partial void DragFinish(IntPtr hDrop);
+    [DllImport("shell32.dll")]
+    private static extern void DragFinish(IntPtr hDrop);
 
-    [LibraryImport("ole32.dll")]
-    private static partial int RevokeDragDrop(IntPtr hwnd);
+    [DllImport("ole32.dll")]
+    private static extern int RevokeDragDrop(IntPtr hwnd);
 
-    [LibraryImport("shell32.dll")]
+    [DllImport("shell32.dll")]
     [return: MarshalAs(UnmanagedType.Bool)]
-    private static partial bool IsUserAnAdmin();
+    private static extern bool IsUserAnAdmin();
 
     #endregion
 

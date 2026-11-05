@@ -303,7 +303,8 @@ public static class ModComp
             {
                 _FavoritesList = value;
                 foreach (var item in _FavoritesList)
-                    item.Notes = item.Notes.Where(n => !string.IsNullOrWhiteSpace(n.Value)).ToDictionary();
+                    item.Notes = item.Notes.Where(n => !string.IsNullOrWhiteSpace(n.Value))
+                        .ToDictionary(n => n.Key, n => n.Value);
                 var rawList = JsonSerializer.Serialize(_FavoritesList, JsonCompat.SerializerOptions);
                 States.Game.CompFavorites = JsonSerializer.Serialize(_FavoritesList, JsonCompat.SerializerOptions);
             }

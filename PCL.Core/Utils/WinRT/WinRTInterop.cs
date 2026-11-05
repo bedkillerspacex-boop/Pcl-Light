@@ -6,10 +6,10 @@ namespace PCL.Core.Utils.WinRT;
 public static partial class WinRTInterop
 {
     // roapi.h
-    [LibraryImport("combase.dll")]
-    private static unsafe partial int RoGetActivationFactory(IntPtr activatableClassId, Guid* iid, IntPtr* factory);
-    [LibraryImport("combase.dll")]
-    private static unsafe partial int RoActivateInstance(IntPtr activatableClassId, IntPtr* instance);
+    [DllImport("combase.dll")]
+    private static unsafe extern int RoGetActivationFactory(IntPtr activatableClassId, Guid* iid, IntPtr* factory);
+    [DllImport("combase.dll")]
+    private static unsafe extern int RoActivateInstance(IntPtr activatableClassId, IntPtr* instance);
 
     public static unsafe IntPtr ActivateInstance(ReadOnlySpan<char> activatableClassId)
     {
@@ -63,15 +63,15 @@ public static partial class WinRTInterop
     }
     
     // winstring.h
-    [LibraryImport("combase.dll")]
-    internal static unsafe partial int WindowsCreateString(ushort* sourceString, int length, IntPtr* hstring);
-    [LibraryImport("combase.dll")]
-    internal static unsafe partial int WindowsCreateStringReference(ushort* sourceString, int length,
+    [DllImport("combase.dll")]
+    internal static unsafe extern int WindowsCreateString(ushort* sourceString, int length, IntPtr* hstring);
+    [DllImport("combase.dll")]
+    internal static unsafe extern int WindowsCreateStringReference(ushort* sourceString, int length,
         IntPtr* hstringHeader, IntPtr* hstring);
-    [LibraryImport("combase.dll")]
-    internal static unsafe partial int WindowsDeleteString(IntPtr hstring);
-    [LibraryImport("combase.dll")]
-    internal static unsafe partial char* WindowsGetStringRawBuffer(IntPtr hstring, uint* length);
+    [DllImport("combase.dll")]
+    internal static unsafe extern int WindowsDeleteString(IntPtr hstring);
+    [DllImport("combase.dll")]
+    internal static unsafe extern char* WindowsGetStringRawBuffer(IntPtr hstring, uint* length);
     
     // hstring.h
     [StructLayout(LayoutKind.Sequential)]

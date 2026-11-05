@@ -376,7 +376,7 @@ public static class ServerAddressResolver
 #if NET8_0_OR_GREATER
             await sock.ConnectAsync(new IPEndPoint(ip, port), linked.Token).ConfigureAwait(false);
 #else
-            await sock.ConnectAsync(new IPEndPoint(ip, port)).WaitAsync(ConnectTimeout, linked.Token).ConfigureAwait(false);
+            await sock.ConnectAsync(new IPEndPoint(ip, port)).WaitAsync(_ConnectTimeout, linked.Token).ConfigureAwait(false);
 #endif
             return (true, ip.ToString());
         }

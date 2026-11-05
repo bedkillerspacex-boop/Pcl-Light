@@ -19,7 +19,7 @@ public class DoHQueryTest
         var query = DnsQuery.Instance;
         var addr = await query.QueryForIpAsync("cloudflare.com", TestContext.CancellationTokenSource.Token);
         Assert.IsNotNull(addr);
-        Assert.IsGreaterThan(0, addr.Length);
+        Assert.IsTrue(addr.Length > 0);
         Console.WriteLine(string.Join(", ", addr.Select(x => x.ToString())));
     }
 
@@ -31,7 +31,7 @@ public class DoHQueryTest
         var query = DnsQuery.Instance;
         var addr = await query.QueryAsync("_minecraft._tcp.hypixel.net", DnsQueryType.SRV, TestContext.CancellationTokenSource.Token);
         Assert.IsNotNull(addr);
-        Assert.IsGreaterThan(0, addr.Answers.Count);
+        Assert.IsTrue(addr.Answers.Count > 0);
         Assert.AreEqual(DnsQueryClass.IN, addr.Header.QueryClass);
         var record = addr.Answers.FirstOrDefault()?.Resource as DnsUnknownResource;
         Assert.IsNotNull(record);

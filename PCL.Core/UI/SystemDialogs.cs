@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using Microsoft.Win32;
+using Ookii.Dialogs.Wpf;
 using PCL.Core.App.Localization;
 using PCL.Core.Logging;
 
@@ -119,10 +120,11 @@ public static class SystemDialogs
     public static string SelectFolder(string? title = null, string? initialDirectory = null)
     {
         var dialogTitle = title ?? Lang.Text("SystemDialog.Folder.SelectTitle");
-        var folderDialog = new OpenFolderDialog
+        var folderDialog = new VistaFolderBrowserDialog
         {
-            Title = dialogTitle,
-            InitialDirectory = initialDirectory
+            Description = dialogTitle,
+            UseDescriptionForTitle = true,
+            SelectedPath = initialDirectory
                                ?? Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
             Multiselect = false
         };
@@ -135,7 +137,7 @@ public static class SystemDialogs
             return "";
         }
 
-        var selectedPath = folderDialog.FolderName;
+        var selectedPath = folderDialog.SelectedPath;
         if (string.IsNullOrEmpty(selectedPath))
         {
             LogWrapper.Info("Dialog", "选择文件夹返回: 空");

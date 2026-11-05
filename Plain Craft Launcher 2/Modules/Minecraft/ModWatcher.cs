@@ -590,7 +590,7 @@ public static class ModWatcher
                 {
                     // 已找到 Minecraft 窗口
                     windowHandle = minecraftWindowHandle;
-                    WatcherLog(Lang.Text("Watcher.WindowLoaded", minecraftWindowName, minecraftWindowHandle.ToInt64()));
+                    WatcherLog(Lang.Text("Watcher.WindowLoaded", minecraftWindowName, unchecked((long)minecraftWindowHandle)));
                     isWindowFinished = true;
                     // 最大化
                     if (Config.Launch.GameWindowMode == GameWindowSizeMode.Maximized)
@@ -602,7 +602,7 @@ public static class ModWatcher
                             {
                                 Thread.Sleep(2000);
                                 ShowWindow(windowHandle, 3U);
-                                 WatcherLog(Lang.Text("Watcher.WindowMaximized", minecraftWindowHandle.ToInt64()));
+                                 WatcherLog(Lang.Text("Watcher.WindowMaximized", unchecked((long)minecraftWindowHandle)));
                             }
                             catch (Exception ex)
                             {
@@ -613,7 +613,7 @@ public static class ModWatcher
                 else if (!isWindowAppeared)
                 {
                     // 已找到 FML 窗口
-                    WatcherLog(Lang.Text("Watcher.FmlWindowLoaded", minecraftWindowName, minecraftWindowHandle.ToInt64()));
+                    WatcherLog(Lang.Text("Watcher.FmlWindowLoaded", minecraftWindowName, unchecked((long)minecraftWindowHandle)));
                 }
 
                 isWindowAppeared = true;
@@ -674,7 +674,7 @@ public static class ModWatcher
                 // 找到目标，赋值并停止枚举
                 tryGetMinecraftWindowRet = new KeyValuePair<nint, string>(hwnd, windowText);
                 return false;
-            }, nint.Zero);
+            }, IntPtr.Zero);
             return tryGetMinecraftWindowRet;
         }
 

@@ -11,7 +11,7 @@ public class TcpForwardBuilder
     public TcpForwardWorker Build()
     {
         ArgumentNullException.ThrowIfNull(_cfg.RemoteHost);
-        ArgumentOutOfRangeException.ThrowIfZero(_cfg.RemotePort);
+        ArgumentOutOfRangeCompatibility.ThrowIfZero(_cfg.RemotePort);
         
         if (_cfg.LocalHost.IsNullOrWhiteSpace()) _cfg.LocalHost = IPAddress.Loopback.ToString();
         
@@ -28,7 +28,7 @@ public class TcpForwardBuilder
 
     public TcpForwardBuilder BindLocal(ushort port)
     {
-        ArgumentOutOfRangeException.ThrowIfZero(port);
+        ArgumentOutOfRangeCompatibility.ThrowIfZero(port);
         
         _cfg.LocalHost = IPAddress.Loopback.ToString();
         _cfg.LocalPort = port;
@@ -38,8 +38,8 @@ public class TcpForwardBuilder
 
     public TcpForwardBuilder SetRemote(string host, ushort port)
     {
-        ArgumentException.ThrowIfNullOrWhiteSpace(host);
-        ArgumentOutOfRangeException.ThrowIfZero(port);
+        ArgumentCompatibility.ThrowIfNullOrWhiteSpace(host);
+        ArgumentOutOfRangeCompatibility.ThrowIfZero(port);
 
         _cfg.RemoteHost = host;
         _cfg.RemotePort = port;
@@ -60,7 +60,7 @@ public class TcpForwardBuilder
     public TcpForwardBuilder SetRemote(IPAddress host, ushort port)
     {
         ArgumentNullException.ThrowIfNull(host);
-        ArgumentOutOfRangeException.ThrowIfZero(port);
+        ArgumentOutOfRangeCompatibility.ThrowIfZero(port);
 
         _cfg.RemoteHost = host.ToString();
         _cfg.RemotePort = port;
@@ -70,8 +70,8 @@ public class TcpForwardBuilder
 
     public TcpForwardBuilder SetBufferSize(uint size)
     {
-        ArgumentOutOfRangeException.ThrowIfGreaterThan(size, TcpForwardConfig.MaxBufferSize);
-        ArgumentOutOfRangeException.ThrowIfLessThan(size, TcpForwardConfig.MinBufferSize);
+        ArgumentOutOfRangeCompatibility.ThrowIfGreaterThan(size, TcpForwardConfig.MaxBufferSize);
+        ArgumentOutOfRangeCompatibility.ThrowIfLessThan(size, TcpForwardConfig.MinBufferSize);
 
         _cfg.BufferSize = size;
 
@@ -80,7 +80,7 @@ public class TcpForwardBuilder
 
     public TcpForwardBuilder SetMaxAllowedActiveConnection(ushort maxConnectionCount)
     {
-        ArgumentOutOfRangeException.ThrowIfZero(maxConnectionCount);
+        ArgumentOutOfRangeCompatibility.ThrowIfZero(maxConnectionCount);
 
         _cfg.MaxConnection = maxConnectionCount;
 

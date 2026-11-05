@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Windows;
 using Humanizer;
+using Humanizer.Localisation;
 using PCL.Core.App.IoC;
 using PCL.Core.IO;
 using PCL.Core.Utils.OS;
@@ -90,7 +91,7 @@ public static class Lang
     /// </exception>
     public static string Text(string key)
     {
-        ArgumentException.ThrowIfNullOrWhiteSpace(key);
+        ArgumentCompatibility.ThrowIfNullOrWhiteSpace(key);
 
         if (Application.Current?.TryFindResource(key) is string text) return text;
         if (_LifecycleSafeFindResource(key) is string fallbackText) return fallbackText;

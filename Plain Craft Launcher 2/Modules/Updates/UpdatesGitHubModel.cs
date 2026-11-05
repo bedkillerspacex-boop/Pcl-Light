@@ -522,7 +522,7 @@ public class UpdatesGitHubModel : IUpdateSource
         }
 
         var parts = core.Split('.');
-        if (parts.Length == 0 || parts.Length > 3 || !parts.All(x => x.All(char.IsAsciiDigit)))
+        if (parts.Length == 0 || parts.Length > 3 || !parts.All(x => x.All(PCL.Core.Utils.Compatibility.Ascii.IsDigit)))
             throw new UpdateSourceException($"Release 的 tag「{tag}」不是合法的 SemVer，无法比较版本。");
 
         // 缺段补零：1 → 1.0.0，1.0 → 1.0.0

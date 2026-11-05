@@ -367,11 +367,11 @@ public partial class FormMain
 
         // 过滤非 WM_NCHITTEST 事件
         if (msg != WM_NCHITTEST)
-            return nint.Zero;
+            return IntPtr.Zero;
 
         // 提取鼠标坐标
         // 没妈的 VB 强转还得检查一下幻想的妈是不是还活着
-        var mouseBytes = BitConverter.GetBytes(lParam.ToInt64());
+        var mouseBytes = BitConverter.GetBytes(unchecked((long)lParam));
         var xMouse = BitConverter.ToInt16(mouseBytes, 0);
         var yMouse = BitConverter.ToInt16(mouseBytes, 2);
 
@@ -385,11 +385,11 @@ public partial class FormMain
 
         // 过滤不在窗口内的请求
         if (!isInWindow)
-            return nint.Zero;
+            return IntPtr.Zero;
 
         // 如果 CanResize 为 False，直接返回 HTCLIENT
         if (!canResize)
-            return new nint(HTCLIENT);
+            return new IntPtr(HTCLIENT);
 
         // 真实像素尺寸的 offset
         var dpi = VisualTreeHelper.GetDpi(this);
@@ -414,24 +414,24 @@ public partial class FormMain
 
         // 返回结果
         if (inTop && inLeft)
-            return new nint(HTTOPLEFT);
+            return new IntPtr(HTTOPLEFT);
         if (inTop && inRight)
-            return new nint(HTTOPRIGHT);
+            return new IntPtr(HTTOPRIGHT);
         if (inBottom && inLeft)
-            return new nint(HTBOTTOMLEFT);
+            return new IntPtr(HTBOTTOMLEFT);
         if (inBottom && inRight)
-            return new nint(HTBOTTOMRIGHT);
+            return new IntPtr(HTBOTTOMRIGHT);
         if (inLeft)
-            return new nint(HTLEFT);
+            return new IntPtr(HTLEFT);
         if (inRight)
-            return new nint(HTRIGHT);
+            return new IntPtr(HTRIGHT);
         if (inTop)
-            return new nint(HTTOP);
+            return new IntPtr(HTTOP);
         if (inBottom)
-            return new nint(HTBOTTOM);
+            return new IntPtr(HTBOTTOM);
 
         // 如果在 0-offset 范围内，返回 HTCLIENT 杀掉默认缩放
-        return new nint(HTCLIENT);
+        return new IntPtr(HTCLIENT);
     }
 
     protected override void OnSourceInitialized(EventArgs e)
@@ -1212,11 +1212,11 @@ public partial class FormMain
         }
         else if (msg == 400 * 16 + 2)
         {
-            ModBase.Log("[System] 收到置顶信息：" + hwnd.ToInt64());
+            ModBase.Log("[System] 收到置顶信息：" + unchecked((long)hwnd));
             if (!isWindowLoadFinished)
             {
                 ModBase.Log("[System] 窗口尚未加载完成，忽略置顶请求");
-                return nint.Zero;
+                return IntPtr.Zero;
             }
 
             ShowWindowToTop();
@@ -1232,7 +1232,7 @@ public partial class FormMain
             }
         }
 
-        return nint.Zero;
+        return IntPtr.Zero;
     }
 
     // 窗口隐藏与置顶

@@ -46,7 +46,7 @@ namespace PCL.Core.Test
             var t5 = SemVer.Parse("v2.14.5-beta.1.2147483647");
             Assert.IsNotNull(t5);
             Console.WriteLine(t5.ToString());
-            Assert.IsGreaterThan(t5, t4);
+            Assert.IsTrue(t4.CompareTo(t5) > 0);
         }
     }
 }

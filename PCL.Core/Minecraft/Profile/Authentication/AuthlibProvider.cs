@@ -139,7 +139,7 @@ public sealed class AuthlibProvider : IAuthenticateProvider
 
     private static string _NormalizeServer(string server)
     {
-        ArgumentException.ThrowIfNullOrWhiteSpace(server);
+        ArgumentCompatibility.ThrowIfNullOrWhiteSpace(server);
         var value = server.TrimEnd('/');
         return value.EndsWith("/authserver", StringComparison.OrdinalIgnoreCase)
             ? value[..^"/authserver".Length]

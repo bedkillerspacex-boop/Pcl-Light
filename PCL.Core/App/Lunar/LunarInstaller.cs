@@ -87,7 +87,7 @@ internal static class LunarIndexParser
     {
         foreach (var c in value)
         {
-            if (!char.IsAsciiHexDigit(c)) return false;
+            if (!PCL.Core.Utils.Compatibility.Ascii.IsHexDigit(c)) return false;
         }
 
         return true;

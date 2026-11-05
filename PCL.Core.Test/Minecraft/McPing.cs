@@ -14,12 +14,12 @@ public class McPingTest
     {
         using var so = new Socket(SocketType.Stream, ProtocolType.Tcp);
         using var ping2 = McPingServiceFactory.CreateService("mc.hypixel.net", 25565);
-        var res = await ping2.PingAsync(TestContext.CancellationToken).ConfigureAwait(false);
+        var res = await ping2.PingAsync(System.Threading.CancellationToken.None).ConfigureAwait(false);
         Assert.IsNotNull(res);
         Console.WriteLine(res.Description);
 
         using var ping1 = McPingServiceFactory.CreateService("mc233.cn", 25565);
-        res = await ping1.PingAsync(TestContext.CancellationToken).ConfigureAwait(false);
+        res = await ping1.PingAsync(System.Threading.CancellationToken.None).ConfigureAwait(false);
         Assert.IsNotNull(res);
         Console.WriteLine(res.Description);
     }

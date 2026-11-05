@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
+using PCL.Core.Minecraft.Java.UserPreference;
 
 namespace PCL.Core.Utils;
 
@@ -41,6 +42,7 @@ public static class JsonCompat
             DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
             Converters =
             {
+                new JavaPreferenceJsonConverter(),
                 new FlexibleDateTimeConverter(),
                 new FlexibleBoolConverter(),
                 new FlexibleStringConverter(),

@@ -47,8 +47,8 @@ public static partial class UserPathMasker
     ///     <c>Users</c> 路径段 + 紧随其后的一段（用户名）。前面必须是分隔符或字符串开头，
     ///     后面遇到分隔符、空白或文件名非法字符就停。
     /// </summary>
-    [GeneratedRegex(@"(?<![^\\/])[Uu][Ss][Ee][Rr][Ss][\\/][^\\/\s""'<>|:*?]+")]
-    private static partial Regex UserFolderPattern();
+
+    private static Regex UserFolderPattern() => PCL.Core.Utils.Compatibility.RegexCompatibility.Get(@"(?<![^\\/])[Uu][Ss][Ee][Rr][Ss][\\/][^\\/\s""'<>|:*?]+");
 
     /// <summary>
     ///     把文本里所有 <c>Users\&lt;名字&gt;</c> 的「名字」换成 <see cref="Mask" />。

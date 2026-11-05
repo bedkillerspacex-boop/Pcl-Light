@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.WebSockets;
@@ -42,7 +42,7 @@ public sealed class LunarSocialClient : IAsyncDisposable
 
     public LunarSocialClient(string installationId, string? launcherVersion = null)
     {
-        ArgumentException.ThrowIfNullOrWhiteSpace(installationId);
+        ArgumentCompatibility.ThrowIfNullOrWhiteSpace(installationId);
         _installationId = installationId;
         _launcherVersion = string.IsNullOrWhiteSpace(launcherVersion)
             ? LunarSocialProtocol.ResolveLauncherVersion()
@@ -288,7 +288,7 @@ public sealed class LunarSocialClient : IAsyncDisposable
     public async Task SendMessageAsync(string friendUuid, string conversationId, string text,
         CancellationToken cancellationToken = default)
     {
-        ArgumentException.ThrowIfNullOrWhiteSpace(text);
+        ArgumentCompatibility.ThrowIfNullOrWhiteSpace(text);
 
         var reference = LunarSocialProtocol.EncodeConversationReference(
             LunarUuid.Parse(friendUuid), LunarUuid.Parse(conversationId));

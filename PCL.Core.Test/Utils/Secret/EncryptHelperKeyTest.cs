@@ -66,7 +66,7 @@ public class EncryptHelperKeyTest
         using (new FileStream(EncryptHelper.KeyFilePath, FileMode.Open, FileAccess.Read, FileShare.None))
         {
             // 瞬时占用是 IOException，必须原样抛出而不是轮换
-            Assert.ThrowsExactly<IOException>(() => EncryptHelper.EncryptionKey);
+            Assert.ThrowsExactly<IOException>(() => { _ = EncryptHelper.EncryptionKey; });
         }
         Assert.IsTrue(File.Exists(EncryptHelper.KeyFilePath), "瞬时占用不应导致密钥被换掉");
         Assert.AreEqual(0, BrokenFiles().Length);

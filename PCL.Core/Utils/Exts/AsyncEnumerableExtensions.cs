@@ -24,7 +24,7 @@ public static class AsyncEnumerableExtensions
         {
             ArgumentNullException.ThrowIfNull(source);
             ArgumentNullException.ThrowIfNull(action);
-            ArgumentOutOfRangeException.ThrowIfNegativeOrZero(maxDegreeOfParallelism);
+            ArgumentOutOfRangeCompatibility.ThrowIfNegativeOrZero(maxDegreeOfParallelism);
 
             var semaphore = new SemaphoreSlim(maxDegreeOfParallelism);
 
@@ -58,7 +58,7 @@ public static class AsyncEnumerableExtensions
         {
             ArgumentNullException.ThrowIfNull(source);
             ArgumentNullException.ThrowIfNull(action);
-            ArgumentOutOfRangeException.ThrowIfNegativeOrZero(maxDegreeOfParallelism);
+            ArgumentOutOfRangeCompatibility.ThrowIfNegativeOrZero(maxDegreeOfParallelism);
 
             var semaphore = new SemaphoreSlim(maxDegreeOfParallelism);
 
@@ -94,7 +94,7 @@ public static class AsyncEnumerableExtensions
         {
             ArgumentNullException.ThrowIfNull(source);
             ArgumentNullException.ThrowIfNull(selector);
-            ArgumentOutOfRangeException.ThrowIfNegativeOrZero(maxDegreeOfParallelism);
+            ArgumentOutOfRangeCompatibility.ThrowIfNegativeOrZero(maxDegreeOfParallelism);
 
             var semaphore = new SemaphoreSlim(maxDegreeOfParallelism);
 

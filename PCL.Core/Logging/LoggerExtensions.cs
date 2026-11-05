@@ -100,7 +100,7 @@ public static class LoggerExtensions
 
         public void Dispose()
         {
-            var elapsed = Stopwatch.GetElapsedTime(_startTime);
+            var elapsed = StopwatchCompatibility.GetElapsedTime(_startTime);
             logger.LogInformation("完成执行: {OperationName}, 耗时: {ElapsedMs}ms", operationName, elapsed.TotalMilliseconds);
         }
     }

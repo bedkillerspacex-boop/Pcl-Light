@@ -10,7 +10,7 @@ internal static class DownloadResourceManager
     private static readonly AsyncQuota ConnectionQuota = new();
     private static readonly AsyncQuota BufferQuota = new();
     private static readonly ConcurrentDictionary<string, HostQuotaEntry> HostConnectionQuotas = new(StringComparer.OrdinalIgnoreCase);
-    private static readonly Lock SpeedLock = new();
+    private static readonly object SpeedLock = new();
     private static int _activeConnectionCount;
     private static long _speedBytes;
     private static long _speedSnapshotTick = Stopwatch.GetTimestamp();
@@ -94,7 +94,7 @@ internal static class DownloadResourceManager
     private const long ThrottleBurstBytes = 128L * 1024;
     private const int MaxThrottleDelayMilliseconds = 2_000;
 
-    private static readonly Lock ThrottleScheduleLock = new();
+    private static readonly object ThrottleScheduleLock = new();
 
     private static double _throttleTokens;
 
@@ -301,14 +301,14 @@ internal sealed class DownloadQuotaLease : IDisposable
 
 internal sealed class AsyncQuota
 {
-    private readonly Lock _lock = new();
+    private readonly object _lock = new();
     private readonly LinkedList<QuotaWaiter> _waiters = new();
     private long _used;
 
     public async ValueTask<DownloadQuotaLease> AcquireAsync(long amount, Func<long> getCapacity,
         CancellationToken cancellationToken)
     {
-        ArgumentOutOfRangeException.ThrowIfNegativeOrZero(amount);
+        ArgumentOutOfRangeCompatibility.ThrowIfNegativeOrZero(amount);
 
         QuotaWaiter waiter;
         lock (_lock)
@@ -410,7 +410,7 @@ internal sealed class AsyncQuota
 
 internal sealed class HostQuotaEntry(string host)
 {
-    private readonly Lock _lock = new();
+    private readonly object _lock = new();
     private int _referenceCount;
     private bool _retired;
 

@@ -30,11 +30,13 @@ public class SHA512Provider : IHashProvider
 
     public byte[] ComputeHash(Stream input)
     {
-        return SHA512.HashData(input);
+        using var algorithm = SHA512.Create();
+        return algorithm.ComputeHash(input);
     }
 
     public async ValueTask<byte[]> ComputeHashAsync(Stream input, CancellationToken cancellationToken = default)
     {
-        return await SHA512.HashDataAsync(input, cancellationToken).ConfigureAwait(false);
+        using var algorithm = SHA512.Create();
+        return await algorithm.ComputeHashAsync(input, cancellationToken).ConfigureAwait(false);
     }
 }

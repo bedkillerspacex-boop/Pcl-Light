@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Net.Http;
 using System.Net.WebSockets;
 using System.Security.Cryptography;
@@ -52,9 +52,9 @@ public static class LunarAuthenticator
     public static async Task<string> GetLauncherJwtAsync(string accessToken, LunarUuid uuid, string username,
         string launcherVersion, CancellationToken cancellationToken = default)
     {
-        ArgumentException.ThrowIfNullOrWhiteSpace(accessToken);
-        ArgumentException.ThrowIfNullOrWhiteSpace(username);
-        ArgumentException.ThrowIfNullOrWhiteSpace(launcherVersion);
+        ArgumentCompatibility.ThrowIfNullOrWhiteSpace(accessToken);
+        ArgumentCompatibility.ThrowIfNullOrWhiteSpace(username);
+        ArgumentCompatibility.ThrowIfNullOrWhiteSpace(launcherVersion);
 
         using var socket = new ClientWebSocket();
         socket.Options.SetRequestHeader("User-Agent", "Lunar Client Launcher v" + launcherVersion);
@@ -178,7 +178,7 @@ public static class LunarAuthenticator
 
         try
         {
-            using var aes = new AesGcm(sharedSecret, 16);
+            using var aes = new AesGcm(sharedSecret);
             aes.Decrypt(nonce, cipher, tag, plain);
         }
         catch (CryptographicException ex)

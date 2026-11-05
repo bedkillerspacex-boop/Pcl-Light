@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading;
@@ -116,7 +116,7 @@ public sealed class MicrosoftProvider : IAuthenticateProvider
 
     public async Task<AuthorizeResult> RefreshOAuthAsync(string refreshToken, CancellationToken token)
     {
-        ArgumentException.ThrowIfNullOrWhiteSpace(refreshToken);
+        ArgumentCompatibility.ThrowIfNullOrWhiteSpace(refreshToken);
         using var response = await HttpRequest.CreatePost(TokenEndpoint)
             .WithContent(new FormUrlEncodedContent(new Dictionary<string, string>
             {

@@ -516,7 +516,7 @@ public static class Tooltip
             if (msg == WM_NCHITTEST)
             {
                 handled = true;
-                return HTTRANSPARENT;
+                return new IntPtr(HTTRANSPARENT);
             }
             return IntPtr.Zero;
         };

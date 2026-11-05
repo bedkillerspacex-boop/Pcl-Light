@@ -23,11 +23,13 @@ public class MD5Provider : IHashProvider {
 
     public byte[] ComputeHash(Stream input)
     {
-        return MD5.HashData(input);
+        using var algorithm = MD5.Create();
+        return algorithm.ComputeHash(input);
     }
 
     public async ValueTask<byte[]> ComputeHashAsync(Stream input, CancellationToken cancellationToken = default)
     {
-        return await MD5.HashDataAsync(input, cancellationToken).ConfigureAwait(false);
+        using var algorithm = MD5.Create();
+        return await algorithm.ComputeHashAsync(input, cancellationToken).ConfigureAwait(false);
     }
 }

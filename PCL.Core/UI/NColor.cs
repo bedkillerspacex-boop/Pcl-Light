@@ -9,11 +9,7 @@ namespace PCL.Core.UI;
 // TODO: 实现 IParsable / ISpanParsable 接口
 
 public struct NColor :
-    IEquatable<NColor>,
-    IAdditionOperators<NColor, NColor, NColor>,
-    ISubtractionOperators<NColor, NColor, NColor>,
-    IMultiplyOperators<NColor, float, NColor>,
-    IDivisionOperators<NColor, float, NColor>
+    IEquatable<NColor>
 {
     private Vector4 _color;
 

@@ -48,7 +48,7 @@ public sealed class AsyncCountResetEvent : IDisposable
     {
         lock (_lock)
         {
-            ObjectDisposedException.ThrowIf(_disposed, nameof(AsyncCountResetEvent));
+            if (_disposed) throw new ObjectDisposedException(nameof(AsyncCountResetEvent));
 
             if (_permits > 0)
             {

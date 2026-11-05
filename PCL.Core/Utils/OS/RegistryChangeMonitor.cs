@@ -13,16 +13,16 @@ public partial class RegistryChangeMonitor : IDisposable
     private const int KEY_NOTIFY = 0x0010;
     private const int KEY_QUERY_VALUE = 0x0001;
     private const int KEY_READ = (KEY_QUERY_VALUE | KEY_NOTIFY);
-    private const UIntPtr HKEY_CURRENT_USER = 0x80000001;
+    private static readonly UIntPtr HKEY_CURRENT_USER = new(0x80000001u);
 
-    [LibraryImport("advapi32.dll", EntryPoint = "RegOpenKeyExW", SetLastError = true, StringMarshalling = StringMarshalling.Utf16)]
-    private static partial int _RegOpenKeyEx(UIntPtr hKey, string subKey, uint options, int samDesired, out IntPtr phkResult);
+    [DllImport("advapi32.dll", EntryPoint = "RegOpenKeyExW", SetLastError = true, CharSet = CharSet.Unicode)]
+    private static extern int _RegOpenKeyEx(UIntPtr hKey, string subKey, uint options, int samDesired, out IntPtr phkResult);
 
-    [LibraryImport("advapi32.dll", EntryPoint = "RegNotifyChangeKeyValue", SetLastError = true)]
-    private static partial int _RegNotifyChangeKeyValue(IntPtr hKey, [MarshalAs(UnmanagedType.Bool)] bool bWatchSubtree, int dwNotifyFilter, IntPtr hEvent, [MarshalAs(UnmanagedType.Bool)] bool fAsynchronous);
+    [DllImport("advapi32.dll", EntryPoint = "RegNotifyChangeKeyValue", SetLastError = true)]
+    private static extern int _RegNotifyChangeKeyValue(IntPtr hKey, [MarshalAs(UnmanagedType.Bool)] bool bWatchSubtree, int dwNotifyFilter, IntPtr hEvent, [MarshalAs(UnmanagedType.Bool)] bool fAsynchronous);
 
-    [LibraryImport("advapi32.dll", EntryPoint = "RegCloseKey", SetLastError = true)]
-    private static partial int _RegCloseKey(IntPtr hKey);
+    [DllImport("advapi32.dll", EntryPoint = "RegCloseKey", SetLastError = true)]
+    private static extern int _RegCloseKey(IntPtr hKey);
 
     // ReSharper restore InconsistentNaming
 

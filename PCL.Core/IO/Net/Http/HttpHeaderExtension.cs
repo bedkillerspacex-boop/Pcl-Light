@@ -36,8 +36,8 @@ public static class HttpHeaderHandler
 
         public HttpRequestMessage WithAuthentication(string scheme, string token)
         {
-            ArgumentException.ThrowIfNullOrEmpty(scheme);
-            ArgumentException.ThrowIfNullOrEmpty(token);
+            ArgumentCompatibility.ThrowIfNullOrEmpty(scheme);
+            ArgumentCompatibility.ThrowIfNullOrEmpty(token);
 
             requestMessage.Headers.Authorization = new AuthenticationHeaderValue(scheme, token);
             return requestMessage;

@@ -71,7 +71,7 @@ public static class MsCookieAuth
         // 三段式 JWT 交给令牌分支
         if (value.Count(c => c == '.') == 2) return false;
         if (value.Any(char.IsWhiteSpace)) return false;
-        return value[..separator].All(c => char.IsAsciiLetterOrDigit(c) || c is '_' or '-' or '.');
+        return value[..separator].All(c => PCL.Core.Utils.Compatibility.Ascii.IsLetterOrDigit(c) || c is '_' or '-' or '.');
     }
 
     /// <summary>Cookie 文件的每一行：域、名字、值、过期时间戳（秒，0 表示会话 Cookie）。</summary>
@@ -201,7 +201,7 @@ public static class MsCookieAuth
     /// <exception cref="IdentityModelAuthenticationException">一个 <c>name=value</c> 都没解析出来。</exception>
     public static string NormalizeCookieHeader(string raw)
     {
-        ArgumentException.ThrowIfNullOrWhiteSpace(raw);
+        ArgumentCompatibility.ThrowIfNullOrWhiteSpace(raw);
         var text = raw.Trim();
         if (LooksLikeCurl(text))
             text = ExtractCookieFromCurl(text) ?? text;
@@ -275,7 +275,7 @@ public static class MsCookieAuth
     /// </summary>
     public static async Task<AuthorizeResult> RefreshAsync(string refreshToken, CancellationToken token)
     {
-        ArgumentException.ThrowIfNullOrWhiteSpace(refreshToken);
+        ArgumentCompatibility.ThrowIfNullOrWhiteSpace(refreshToken);
         using var response = await HttpRequest.CreatePost(TokenEndpoint)
             .WithFormContent(new Dictionary<string, string>
             {

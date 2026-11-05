@@ -177,7 +177,8 @@ public static class ModBedrockDownload
         try
         {
             using var stream = File.OpenRead(path);
-            var hash = System.Security.Cryptography.MD5.HashData(stream);
+            using var md5 = System.Security.Cryptography.MD5.Create();
+            var hash = md5.ComputeHash(stream);
             var actual = Convert.ToHexString(hash);
             var ok = string.Equals(actual, expected.Trim(), StringComparison.OrdinalIgnoreCase);
             if (!ok)

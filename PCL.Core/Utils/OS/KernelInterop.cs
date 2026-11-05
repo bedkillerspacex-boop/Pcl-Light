@@ -11,19 +11,19 @@ public static partial class KernelInterop
 {
     // ReSharper disable InconsistentNaming, UnusedMember.Local
 
-    [LibraryImport("kernel32.dll", EntryPoint = "GetCurrentThreadId", SetLastError = true)]
-    private static partial uint _GetCurrentThreadId();
+    [DllImport("kernel32.dll", EntryPoint = "GetCurrentThreadId", SetLastError = true)]
+    private static extern uint _GetCurrentThreadId();
 
-    [LibraryImport("kernel32.dll", EntryPoint = "ExitProcess", SetLastError = false)]
-    private static partial void _ExitProcess(uint statusCode);
+    [DllImport("kernel32.dll", EntryPoint = "ExitProcess", SetLastError = false)]
+    private static extern void _ExitProcess(uint statusCode);
 
-    [LibraryImport("kernel32.dll", EntryPoint = "GetNamedPipeClientProcessId", SetLastError = true)]
+    [DllImport("kernel32.dll", EntryPoint = "GetNamedPipeClientProcessId", SetLastError = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
-    private static partial bool _GetNamedPipeClientProcessId(IntPtr pipeHandle, out uint clientProcessId);
+    private static extern bool _GetNamedPipeClientProcessId(IntPtr pipeHandle, out uint clientProcessId);
 
-    [LibraryImport("kernel32.dll", EntryPoint = "GetLogicalProcessorInformationEx", SetLastError = true)]
+    [DllImport("kernel32.dll", EntryPoint = "GetLogicalProcessorInformationEx", SetLastError = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
-    private static partial bool _GetLogicalProcessorInformationEx(
+    private static extern bool _GetLogicalProcessorInformationEx(
         LOGICAL_PROCESSOR_RELATIONSHIP relationshipType,
         IntPtr buffer,
         ref uint returnLength);
@@ -42,9 +42,9 @@ public static partial class KernelInterop
 
     private static MEMORYSTATUSEX CreateStatus() => new() { dwLength = (uint)Marshal.SizeOf<MEMORYSTATUSEX>() };
 
-    [LibraryImport("kernel32.dll", SetLastError = true)]
+    [DllImport("kernel32.dll", SetLastError = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
-    private static partial bool GlobalMemoryStatusEx(ref MEMORYSTATUSEX lpBuffer);
+    private static extern bool GlobalMemoryStatusEx(ref MEMORYSTATUSEX lpBuffer);
 
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     private struct MEMORYSTATUSEX
@@ -62,18 +62,18 @@ public static partial class KernelInterop
 
     private const int ERROR_ACCESS_DENIED = 5;
 
-    [LibraryImport("kernel32.dll", EntryPoint = "AllocConsole")]
+    [DllImport("kernel32.dll", EntryPoint = "AllocConsole")]
     [return: MarshalAs(UnmanagedType.Bool)]
-    private static partial bool _AllocConsole();
+    private static extern bool _AllocConsole();
 
-    [LibraryImport("kernel32.dll", EntryPoint = "FreeConsole")]
-    private static partial void _FreeConsole();
+    [DllImport("kernel32.dll", EntryPoint = "FreeConsole")]
+    private static extern void _FreeConsole();
 
-    [LibraryImport("kernel32.dll", EntryPoint = "GetConsoleWindow")]
-    private static partial nint _GetConsoleWindow();
+    [DllImport("kernel32.dll", EntryPoint = "GetConsoleWindow")]
+    private static extern nint _GetConsoleWindow();
     
-    [LibraryImport("kernel32.dll")]
-    internal static partial uint GetACP();
+    [DllImport("kernel32.dll")]
+    internal static extern uint GetACP();
 
     // ReSharper restore InconsistentNaming, UnusedMember.Local
 

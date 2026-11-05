@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using PCL.Core.App.Localization;
@@ -47,20 +47,20 @@ public static partial class ExceptionDetails
             : text[..limit] + Environment.NewLine + "…";
     }
 
-    [GeneratedRegex(
+
+    private static Regex _KeyValueCredentialPattern() => PCL.Core.Utils.Compatibility.RegexCompatibility.Get(
         """(\b(?:access[_-]?token|refresh[_-]?token|client[_-]?secret|password|authorization)\b\s*[:=]\s*)(?:"[^"]*"|\S+)""",
-        RegexOptions.IgnoreCase)]
-    private static partial Regex _KeyValueCredentialPattern();
+        RegexOptions.IgnoreCase);
 
-    [GeneratedRegex(
+
+    private static Regex _QueryStringCredentialPattern() => PCL.Core.Utils.Compatibility.RegexCompatibility.Get(
         @"([?&](?:access_token|refresh_token|token|password|client_secret)=)[^&\s]+",
-        RegexOptions.IgnoreCase)]
-    private static partial Regex _QueryStringCredentialPattern();
+        RegexOptions.IgnoreCase);
 
-    [GeneratedRegex(
+
+    private static Regex _BearerTokenPattern() => PCL.Core.Utils.Compatibility.RegexCompatibility.Get(
         @"\bBearer\s+[A-Za-z0-9._~+/=-]+",
-        RegexOptions.IgnoreCase)]
-    private static partial Regex _BearerTokenPattern();
+        RegexOptions.IgnoreCase);
 
     private static string _RedactSensitiveText(string text)
     {
@@ -93,7 +93,7 @@ public static partial class ExceptionDetails
     /// </summary>
     public static string Compose(string summary, string? details)
     {
-        ArgumentException.ThrowIfNullOrWhiteSpace(summary);
+        ArgumentCompatibility.ThrowIfNullOrWhiteSpace(summary);
 
         return string.IsNullOrWhiteSpace(details)
             ? summary

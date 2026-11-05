@@ -12,19 +12,19 @@ public static partial class WindowInterop
     [StructLayout(LayoutKind.Sequential)]
     private struct MARGINS { public int leftWidth, rightWidth, topHeight, bottomHeight; }
 
-    [LibraryImport("dwmapi.dll")]
-    private static partial int DwmExtendFrameIntoClientArea(IntPtr hWnd, ref MARGINS pMarInset);
+    [DllImport("dwmapi.dll")]
+    private static extern int DwmExtendFrameIntoClientArea(IntPtr hWnd, ref MARGINS pMarInset);
 
-    [LibraryImport("dwmapi.dll")]
-    private static partial int DwmIsCompositionEnabled([MarshalAs(UnmanagedType.Bool)] out bool pfEnabled);
+    [DllImport("dwmapi.dll")]
+    private static extern int DwmIsCompositionEnabled([MarshalAs(UnmanagedType.Bool)] out bool pfEnabled);
 
     // Win32 矩形结构定义
     [StructLayout(LayoutKind.Sequential)]
     private struct RECT { public int left; public int top; public int right; public int bottom; }
 
-    [LibraryImport("user32.dll")]
+    [DllImport("user32.dll")]
     [return: MarshalAs(UnmanagedType.Bool)]
-    private static partial bool GetWindowRect(IntPtr hWnd, out RECT lpRect);
+    private static extern bool GetWindowRect(IntPtr hWnd, out RECT lpRect);
 
     // MONITOR_DPI_TYPE enum
     private enum MONITOR_DPI_TYPE {
@@ -34,14 +34,14 @@ public static partial class WindowInterop
         MDT_DEFAULT = MDT_EFFECTIVE_DPI
     }
 
-    [LibraryImport("user32.dll")]
-    private static partial IntPtr MonitorFromWindow(IntPtr hWnd, uint dwFlags);
+    [DllImport("user32.dll")]
+    private static extern IntPtr MonitorFromWindow(IntPtr hWnd, uint dwFlags);
 
     // Get the primary monitor handle
     private const int MONITOR_DEFAULTTOPRIMARY = 1;
 
-    [LibraryImport("shcore.dll", EntryPoint = "GetDpiForMonitor")]
-    private static partial int GetDpiForMonitor(
+    [DllImport("shcore.dll", EntryPoint = "GetDpiForMonitor")]
+    private static extern int GetDpiForMonitor(
         IntPtr hMonitor,
         MONITOR_DPI_TYPE dpiType,
         out uint dpiX,
@@ -111,7 +111,7 @@ public static partial class WindowInterop
     /// 获取指定屏幕的系统 DPI
     /// </summary>
     /// <param name="hWnd">位于指定屏幕上的任意窗口句柄，默认指定主屏</param>
-    public static int GetSystemDpi(IntPtr hWnd = 0) {
+    public static int GetSystemDpi(IntPtr hWnd = default) {
         // Get the monitor handle
         var hMonitor = MonitorFromWindow(hWnd, MONITOR_DEFAULTTOPRIMARY);
         // 0 is S_OK

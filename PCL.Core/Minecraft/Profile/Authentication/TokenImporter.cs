@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
@@ -34,7 +34,7 @@ public static class TokenImporter
     /// <exception cref="IdentityModelAuthenticationException">凭据无效、已过期，或不属于当前应用。</exception>
     public static async Task<AuthenticationResult> ImportAsync(string credential, CancellationToken token)
     {
-        ArgumentException.ThrowIfNullOrWhiteSpace(credential);
+        ArgumentCompatibility.ThrowIfNullOrWhiteSpace(credential);
         credential = credential.Trim();
 
         // Cookie 先认：它带等号、带分号，和两种令牌长得完全不一样

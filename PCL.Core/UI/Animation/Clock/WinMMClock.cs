@@ -67,11 +67,11 @@ public sealed partial class WinMMClock(int fps = 60) : IClock, IDisposable
         GC.SuppressFinalize(this);
     }
     
-    [LibraryImport("winmm.dll", EntryPoint = "timeSetEvent", SetLastError = true)]
-    private static partial uint _TimeSetEvent(uint uDelay, uint uResolution, TimeProc lpTimeProc, IntPtr dwUser, uint fuEvent);
+    [DllImport("winmm.dll", EntryPoint = "timeSetEvent", SetLastError = true)]
+    private static extern uint _TimeSetEvent(uint uDelay, uint uResolution, TimeProc lpTimeProc, IntPtr dwUser, uint fuEvent);
 
-    [LibraryImport("winmm.dll", EntryPoint = "timeKillEvent", SetLastError = true)]
-    private static partial void _TimeKillEvent(uint uTimerId);
+    [DllImport("winmm.dll", EntryPoint = "timeKillEvent", SetLastError = true)]
+    private static extern void _TimeKillEvent(uint uTimerId);
     
     private delegate void TimeProc(uint id, uint msg, IntPtr user, IntPtr dw1, IntPtr dw2);
     

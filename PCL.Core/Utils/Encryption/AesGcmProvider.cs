@@ -18,7 +18,7 @@ namespace PCL.Core.Utils.Encryption
             byte[] tag = new byte[TagSize];
             byte[] ciphertext = new byte[data.Length];
 
-            using (var aesGcm = new AesGcm(key, TagSize))
+            using (var aesGcm = new AesGcm(key))
             {
                 aesGcm.Encrypt(nonce, data, ciphertext, tag);
             }
@@ -43,7 +43,7 @@ namespace PCL.Core.Utils.Encryption
 
             byte[] plaintext = new byte[ciphertext.Length];
 
-            using (var aesGcm = new AesGcm(key, TagSize))
+            using (var aesGcm = new AesGcm(key))
             {
                 aesGcm.Decrypt(nonce, ciphertext, tag, plaintext);
             }

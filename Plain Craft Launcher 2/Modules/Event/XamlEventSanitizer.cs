@@ -11,29 +11,29 @@ namespace PCL
             public List<string> UnrecognizedTypes { get; set; } = new();
         }
 
-        [GeneratedRegex(@"(local:CustomEventService\.EventType\s*=\s*"")([^""]+)("")")]
-        private static partial Regex EventTypeAttributeRegex();
 
-        [GeneratedRegex(@"(<local:CustomEventService\.EventType\s*>\s*)([^<]+?)(\s*</local:CustomEventService\.EventType\s*>)")]
-        private static partial Regex EventTypePropertyElementRegex();
+        private static Regex EventTypeAttributeRegex() => PCL.Core.Utils.Compatibility.RegexCompatibility.Get(@"(local:CustomEventService\.EventType\s*=\s*"")([^""]+)("")");
 
-        [GeneratedRegex(@"(<local:CustomEvent\.Type\s*>\s*)([^<]+?)(\s*</local:CustomEvent\.Type\s*>)")]
-        private static partial Regex CustomEventTypePropertyElementRegex();
 
-        [GeneratedRegex(@"(<local:CustomEvent\s+[^>]*?\bType\s*=\s*"")([^""]+)("")")]
-        private static partial Regex LocalCustomEventTypeAttributeRegex();
+        private static Regex EventTypePropertyElementRegex() => PCL.Core.Utils.Compatibility.RegexCompatibility.Get(@"(<local:CustomEventService\.EventType\s*>\s*)([^<]+?)(\s*</local:CustomEventService\.EventType\s*>)");
 
-        [GeneratedRegex(@"<local:CustomEvent\s+[^>]*?\bType\s*=\s*""([^""]+)""[^>]*/\s*>")]
-        private static partial Regex LocalCustomEventSelfClosingRegex();
 
-        [GeneratedRegex(@"<local:CustomEvent\s+[^>]*?\bType\s*=\s*""([^""]+)""[^>]*>")]
-        private static partial Regex LocalCustomEventOpenTagRegex();
+        private static Regex CustomEventTypePropertyElementRegex() => PCL.Core.Utils.Compatibility.RegexCompatibility.Get(@"(<local:CustomEvent\.Type\s*>\s*)([^<]+?)(\s*</local:CustomEvent\.Type\s*>)");
 
-        [GeneratedRegex(@"<Setter\b[^>]*?\bProperty\s*=\s*""local:CustomEventService\.EventType""[^>]*?\bValue\s*=\s*""([^""]+)""[^>]*(?:/\s*>|>\s*</Setter\s*>)")]
-        private static partial Regex SetterEventTypePropertyFirstRegex();
 
-        [GeneratedRegex(@"<Setter\b[^>]*?\bValue\s*=\s*""([^""]+)""[^>]*?\bProperty\s*=\s*""local:CustomEventService\.EventType""[^>]*(?:/\s*>|>\s*</Setter\s*>)")]
-        private static partial Regex SetterEventTypeValueFirstRegex();
+        private static Regex LocalCustomEventTypeAttributeRegex() => PCL.Core.Utils.Compatibility.RegexCompatibility.Get(@"(<local:CustomEvent\s+[^>]*?\bType\s*=\s*"")([^""]+)("")");
+
+
+        private static Regex LocalCustomEventSelfClosingRegex() => PCL.Core.Utils.Compatibility.RegexCompatibility.Get(@"<local:CustomEvent\s+[^>]*?\bType\s*=\s*""([^""]+)""[^>]*/\s*>");
+
+
+        private static Regex LocalCustomEventOpenTagRegex() => PCL.Core.Utils.Compatibility.RegexCompatibility.Get(@"<local:CustomEvent\s+[^>]*?\bType\s*=\s*""([^""]+)""[^>]*>");
+
+
+        private static Regex SetterEventTypePropertyFirstRegex() => PCL.Core.Utils.Compatibility.RegexCompatibility.Get(@"<Setter\b[^>]*?\bProperty\s*=\s*""local:CustomEventService\.EventType""[^>]*?\bValue\s*=\s*""([^""]+)""[^>]*(?:/\s*>|>\s*</Setter\s*>)");
+
+
+        private static Regex SetterEventTypeValueFirstRegex() => PCL.Core.Utils.Compatibility.RegexCompatibility.Get(@"<Setter\b[^>]*?\bValue\s*=\s*""([^""]+)""[^>]*?\bProperty\s*=\s*""local:CustomEventService\.EventType""[^>]*(?:/\s*>|>\s*</Setter\s*>)");
 
         public static SanitizeResult Sanitize(string xaml)
         {

@@ -11,7 +11,7 @@ public static class HttpCookieExtension
         public HttpRequestMessage WithCookie(string name, string value)
         {
             ArgumentNullException.ThrowIfNull(requestMessage);
-            ArgumentNullException.ThrowIfNullOrEmpty(value);
+            ArgumentCompatibility.ThrowIfNullOrEmpty(value);
             ArgumentNullException.ThrowIfNull(value);
 
             var newCookie = $"{name}={_GetSafeCookieValue(value)}";
