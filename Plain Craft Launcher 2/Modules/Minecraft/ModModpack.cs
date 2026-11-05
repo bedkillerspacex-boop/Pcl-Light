@@ -5,6 +5,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using PCL.Core.App;
 using PCL.Core.App.Localization;
+using PCL.Core.IO;
 using PCL.Core.UI;
 using PCL.Core.Utils.Validate;
 using PCL.Network;
@@ -48,19 +49,6 @@ public static class ModModpack
         });
     }
 
-    private static bool _HasEncryptedEntries(string file)
-    {
-        using var stream = File.OpenRead(file);
-        using var archive = new ICSharpCode.SharpZipLib.Zip.ZipFile(stream);
-        foreach (ICSharpCode.SharpZipLib.Zip.ZipEntry entry in archive)
-        {
-            if (entry.IsCrypted)
-                return true;
-        }
-
-        return false;
-    }
-
     /// <summary>
     ///     构建并启动安装给定的整合包文件的加载器，并返回该加载器。若失败则抛出异常。
     ///     必须在工作线程执行。
@@ -72,6 +60,7 @@ public static class ModModpack
         RestrictedFeaturePolicy.ThrowIfRestricted("modpack-install");
         ModBase.Log("[ModPack] 整合包安装请求：" + (file ?? "null"));
         ZipArchive archive = null;
+        FileStream archiveStream = null;
         var archiveBaseFolder = "";
         try
         {
@@ -90,8 +79,9 @@ public static class ModModpack
             {
                 try
                 {
-                    archive = new ZipArchive(new FileStream(file, FileMode.Open, FileAccess.Read, FileShare.Read));
-                    if (_HasEncryptedEntries(file))
+                    archiveStream = new FileStream(file, FileMode.Open, FileAccess.Read, FileShare.Read);
+                    archive = new ZipArchive(archiveStream, ZipArchiveMode.Read, leaveOpen: true);
+                    if (ZipEncryptionDetector.HasEncryptedEntries(archiveStream))
                         throw new Exception(Lang.Text("Minecraft.Download.Modpack.EncryptedArchiveUnsupported"));
                     // 从根目录判断整合包类型
                     if (archive.GetEntry("mcbbs.packmeta") is not null)
@@ -262,6 +252,7 @@ public static class ModModpack
         {
             if (archive is not null)
                 archive.Dispose();
+            archiveStream?.Dispose();
         }
     }
 
