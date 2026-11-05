@@ -263,107 +263,6 @@ public static partial class Config
         [ConfigItem<bool>("DetailedInstanceClassification", false, ConfigSource.Local)] public partial bool DetailedInstanceClassification {  get; set; }
 
         /// <summary>
-        /// Lunar Client 相关。
-        /// </summary>
-        [ConfigGroup("Lunar")] partial class LunarConfigGroup
-        {
-            /// <summary>
-            /// 启动前校验物料文件的 SHA-1。
-            /// <para>
-            /// 关掉之后只判断文件在不在，不算哈希。物料有几十 MB 的 jar，
-            /// 机械盘或慢速盘上校验要好几秒，嫌慢可以关。
-            /// </para>
-            /// </summary>
-            [ConfigItem<bool>("LunarVerifyFiles", true, ConfigSource.Local)] public partial bool VerifyFiles { get; set; }
-
-            /// <summary>
-            /// 上次选择的 Lunar 子版本，例如 <c>1.8.9</c>、<c>1.21.4</c>。
-            /// <para>
-            /// 空值表示「还没选过」，按 <c>ModLunar.DefaultSubVersion</c> 处理。
-            /// 记在这里而不是界面里，是为了下次打开还停在上次玩的版本。
-            /// </para>
-            /// </summary>
-            [ConfigItem<string>("LunarSubVersion", "", ConfigSource.Local)] public partial string SubVersion { get; set; }
-
-            /// <summary>
-            /// 选中的 loader（服务端叫 module），例如 <c>lunar</c>（Lunar + OptiFine）、
-            /// <c>lunar-noOF</c>（原版）、<c>fabric</c>、<c>forge</c>。
-            /// <para>
-            /// 这里只存「用户点过哪个」，不保证对当前版本有效：换到不提供这个 loader 的版本时，
-            /// <c>ModLunar.SelectedModule</c> 会退回该版本的官方默认值，但**不会覆盖这里的值** ——
-            /// 切回原来那个版本时用户的选择还在。
-            /// </para>
-            /// </summary>
-            [ConfigItem<string>("LunarModule", "", ConfigSource.Local)] public partial string ModuleId { get; set; }
-
-            /// <summary>
-            /// 选中的 Lunar 账号（<c>accounts.json</c> 里的 localId）。
-            /// <para>
-            /// Lunar 游戏进程只认它自己账户库里的激活账号，不认命令行 accessToken，
-            /// 所以这里存的是「要切成哪个账号」，启动前会同步进 Lunar 的
-            /// <c>activeAccountLocalId</c>。空值表示跟随 Lunar 当前激活的账号。
-            /// </para>
-            /// </summary>
-            [ConfigItem<string>("LunarAccount", "", ConfigSource.Local)] public partial string AccountLocalId { get; set; }
-
-            /// <summary>
-            /// Lunar 的堆上限（MB）。<c>0</c> 表示跟随 PCL 全局内存设置。
-            /// <para>
-            /// 单独开一项而不是直接复用 <see cref="LaunchConfigGroup" /> 的滑块，是因为
-            /// Lunar 的 JRE 由它自己按版本下发（17 / 21 / 25），内存需求跟原版实例不一样，
-            /// 强行套用全局值容易给出一个对某个版本偏小的数字。
-            /// </para>
-            /// </summary>
-            [ConfigItem<int>("LunarMemoryMb", 0, ConfigSource.Local)] public partial int MemoryMb { get; set; }
-
-            /// <summary>
-            /// 全局附加 JVM 参数，只对 Lunar 生效。
-            /// <para>
-            /// 会被拼在 Lunar 按版本下发的 JVM 参数<b>之后</b>：JVM 对重复参数取最后一次，
-            /// 这样用户写的 <c>-Xmx</c>、<c>-XX:+UseZGC</c> 才能盖掉官方值。
-            /// </para>
-            /// </summary>
-            [ConfigItem<string>("LunarJvmArgs", "", ConfigSource.Local)] public partial string JvmArgs { get; set; }
-
-            /// <summary>
-            /// 覆盖 Lunar 自带的 JRE，指向一个具体的 <c>java.exe</c>。空值表示用 Lunar 的。
-            /// <para>
-            /// 只在文件确实存在时才生效，写错了会退回自动定位，不会把启动搞崩。
-            /// </para>
-            /// </summary>
-            [ConfigItem<string>("LunarJavaPath", "", ConfigSource.Local)] public partial string JavaPath { get; set; }
-
-            /// <summary>
-            /// 按版本覆盖的内存与 JVM 参数，JSON：<c>{"1.8.9":{"on":true,"mem":4096,"jvm":"..."}}</c>。
-            /// <para>
-            /// 走 <see cref="PCL.Core.App.Lunar.LunarLaunchProfile" /> 读写，别直接解析。
-            /// 存成一个字符串是沿用 <c>ProfileService.Profiles</c> 的做法：
-            /// 版本数量不定，拆成配置项会让配置文件越滚越大。
-            /// </para>
-            /// </summary>
-            [ConfigItem<string>("LunarVersionOverrides", "", ConfigSource.Local)] public partial string VersionOverrides { get; set; }
-
-            /// <summary>
-            ///     Lunar 物料根目录（相当于官方启动器的 <c>~/.lunarclient</c>）。空值表示用默认位置。
-            ///     <para>
-            ///         物料、JRE、账户库（<c>settings/game/accounts.json</c>）都挂在这个目录下，
-            ///         换目录等于换一套完整的 Lunar 环境 —— 所以改完要重新下物料。
-            ///         C 盘紧张时把它挪到别的盘就是靠这一项。
-            ///     </para>
-            /// </summary>
-            [ConfigItem<string>("LunarRoot", "", ConfigSource.Local)] public partial string Root { get; set; }
-
-            /// <summary>
-            ///     Lunar 的启动目录（存档、资源包、截图所在）。空值表示用当前 MC 根目录。
-            ///     <para>
-            ///         默认跟 <c>ModFolder.mcFolderSelected</c> 走，也就是玩家平时玩的那个
-            ///         <c>.minecraft</c>。想单独隔离一套 Lunar 存档时可以在这里指定。
-            ///     </para>
-            /// </summary>
-            [ConfigItem<string>("LunarGameDir", "", ConfigSource.Local)] public partial string GameDir { get; set; }
-        }
-
-        /// <summary>
         /// 本地化配置。
         /// </summary>
         [ConfigGroup("Localization", ConfigSource.Local)] partial class LocalizationConfigGroup
@@ -589,8 +488,6 @@ public static partial class Config
         {
             // 主页面
             [ConfigItem<bool>("UiHiddenPageDownload", false, ConfigSource.Local)] public partial bool PageDownload { get; set; }
-            [ConfigItem<bool>("UiHiddenPageBedrock", false, ConfigSource.Local)] public partial bool PageBedrock { get; set; }
-            [ConfigItem<bool>("UiHiddenPageLunar", false, ConfigSource.Local)] public partial bool PageLunar { get; set; }
             [ConfigItem<bool>("UiHiddenPageSetup", false, ConfigSource.Local)] public partial bool PageSetup { get; set; }
             [ConfigItem<bool>("UiHiddenPageTools", false, ConfigSource.Local)] public partial bool PageTools { get; set; }
 
@@ -625,74 +522,6 @@ public static partial class Config
             [ConfigItem<bool>("UiHiddenFunctionModUpdate", false, ConfigSource.Local)] public partial bool FunctionModUpdate { get; set; }
             [ConfigItem<bool>("UiHiddenFunctionHidden", false, ConfigSource.Local)] public partial bool FunctionHidden { get; set; }
         }
-    }
-
-    /// <summary>
-    /// 内置 MCP 服务（给 AI 客户端调用，用来启动游戏、整理 mod、分析实例）。
-    /// <para>
-    /// 默认整体关闭：它会开放「在本机读写游戏文件、启动游戏」的能力，
-    /// 必须由用户主动打开，且建议同时设一个访问口令。
-    /// </para>
-    /// </summary>
-    [ConfigGroup("Mcp")] partial class McpConfigGroup
-    {
-        /// <summary>
-        /// 是否启用内置 MCP 服务。默认关闭。
-        /// </summary>
-        [ConfigItem<bool>("McpEnabled", false, ConfigSource.Local)] public partial bool Enabled { get; set; }
-
-        /// <summary>
-        /// 监听端口。固定绑定 127.0.0.1。
-        /// </summary>
-        [ConfigItem<int>("McpPort", 38765, ConfigSource.Local)] public partial int Port { get; set; }
-
-        /// <summary>
-        /// 访问口令。留空表示不校验（仅本机可连）。
-        /// 存放在加密的共享配置里，不会以明文写进 config.v1.yml。
-        /// </summary>
-        [ConfigItem<string>("McpToken", "", ConfigSource.SharedEncrypt)] public partial string Token { get; set; }
-
-        /// <summary>
-        /// 允许 MCP 在游戏目录内移动、重命名、删除文件。
-        /// <para>
-        /// 默认关闭：打开 MCP 总开关不等于把删除权限一起交出去。
-        /// 用户需要显式勾选，中间没有「一次性全授权」的捷径。
-        /// </para>
-        /// </summary>
-        [ConfigItem<bool>("McpAllowWrite", false, ConfigSource.Local)] public partial bool AllowWrite { get; set; }
-
-        /// <summary>
-        /// 允许 MCP 启动或停止 Minecraft。默认关闭，理由同 <see cref="AllowWrite" />。
-        /// </summary>
-        [ConfigItem<bool>("McpAllowGameControl", false, ConfigSource.Local)] public partial bool AllowGameControl { get; set; }
-
-        /// <summary>
-        /// 允许 MCP 修改启动器自身的设置。
-        /// </summary>
-        [ConfigItem<bool>("McpAllowLauncherConfig", false, ConfigSource.Local)] public partial bool AllowLauncherConfig { get; set; }
-    }
-
-    /// <summary>
-    /// Discord Rich Presence 配置。
-    /// </summary>
-    [ConfigGroup("Discord")] partial class DiscordConfigGroup
-    {
-        /// <summary>
-        /// 是否启用 Discord 状态显示。默认关闭——这是外联功能，得用户自己开。
-        /// </summary>
-        [ConfigItem<bool>("DiscordRpcEnabled", false, ConfigSource.Local)] public partial bool Enabled { get; set; }
-
-        /// <summary>
-        /// 要展示的内容项，逗号分隔。取值见 <see cref="PCL.Core.Link.Discord.DiscordRpcFields"/>。
-        /// 服务器地址不在默认值里——它会暴露你在玩哪个服。
-        /// <para>
-        /// 这里没有「Discord 应用 ID」这一项：它已经写死在
-        /// <see cref="PCL.Core.Link.Discord.DiscordRichPresenceService.AppId"/> 里，不开放修改。
-        /// 老配置里残留的 <c>DiscordRpcAppId</c> 键会被配置系统当作未知键忽略。
-        /// </para>
-        /// </summary>
-        [ConfigItem<string>("DiscordRpcFields", PCL.Core.Link.Discord.DiscordRpcFields.DefaultValue, ConfigSource.Local)]
-        public partial string Fields { get; set; }
     }
 
     /// <summary>
@@ -734,37 +563,6 @@ public static partial class Config
         /// 附加游戏参数。
         /// </summary>
         [ConfigItem<string>("LaunchAdvanceGame", "", ConfigSource.Local)] public partial string GameArgs { get; set; }
-
-        /// <summary>
-        /// 额外的基岩版 GDK 便携版目录，多个目录用换行分隔。
-        /// <para>
-        /// 商店版（UWP）由系统注册，能自动发现；便携版是解包出来的独立目录，
-        /// 位置任意，只能由用户自己指定。
-        /// </para>
-        /// </summary>
-        [ConfigItem<string>("BedrockGdkDirectories", "", ConfigSource.Local)] public partial string BedrockGdkDirectories { get; set; }
-
-        /// <summary>
-        /// 基岩版下载目录，留空表示用默认的 <c>%LOCALAPPDATA%\PCLLite\Bedrock</c>。
-        /// <para>
-        /// GDK 包解包后动辄 2 GB，放在系统盘容易撑爆，所以允许用户换到别的盘。
-        /// 安装包（<c>packages</c>）与解包产物（<c>versions</c>）都跟着这个根目录走。
-        /// </para>
-        /// </summary>
-        [ConfigItem<string>("BedrockDownloadDirectory", "", ConfigSource.Local)] public partial string BedrockDownloadDirectory { get; set; }
-
-        /// <summary>
-        ///     基岩版 GDK 正式版安装包的内容密钥（CIK，十六进制）。
-        ///     <para>
-        ///         GDK 版下发的是加密的 <c>.msixvc</c>（XVC 容器），没有这个密钥解不开。
-        ///         密钥属于商店分发凭据，不随启动器分发，由用户自己填写（或在构建时用
-        ///         <c>PCL_BEDROCK_RELEASE_CIK</c> 环境变量注入）。留空时 GDK 包只能下载、不能解包。
-        ///     </para>
-        /// </summary>
-        [ConfigItem<string>("BedrockReleaseCik", "", ConfigSource.Local)] public partial string BedrockReleaseCik { get; set; }
-
-        /// <summary>基岩版 GDK 预览版安装包的内容密钥（CIK，十六进制），说明见 <see cref="BedrockReleaseCik" />。</summary>
-        [ConfigItem<string>("BedrockPreviewCik", "", ConfigSource.Local)] public partial string BedrockPreviewCik { get; set; }
 
         /// <summary>
         /// 预启动指令。

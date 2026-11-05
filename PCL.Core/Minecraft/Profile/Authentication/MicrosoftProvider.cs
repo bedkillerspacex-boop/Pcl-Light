@@ -99,7 +99,7 @@ public sealed class MicrosoftProvider : IAuthenticateProvider
             return await CompleteAsync(await MsCookieAuth.RefreshAsync(profile.RefreshToken, token)
                 .ConfigureAwait(false), token).ConfigureAwait(false);
 
-        // 令牌导入的档案可能来自别的应用（Lunar、IAS），续期也得用签发者身份
+        // 令牌导入的档案可能来自别的应用（例如 IAS），续期也得用签发者身份
         var provider = string.IsNullOrWhiteSpace(profile.RefreshClientId) ||
                        string.Equals(profile.RefreshClientId, _clientId, StringComparison.OrdinalIgnoreCase)
             ? this

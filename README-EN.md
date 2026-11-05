@@ -74,10 +74,8 @@ You can still try PCL Lite on unsupported systems, but you may run into many add
 | [docs/README.md](docs/README.md) | Index, project layout, where the version number actually lives |
 | [Theming & colours](docs/THEME.md) | How the eight-step palette is computed, the 14 presets, custom themes, adding a new preset |
 | [Config & data directories](docs/CONFIG.md) | Where the config files are, editing them by hand, migration logic |
-| [Discord Rich Presence](docs/DISCORD.md) | What is shown, privacy boundaries, switching to your own Discord app |
 | [Build & release](docs/BUILD.md) | Compiling, secret injection, signing, publishing a release |
 | [Azure login](docs/AZURE-LOGIN.md) | Registering an app from scratch to sign in with your own client_id |
-| [MCP](docs/MCP.md) | Letting AI clients drive the launcher directly |
 | [Open-source inventory](docs/CREDITS.md) | Where the code came from, third-party libraries, and their licenses |
 
 ## 🔒 License
@@ -91,11 +89,6 @@ This project is released under the **[MIT License](LICENSE)** with the additiona
 - **Regional restriction**: do not use this project if you are located in mainland China
 - **License may change**: this license may be updated at any time without prior notice; updates apply only to versions obtained afterwards, and **already forked or already distributed versions are unaffected**
 
-**Portions ported from third parties carry their own licence**: the Bedrock Edition support
-(download + install + launch) is ported from
-[PCL-Symbio-Edition](https://github.com/Hydrogen-Peroxide/PCL-Symbio-Edition), and that part remains
-under **Apache-2.0** (per its clause 4). The full text is in [`LICENSE-APACHE`](LICENSE-APACHE).
-It covers only the ported code and does not change the licence of the project as a whole.
 A complete inventory of code sources and third-party libraries is in
 [the open-source inventory](docs/CREDITS.md).
 

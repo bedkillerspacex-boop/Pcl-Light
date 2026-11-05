@@ -9,10 +9,8 @@
 | [CONTRIBUTE.md](CONTRIBUTE.md) | 贡献指南：fork、构建、`update.json` 为什么不用改、代码规矩、PR 清单、常见坑 | **第一次提 PR 先看这个** |
 | [THEME.md](THEME.md) | 配色/主题系统：八级色阶怎么算、14 个预设、自定义主题参数、怎么加一个新主题 | 想改界面配色、想加主题 |
 | [CONFIG.md](CONFIG.md) | 配置文件在哪、YAML/JSON 长什么样、怎么手动改、改了怎么生效 | 想改配置、想查数据目录 |
-| [DISCORD.md](DISCORD.md) | Discord 状态显示：显示什么、隐私边界、换自己的应用、实现结构与测试方法 | 想开状态、想改显示内容 |
 | [BUILD.md](BUILD.md) | 怎么编译、密钥怎么注入、怎么签名、怎么发 Release | 想自己构建一个能用的版本 |
 | [AZURE-LOGIN.md](AZURE-LOGIN.md) | 从零注册 Azure 应用，拿到自己的 `client_id` 走微软正版登录 | 想让正版登录用自己的应用 |
-| [MCP.md](MCP.md) | 内置 MCP 服务，让 AI 客户端直接操作启动器 | 想接 Claude / Cursor / Cherry Studio |
 | [HOMEPAGE-LANG.md](HOMEPAGE-LANG.md) | 主页语言 API：同一份主页内容按语言展示不同内容，兼容原版主页协议 | 想写多语言主页、想给页面加语言分支 |
 | [UPDATE.md](UPDATE.md) | 更新清单 `update.json`：为什么要有它、格式、发版时怎么改、换仓库怎么不翻车 | 要发版、要换仓库、更新检查出问题 |
 | [MIRROR.md](MIRROR.md) | 镜像仓库指南：怎么复制仓库、怎么搬 Release、怎么被列进更新清单、身份校验规则 | 想给更新链路做备份源、想当镜像 |

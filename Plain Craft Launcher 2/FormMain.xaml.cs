@@ -1339,11 +1339,6 @@ public partial class FormMain
         Download = 1,
 
         /// <summary>
-        ///     基岩版（下载 + 启动）。与导航栏 <c>PanTitleSelect</c> 中的下标一致，紧跟在「下载」右侧。
-        /// </summary>
-        Bedrock = 2,
-
-        /// <summary>
         ///     设置。
         /// </summary>
         Setup = 3,
@@ -1388,15 +1383,6 @@ public partial class FormMain
         /// </summary>
         VersionSaves = 12,
 
-        /// <summary>
-        ///     Lunar Client（实验特性）。导航栏里排在「基岩版」右侧。
-        ///     <para>
-        ///         数值故意取 13 而不是插进中间：导航按钮的 <c>Tag</c> 会被直接强转成这个枚举，
-        ///         但按钮的**排列顺序由 XAML 决定**，与数值无关。所以新增一级页面时
-        ///         追加一个没被占用的值即可，不需要给 Setup / Tools / 各个副页面重新编号。
-        ///         </para>
-        /// </summary>
-        Lunar = 13,
     }
 
     /// <summary>
@@ -1421,11 +1407,6 @@ public partial class FormMain
         DownloadFabric = 14,
         DownloadLiteLoader = 16,
 
-        /// <summary>
-        ///     Lunar Client 的启动页。只在 <see cref="PageType.Lunar" /> 下使用，
-        ///     与下载页的下标空间互不干扰（和基岩版复用 0 / 1 是同一个道理）。
-        /// </summary>
-        LunarLaunch = 17,
         DownloadLabyMod = 17,
         DownloadLegacyFabric = 18,
 
@@ -1441,20 +1422,12 @@ public partial class FormMain
         SetupLauncherMisc = 10,
         SetupLauncherLanguage = 11,
 
-        /// <summary>
-        ///     Lunar Client 的启动设置（Java、内存、JVM 参数）。
-        /// </summary>
-        SetupLunar = 12,
-
         ToolsTest = 3,
 
         /// <summary>
         ///     百宝箱：导入 PCL2 / PCLCE 的设置。
         /// </summary>
         ToolsImport = 4,
-
-        BedrockDownload = 0,
-        BedrockLaunch = 1,
 
         VersionOverall = 0,
         VersionSetup = 1,
@@ -1566,20 +1539,6 @@ public partial class FormMain
                     return ModMain.frmSetupLeft.pageID;
                 }
 
-                case PageType.Bedrock:
-                {
-                    if (ModMain.frmBedrockLeft is null)
-                        ModMain.frmBedrockLeft = new PageBedrockLeft();
-                    return ModMain.frmBedrockLeft.pageID;
-                }
-
-                case PageType.Lunar:
-                {
-                    if (ModMain.frmLunarLeft is null)
-                        ModMain.frmLunarLeft = new PageLunarLeft();
-                    return ModMain.frmLunarLeft.pageID;
-                }
-
                 case PageType.InstanceSetup:
                 {
                     if (ModMain.frmInstanceLeft is null)
@@ -1688,7 +1647,7 @@ public partial class FormMain
             PageChangeExit();
             isChangingPage = true; // 防止下面的勾选直接触发了 PageChangeActual
             // 必须按 Tag 找标题栏按钮，不能用 Children[(int)stack.page]：
-            // Lunar 是后加进来的标签，Tag 是 13，插在 Children 的第 4 位，
+            // 新增标签插在 Children 的第 4 位，
             // 索引和枚举值早就不一一对应了，用索引会点亮错误的标签（或者直接越界）。
             var titleButton = PanTitleSelect.Children.OfType<MyRadioButton>()
                 .FirstOrDefault(x => x.Tag is not null && ModBase.Val(x.Tag) == (double)stack.page);
@@ -1715,34 +1674,6 @@ public partial class FormMain
                     if (ModMain.frmSetupLeft is null)
                         ModMain.frmSetupLeft = new PageSetupLeft();
                     foreach (var item in ModMain.frmSetupLeft.PanItem.Children)
-                        if (item is MyListItem listItem &&
-                            ModBase.Val(listItem.Tag) == (double)subType)
-                        {
-                            listItem.SetChecked(true, true, stack == pageCurrent);
-                            break;
-                        }
-
-                    break;
-                }
-                case PageType.Bedrock:
-                {
-                    if (ModMain.frmBedrockLeft is null)
-                        ModMain.frmBedrockLeft = new PageBedrockLeft();
-                    foreach (var item in ModMain.frmBedrockLeft.PanItem.Children)
-                        if (item is MyListItem listItem &&
-                            ModBase.Val(listItem.Tag) == (double)subType)
-                        {
-                            listItem.SetChecked(true, true, stack == pageCurrent);
-                            break;
-                        }
-
-                    break;
-                }
-                case PageType.Lunar:
-                {
-                    if (ModMain.frmLunarLeft is null)
-                        ModMain.frmLunarLeft = new PageLunarLeft();
-                    foreach (var item in ModMain.frmLunarLeft.PanItem.Children)
                         if (item is MyListItem listItem &&
                             ModBase.Val(listItem.Tag) == (double)subType)
                         {
@@ -1912,25 +1843,6 @@ public partial class FormMain
                         PageChangeAnim(ModMain.frmToolsLeft, (FrameworkElement)ModMain.frmToolsLeft.PageGet(subType));
                         break;
                     }
-                case PageType.Bedrock: // 基岩版
-                    {
-                        ModMain.frmBedrockLeft ??= new PageBedrockLeft();
-                        if (subType != PageSubType.Default)
-                            ModMain.frmBedrockLeft.pageID = subType;
-                        else
-                            subType = ModMain.frmBedrockLeft.pageID;
-                        PageChangeAnim(ModMain.frmBedrockLeft,
-                            (FrameworkElement)ModMain.frmBedrockLeft.PageGet(subType));
-                        break;
-                    }
-                case PageType.Lunar: // Lunar Client（实验特性）
-                    {
-                        ModMain.frmLunarLeft ??= new PageLunarLeft();
-                        subType = ModMain.frmLunarLeft.pageID;
-                        PageChangeAnim(ModMain.frmLunarLeft,
-                            (FrameworkElement)ModMain.frmLunarLeft.PageGet(subType));
-                        break;
-                    }
                 case PageType.Setup: // 设置
                     {
                         ModMain.frmSetupLeft ??= new PageSetupLeft();
@@ -2042,10 +1954,10 @@ public partial class FormMain
 
         // 左右两栏必须在同一个动画里换掉，而且要用局部变量捕获目标页：
         // 以前是左右各起一组动画，各自在 110ms 后换自己那一半，只要其中一组被
-        // AniStop（PageLunarLeft 等切分页时会停 "FrmMain PageChangeRight"），
+        // AniStop（切分页时会停 "FrmMain PageChangeRight"），
         // 或者 pageLeft/pageRight 字段在中途被改写，就会剩下
         // 「左栏还是旧页、右栏已经是新页」的撕裂界面 —— 游戏内点「添加账号」
-        // 把界面从 Lunar 页切走时，用户看到的就是这个样子。
+        // 把界面切走时，用户看到的就是这个样子。
         var newLeft = (MyPageLeft)targetLeft;
         var newRight = (MyPageRight)targetRight;
         ModAnimation.AniStart(new[]

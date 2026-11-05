@@ -66,12 +66,12 @@ public static class ModDownloadLib
     /// <param name="Id">所下载的 Minecraft 的版本名。</param>
     /// <param name="JsonUrl">Json 文件的 Mojang 官方地址。</param>
     /// <param name="targetMcFolder">
-    ///     装到哪个 MC 目录，默认是当前选中的那个。Lunar 要指定：
+    ///     装到哪个 MC 目录，默认是当前选中的那个。需要指定目录时：
     ///     它的 Genesis 固定往 <c>%APPDATA%\.minecraft</c> 里补原版客户端，
     ///     不能装进玩家自己的 MC 目录。
     /// </param>
     /// <param name="repairOnly">
-    ///     只补缺的文件，不把「实例已存在」当成跳过条件。Lunar 用：
+    ///     只补缺的文件，不把「实例已存在」当成跳过条件：
     ///     jar 和 json 都在、<c>libraries</c> 缺一半时，Genesis 会闷头把剩下的下完
     ///     （实测 1.3 GB / 970 个文件，界面上一个字都没有），所以这种情况必须
     ///     照样交给 PCL 的下载任务，让进度能看见。

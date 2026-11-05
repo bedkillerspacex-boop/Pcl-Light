@@ -72,10 +72,8 @@ PCL Lite 始终建议使用最新版本的操作系统以获得最佳体验。
 | [docs/README.md](docs/README.md) | 索引、项目结构、版本号在哪 |
 | [主题与配色](docs/THEME.md) | 八级色阶怎么算、14 个预设、自定义主题、怎么加新主题 |
 | [配置与数据目录](docs/CONFIG.md) | 配置文件位置、手动改法、迁移逻辑 |
-| [Discord 状态显示](docs/DISCORD.md) | 显示内容、隐私边界、换自己的应用 |
 | [构建与发布](docs/BUILD.md) | 编译、密钥注入、签名、发版 |
 | [Azure 登录](docs/AZURE-LOGIN.md) | 从零注册应用，用自己的 client_id 走正版登录 |
-| [MCP](docs/MCP.md) | 让 AI 客户端直接操作启动器 |
 | [开源项目清单](docs/CREDITS.md) | 代码来源、第三方库、各自的许可证 |
 
 ## 🔒 许可证
@@ -89,10 +87,6 @@ PCL Lite 始终建议使用最新版本的操作系统以获得最佳体验。
 - **地域限制**：中国大陆用户请勿使用
 - **协议可变**：本协议可能随时更新，且不提前通知；更新只对之后获取的版本生效，**已经 fork 或已经分发的版本不受影响**
 
-**第三方移植部分另有许可证**：基岩版（下载 + 安装 + 启动）移植自
-[PCL-Symbio-Edition](https://github.com/Hydrogen-Peroxide/PCL-Symbio-Edition)，该部分仍受
-**Apache-2.0** 约束（依据其第 4 条），全文见 [`LICENSE-APACHE`](LICENSE-APACHE)。
-它只覆盖移植来的那部分代码，不改变本项目整体的许可证。
 完整的代码来源与第三方库清单见[开源项目清单](docs/CREDITS.md)。
 
 

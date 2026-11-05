@@ -70,7 +70,7 @@ public static class TokenImporter
 
         // 不是 JWT 就当 refresh token。
         // refresh token 绑死签发它的应用，换别的 client 一律 invalid_grant ——
-        // 所以挨个试我们知道的签发者：PCL 自己、Lunar 启动器、IAS（游戏内账号切换）。
+        // 所以挨个试我们知道的签发者：PCL 自己、IAS（游戏内账号切换）。
         Exception? mismatch = null;
         foreach (var clientId in RefreshClientIds())
         {
@@ -101,7 +101,7 @@ public static class TokenImporter
         var seen = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
         foreach (var id in new[]
                  {
-                     Secrets.MSOAuthClientId, Secrets.LunarOAuthClientId, Secrets.IasOAuthClientId
+                     Secrets.MSOAuthClientId, Secrets.IasOAuthClientId
                  })
         {
             if (string.IsNullOrWhiteSpace(id)) continue;

@@ -298,13 +298,6 @@ public partial class PageSetupLeft
                     ModMain.frmSetupJava = new PageSetupJava();
                 return ModMain.frmSetupJava;
             }
-            case FormMain.PageSubType.SetupLunar:
-            {
-                if (ModMain.frmSetupLunar is null)
-                    ModMain.frmSetupLunar = new PageSetupLunar();
-                return ModMain.frmSetupLunar;
-            }
-
             default:
             {
                 throw new Exception("未知的设置子页面种类：" + (int)id);

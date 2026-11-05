@@ -37,11 +37,6 @@ public static class ModMain
     public static PageToolsLeft? frmToolsLeft;
     public static PageToolsTest? frmToolsTest;
     public static PageToolsImport? frmToolsImport;
-    public static PageBedrockLeft? frmBedrockLeft;
-    public static PageBedrockDownload? frmBedrockDownload;
-    public static PageBedrockLaunch? frmBedrockLaunch;
-    public static PageLunarLeft? frmLunarLeft;
-    public static PageLunarLaunch? frmLunarLaunch;
     public static PageDownloadLeft? frmDownloadLeft;
     public static PageDownloadInstall? frmDownloadInstall;
     public static PageDownloadClient? frmDownloadClient;
@@ -71,7 +66,6 @@ public static class ModMain
     public static PageSetupFeedback? frmSetupFeedback;
     public static PageSetupLauncherLanguage? frmSetupLauncherLanguage;
     public static PageSetupLauncherMisc? frmSetupLauncherMisc;
-    public static PageSetupLunar? frmSetupLunar;
     public static PageLoginAuth? frmLoginAuth;
     public static PageLoginMs? frmLoginMs;
     public static PageLoginProfile? frmLoginProfile;

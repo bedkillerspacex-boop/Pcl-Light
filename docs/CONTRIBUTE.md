@@ -61,7 +61,6 @@ dotnet build "Plain Craft Launcher 2/Plain Craft Launcher 2.csproj" -c Debug
 | Windows | 10 1809+ / 11 | WPF 项目，只能在 Windows 上编 |
 | .NET SDK | 10.0 | `dotnet --version` 确认 |
 | Git | 任意 | |
-| JDK | 21（可选） | 只有改 Lunar / 启动相关功能、或跑完整测试才需要 |
 
 不需要 Visual Studio。装了也可以直接打开 `Plain Craft Launcher 2.slnx`，但本文的命令都按 `dotnet` CLI 写。
 
@@ -206,13 +205,12 @@ PCL-CE/
 ├── PCL.Core/                    核心库（无 UI 依赖）
 │   ├── App/                     配置模型、路径、元数据、ProjectLinks（仓库地址常量）
 │   ├── App/Updates/             更新清单解析（纯函数，带单元测试）
-│   ├── App/Lunar/               Lunar 客户端协议（Social / IPC）
 │   ├── IO/Net/                  网络层（DNS、代理、用途白名单）
 │   ├── Minecraft/               启动、下载、档案、认证
 │   └── UI/Theme/                ★ 配色引擎（见 THEME.md）
 ├── Plain Craft Launcher 2/      WPF 前端
 │   ├── Modules/Updates/         更新检查、下载、替换
-│   ├── Pages/                   各个页面（PageSetup / PageLunar / PageDownload ...）
+│   ├── Pages/                   各个页面（PageSetup / PageDownload ...）
 │   ├── Controls/                自定义控件（MyListItem / MyTextBox / MyButton ...）
 │   └── metadata.json            ★ 版本号真源
 ├── PCL.Core.SourceGenerators/   源生成器：配置项、密钥注入
@@ -280,7 +278,7 @@ zh-CN.xaml  zh-TW.xaml  en-US.xaml  en-GB.xaml
 ```
 
 - **四份必须同时加**，缺了会回退到 zh-CN（不是报错，是悄悄显示中文，很难发现）
-- 键名要短、要有层级，比如 `Lunar.Social.Placeholder`
+- 键名要短、要有层级，比如 `Setup.Launch.Advanced`
 - 简体中文里带 `{` `}` 的要转义
 - code-behind 里的提示文案也要走 `Lang.Text("...")`，不要硬编码中文字符串
   （诊断用的 `Log()` 行除外，那个保持中文，方便看日志）

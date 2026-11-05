@@ -25,7 +25,7 @@
                         Height="28" Width="100" Margin="0,0,0,0" Grid.Row="2" Grid.Column="0" />
         <!--
             设备码走不通时的备选：直接粘贴 Refresh Token、Minecraft 令牌或微软 Cookie。
-            和设备码登录并列，都是 PCL 自己的账号，和 Lunar 无关。
+            和设备码登录并列，都是 PCL 自己的账号。
         -->
         <local:MyTextButton x:Name="BtnToken" Text="{DynamicResource Launch.Account.Token.Login}"
                             Grid.Row="3" Grid.ColumnSpan="2" HorizontalAlignment="Center"

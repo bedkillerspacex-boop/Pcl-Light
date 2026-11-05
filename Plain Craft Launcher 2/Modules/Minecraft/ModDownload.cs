@@ -2140,7 +2140,7 @@ public static class ModDownload
     ///     下载文件（而非获取版本列表）的时候，是否优先使用官方源。
     ///     <para>
     ///         实际判定在 <see cref="DownloadSource.PreferMojang" />：这里只是转个手，
-    ///         让「文件下载源」设置只有一个实现，Lunar 那些在 <c>PCL.Core</c> 里的
+    ///         让「文件下载源」设置只有一个实现，其他下载模块在 <c>PCL.Core</c> 里的
     ///         下载也能跟着同一份偏好走。
     ///     </para>
     /// </summary>

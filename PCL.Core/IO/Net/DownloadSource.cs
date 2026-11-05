@@ -10,7 +10,7 @@ namespace PCL.Core.IO.Net;
 ///     <para>
 ///         这里是「文件下载源」设置的<b>唯一</b>实现。以前这套逻辑只活在
 ///         <c>ModDownload</c> 里（<c>Plain Craft Launcher 2</c> 项目），
-///         <c>PCL.Core</c> 里的东西（比如 Lunar 的物料下载）够不着，
+///         <c>PCL.Core</c> 里的下载内容够不着，
 ///         结果就是各自硬编码一份 <c>bmclapi2</c> 地址，既不跟设置走，
 ///         改镜像域名时还要改好几处。
 ///     </para>
