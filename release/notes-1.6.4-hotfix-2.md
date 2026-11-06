@@ -1,6 +1,6 @@
 <summary>1.6.4-hotfix-2：修「更新偶发要重启两次」——同一秒里起了两个更新程序抢同一个 exe，一个在复制另一个在删，两边都报 Access denied；现在只允许起一个，替换也改成了带重试、失败必定回滚。</summary>
 
-PCL Lite 1.6.4-hotfix-2。
+PCL Light 1.6.4-hotfix-2。
 
 > 热修复，稳定版通道会收到。
 
@@ -9,7 +9,7 @@ PCL Lite 1.6.4-hotfix-2。
 点「重启更新」之后，有一定概率提示更新失败：
 
 ```
-更新失败: Access to the path 'PCL-Litex64.exe' is denied.
+更新失败: Access to the path 'PCL-Lightx64.exe' is denied.
 ```
 
 再点一次就好了 —— 所以看起来像「偶发，重启两次才行」。

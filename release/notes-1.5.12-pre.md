@@ -1,6 +1,6 @@
-<summary>修一个 1.5.11 引入的严重回归：下载页、模组搜索、资源包页全部报「The format of value 'PCL-Lite' is invalid.」。另外加了启动器窗口大小预设、修好从 PCL2 导入后主题颜色不生效、把 PCL2 存在注册表里的那 58 项设置也纳入导入。</summary>
+<summary>修一个 1.5.11 引入的严重回归：下载页、模组搜索、资源包页全部报「The format of value 'PCL-Light' is invalid.」。另外加了启动器窗口大小预设、修好从 PCL2 导入后主题颜色不生效、把 PCL2 存在注册表里的那 58 项设置也纳入导入。</summary>
 
-PCL Lite 1.5.12 预览版（pre）。
+PCL Light 1.5.12 预览版（pre）。
 
 > **这是预览版，不是正式版。** 把更新通道选成「预览体验」就能收到；
 > 「快照尝鲜」「始终最新」也会收到，「稳定版」不会。
@@ -12,18 +12,18 @@ PCL Lite 1.5.12 预览版（pre）。
 「模组」「整合包」「资源包」这些页面一打开就是一片红字：
 
 ```
-The format of value 'PCL-Lite' is invalid.
+The format of value 'PCL-Light' is invalid.
 ```
 
-1.5.11 为了不再上报版本号，把 User-Agent 从 `PCL-Lite/1.5.11-pre` 改成了 `PCL-Lite`。
+1.5.11 为了不再上报版本号，把 User-Agent 从 `PCL-Light/1.5.11-pre` 改成了 `PCL-Light`。
 值是对的，**但用错了构造函数重载**：
 
 ```csharp
-new ProductInfoHeaderValue("PCL-Lite")          // 单参数 = 注释版，值必须是 "(注释)"
-new ProductInfoHeaderValue("PCL-Lite", 版本号)   // 双参数 = 产品名 + 版本
+new ProductInfoHeaderValue("PCL-Light")          // 单参数 = 注释版，值必须是 "(注释)"
+new ProductInfoHeaderValue("PCL-Light", 版本号)   // 双参数 = 产品名 + 版本
 ```
 
-单参数那个收的是 **comment**，`PCL-Lite` 不以 `(` 开头，构造时就抛
+单参数那个收的是 **comment**，`PCL-Light` 不以 `(` 开头，构造时就抛
 `FormatException`。而这行在 `ConfigureHttpClient` 里，等于**任何一次网络请求都会炸** ——
 所以整个下载页、模组搜索、CurseForge 和 Modrinth 全部取不到数据。
 
@@ -35,8 +35,8 @@ UA，解析不过同样抛 `FormatException`，同一个坑不该留两次。
 **这次真的验证过了**，不是「应该没问题」：
 
 ```
-旧写法 单参数: FormatException - The format of value 'PCL-Lite' is invalid.
-新写法 双参数 null: OK  -> [PCL-Lite]
+旧写法 单参数: FormatException - The format of value 'PCL-Light' is invalid.
+新写法 双参数 null: OK  -> [PCL-Light]
 下载器 UA: OK  -> [PCL2 PCLCE Mozilla/5.0 ... Edg/136.0.0.0]
 ```
 
@@ -78,7 +78,7 @@ PCL2 用一个编号（`UiLauncherTheme`）同时决定配色和标题栏纹理�
 | `HKCU\Software\PCL` | 显式标了注册表来源的键，**83 个**，其中 19 个加密 |
 
 也就是说代理设置、调试开关、启动次数这些**从来没被搬过来过**。现在两半都读，
-83 个里能对上 58 个 PCL Lite 认得的键。
+83 个里能对上 58 个 PCL Light 认得的键。
 
 加密的那 19 个用 `EncryptHelper.SecretDecrypt` 解（PCL-CE 一直保留着这条旧版兼容路径）。
 密钥派生自 `SHA256(CpuId)`，**换台机器就解不开**——那种情况会跳过该键并记日志，不会写空值进去。
@@ -99,7 +99,7 @@ SHA-256：`51CA170850A743F47C51598605DE600F474CB7C158F1BBE546E521D52DF0168B`
   个别安全软件首次运行时仍可能提示发布者信息
 - 基岩版 GDK 安装包（`.msixvc`）解包依赖内置的内容密钥（CIK），正式版与预览版各一把，
   均已编入本构建；密钥若被官方轮换会失效，届时用环境变量覆盖即可，不必重新下载启动器
-- PCL2 原版里改过名的键搬不过来，比如「上次选的版本」（PCL Lite 叫 `LaunchInstanceSelect`，
+- PCL2 原版里改过名的键搬不过来，比如「上次选的版本」（PCL Light 叫 `LaunchInstanceSelect`，
   PCL2 叫 `LaunchVersionSelect`），导入后需要重新选一次
 - Lunar 的本地 IPC 只实现了 `AuthService/RefreshAccount`（会话续期），
   好友列表、游戏内商店、聊天面板这些走 IPC 的功能仍然是空的。回空响应是安全的，

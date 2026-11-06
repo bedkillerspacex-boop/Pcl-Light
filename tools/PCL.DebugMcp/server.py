@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-PCL Lite 调试 MCP 服务。
+PCL Light 调试 MCP 服务。
 
 把「跑起来 → 看日志 → 截图 → 改配置 → 重新构建」这条调试闭环暴露成 MCP 工具，
 让 AI 可以在没有人类点鼠标的情况下自己把问题定位出来。
@@ -61,7 +61,7 @@ FLAVORS: dict[str, dict[str, str]] = {
         "note": "发布版，行为与用户实际运行一致，排查性能/渲染问题优先用它。",
     },
     "dist": {
-        "bin": "dist/PCL Lite",
+        "bin": "dist/PCL Light",
         "roaming": "PCLCE",
         "note": "打包产物，用于验证「用户拿到手的那份」是否正常。",
     },
@@ -69,7 +69,7 @@ FLAVORS: dict[str, dict[str, str]] = {
 
 EXE_NAME = "Plain Craft Launcher 2.exe"
 CSPROJ = "PCL-CE/Plain Craft Launcher 2/Plain Craft Launcher 2.csproj"
-WINDOW_TITLE_KEY = "PCL Lite"
+WINDOW_TITLE_KEY = "PCL Light"
 
 
 def _flavor(name: str | None = None) -> dict[str, str]:
@@ -335,7 +335,7 @@ def _find_main_window() -> dict[str, Any] | None:
     wins = _enum_windows()
     if not wins:
         return None
-    # 主窗口标题形如 "PCL Lite "，弹窗另有标题；取面积最大的那个最稳。
+    # 主窗口标题形如 "PCL Light "，弹窗另有标题；取面积最大的那个最稳。
     return max(wins, key=lambda w: w["width"] * w["height"])
 
 
@@ -588,10 +588,10 @@ def _kill() -> dict[str, Any]:
 
 mcp = MCPServer(
     name="pcl-debug",
-    title="PCL Lite 调试台",
+    title="PCL Light 调试台",
     version="1.0.0",
     instructions=(
-        "这是 PCL Lite（C# / WPF 启动器）的调试服务。它不修改产品代码，"
+        "这是 PCL Light（C# / WPF 启动器）的调试服务。它不修改产品代码，"
         "而是从外部观察和驱动启动器：启动/结束进程、抓窗口截图、解析日志、"
         "读写配置、检查网络授权状态、编译、检索源码。\n\n"
         "典型用法：\n"
@@ -611,7 +611,7 @@ mcp = MCPServer(
 @mcp.tool(
     name="pcl_app_launch",
     description=(
-        "启动 PCL Lite 并等待主窗口出现。\n\n"
+        "启动 PCL Light 并等待主窗口出现。\n\n"
         "进程以 DETACHED_PROCESS 启动，父进程退出后它继续存活，"
         "所以调用结束不会把启动器带走，后续工具还能继续操作它。\n"
         "默认会设置 PCL_DISABLE_DEBUG_HINT=1 来跳过 Debug 版的「特殊版本提示」弹窗。\n\n"
@@ -631,14 +631,14 @@ def pcl_app_launch(
         wait_seconds: 等待主窗口出现的秒数，超时也返回，只是 window_found=false。
     """
     if _pids():
-        return _err("已经有一个 PCL Lite 在跑了，先 pcl_app_kill 再启动。", pids=_pids())
+        return _err("已经有一个 PCL Light 在跑了，先 pcl_app_kill 再启动。", pids=_pids())
     return _launch(flavor, args, wait_seconds)
 
 
 @mcp.tool(
     name="pcl_app_kill",
     description=(
-        "结束所有 PCL Lite 进程。\n\n"
+        "结束所有 PCL Light 进程。\n\n"
         "⚠️ 启动器退出时会把内存里的配置写回磁盘，"
         "如果你刚用 pcl_config_set 改过配置，先确认改动已经被启动器读到，否则会被覆盖。"
     ),
@@ -650,7 +650,7 @@ def pcl_app_kill() -> dict[str, Any]:
 @mcp.tool(
     name="pcl_app_status",
     description=(
-        "查询 PCL Lite 当前是否在运行：进程号、主窗口句柄与位置尺寸、启动时长。\n\n"
+        "查询 PCL Light 当前是否在运行：进程号、主窗口句柄与位置尺寸、启动时长。\n\n"
         "排查「点了没反应」这类问题时先看这里——"
         "进程在但窗口不在，说明卡在启动阶段；窗口在但尺寸异常，说明布局出了问题。"
     ),
@@ -678,7 +678,7 @@ def pcl_app_status() -> dict[str, Any]:
 @mcp.tool(
     name="pcl_app_screenshot",
     description=(
-        "截取 PCL Lite 主窗口，返回 PNG 图片本体（可以直接看）。\n\n"
+        "截取 PCL Light 主窗口，返回 PNG 图片本体（可以直接看）。\n\n"
         "排查界面问题的第一步：先看整体，再用 crop 参数放大局部。"
         "crop 用窗口内坐标 [x, y, 宽, 高]，例如 [330, 20, 450, 48] 就是顶部导航条。\n\n"
         "图片同时会落盘一份，路径在返回值的 path 里，方便多次对比。"
@@ -697,7 +697,7 @@ def pcl_app_screenshot(
     """
     win = _find_main_window()
     if not win:
-        return _err("没找到 PCL Lite 窗口，先 pcl_app_launch。")
+        return _err("没找到 PCL Light 窗口，先 pcl_app_launch。")
 
     try:
         png, w, h = _grab_window(win["hwnd"])
@@ -728,7 +728,7 @@ def pcl_app_screenshot(
 @mcp.tool(
     name="pcl_app_windows",
     description=(
-        "列出当前所有标题含「PCL Lite」的可见窗口（含弹窗、对话框），带句柄和位置尺寸。\n\n"
+        "列出当前所有标题含「PCL Light」的可见窗口（含弹窗、对话框），带句柄和位置尺寸。\n\n"
         "授权弹窗、错误提示这类东西会以独立窗口出现，"
         "主窗口截图看不到它们时用这个确认是不是被挡住了。"
     ),
@@ -743,7 +743,7 @@ def pcl_app_windows() -> dict[str, Any]:
 @mcp.tool(
     name="pcl_ui_click",
     description=(
-        "在 PCL Lite 窗口内点击指定坐标（窗口内坐标，不是屏幕坐标）。\n\n"
+        "在 PCL Light 窗口内点击指定坐标（窗口内坐标，不是屏幕坐标）。\n\n"
         "坐标可以从 pcl_app_screenshot 的图上量：截图左上角就是 (0,0)。"
         "点之前建议先截图确认位置，点完再截一次确认结果。\n\n"
         "注意 PCL 的复选框命中区比视觉框略大，点在文字上也能生效。"
@@ -758,7 +758,7 @@ def pcl_ui_click(x: int, y: int, settle_seconds: float = 0.6) -> dict[str, Any]:
     """
     win = _find_main_window()
     if not win:
-        return _err("没找到 PCL Lite 窗口。")
+        return _err("没找到 PCL Light 窗口。")
     pos = _click_at(win["hwnd"], x, y)
     time.sleep(max(settle_seconds, 0))
     return _ok(**pos)
@@ -767,14 +767,14 @@ def pcl_ui_click(x: int, y: int, settle_seconds: float = 0.6) -> dict[str, Any]:
 @mcp.tool(
     name="pcl_ui_scroll",
     description=(
-        "在 PCL Lite 窗口内滚动鼠标滚轮。正数向上、负数向下，每格 120。\n\n"
+        "在 PCL Light 窗口内滚动鼠标滚轮。正数向上、负数向下，每格 120。\n\n"
         "设置页很长，很多选项（比如网络授权、液态玻璃）在需要滚动才能看到的位置。"
     ),
 )
 def pcl_ui_scroll(x: int, y: int, notches: int = 3, settle_seconds: float = 0.5) -> dict[str, Any]:
     win = _find_main_window()
     if not win:
-        return _err("没找到 PCL Lite 窗口。")
+        return _err("没找到 PCL Light 窗口。")
     _scroll_at(win["hwnd"], x, y, notches)
     time.sleep(max(settle_seconds, 0))
     return _ok(notches=notches)
@@ -1105,7 +1105,7 @@ def pcl_config_dump(
         "查看网络授权当前状态：是否「授权全部连接」、隐私模式、永久白名单里有哪些用途，"
         "以及完整的用途登记表（每个用途依赖哪些域名）。\n\n"
         "排查「功能莫名失败但日志没报错」时优先看这里——"
-        "PCL Lite 的出站请求会被按用途拦截，拦截是静默的。"
+        "PCL Light 的出站请求会被按用途拦截，拦截是静默的。"
     ),
 )
 def pcl_net_consent_state(flavor: Literal["debug", "release", "dist"] | None = None) -> dict[str, Any]:
@@ -1438,7 +1438,7 @@ def pcl_repo_tree(path: str = "", depth: int = 2) -> dict[str, Any]:
     description="启动器起不来 / 一起就崩：从进程状态到异常堆栈的完整排查流程。",
 )
 def _p_debug_startup_crash(symptom: str = "") -> str:
-    return f"""你要排查 PCL Lite 启动阶段的问题。现象：{symptom or '（未提供，先自己确认）'}
+    return f"""你要排查 PCL Light 启动阶段的问题。现象：{symptom or '（未提供，先自己确认）'}
 
 按这个顺序来，每一步都基于观察而不是猜测：
 
@@ -1462,7 +1462,7 @@ def _p_debug_startup_crash(symptom: str = "") -> str:
     description="界面显示不对：用截图 + 像素级对比定位视觉问题。",
 )
 def _p_debug_visual_glitch(area: str = "整个窗口", expectation: str = "") -> str:
-    return f"""你要排查 PCL Lite 的界面问题。关注区域：{area}。期望表现：{expectation or '（未提供）'}
+    return f"""你要排查 PCL Light 的界面问题。关注区域：{area}。期望表现：{expectation or '（未提供）'}
 
 方法：**先看，再量，最后才改**。
 
@@ -1488,7 +1488,7 @@ def _p_debug_visual_glitch(area: str = "整个窗口", expectation: str = "") ->
 def _p_debug_network_blocked(feature: str = "") -> str:
     return f"""有个功能联网失败或者干脆没反应。涉及功能：{feature or '（未提供）'}
 
-PCL Lite 的所有出站请求都会先过 `NetworkGuardHandler`，按「用途」授权。
+PCL Light 的所有出站请求都会先过 `NetworkGuardHandler`，按「用途」授权。
 拦截是**静默**的——日志里可能一条错误都没有，所以这个顺序很重要：
 
 1. `pcl_net_consent_state` —— 看 allow_all / privacy_mode / 白名单。
@@ -1532,7 +1532,7 @@ def _p_debug_build_failure(error_hint: str = "") -> str:
     description="新增一个功能：先摸清现状，再动手，最后自测。",
 )
 def _p_implement_feature(requirement: str) -> str:
-    return f"""要在 PCL Lite 里实现这个需求：
+    return f"""要在 PCL Light 里实现这个需求：
 
 {requirement}
 

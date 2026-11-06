@@ -125,18 +125,18 @@ Get-AuthenticodeSignature "publish-x64/Plain Craft Launcher 2.exe" | Select Stat
 # 1. 改版本号（三处，见 docs/README.md「版本号在哪」）
 # 2. 构建 + 签名
 # 3. 复制成发布命名
-copy "publish-x64/Plain Craft Launcher 2.exe" "release/PCL-Lite_1.1_x64.exe"
+copy "publish-x64/Plain Craft Launcher 2.exe" "release/PCL-Light_1.1_x64.exe"
 
 # 4. 算哈希
-Get-FileHash "release/PCL-Lite_1.1_x64.exe" -Algorithm SHA256
+Get-FileHash "release/PCL-Light_1.1_x64.exe" -Algorithm SHA256
 
 # 5. 打 tag（必须是三段式 SemVer，v1.1 会被启动器的更新检查拒绝）
 git tag v1.1.0
 git push origin v1.1.0
 
 # 6. 发 Release
-gh release create v1.1.0 "release/PCL-Lite_1.1_x64.exe" `
-  --repo <owner>/<repo> --title "PCL Lite 1.1.0" `
+gh release create v1.1.0 "release/PCL-Light_1.1_x64.exe" `
+  --repo <owner>/<repo> --title "PCL Light 1.1.0" `
   --notes-file release/notes.md --latest
 ```
 

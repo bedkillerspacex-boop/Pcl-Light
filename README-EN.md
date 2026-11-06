@@ -2,7 +2,7 @@
 
 <div align="center">
 
-# PCL Lite
+# PCL Light
 
 Preface: PCL and its guard squad keep saying we "touched the cake", and hand out labels while they're at it. I'd like to know — does this hat factory have some grudge against the bakery? How come the hat factory is the one always touching the cake?
 [A mysterious article, courtesy of cubk](https://github.com/askbbtsk/pcl-lite/blob/main/readmedlc.md)
@@ -22,7 +22,7 @@ Preface: PCL and its guard squad keep saying we "touched the cake", and hand out
 > **NOT AN OFFICIAL MINECRAFT PRODUCT.** NOT APPROVED BY OR ASSOCIATED WITH MOJANG OR MICROSOFT.
 > 非 MINECRAFT 官方产品。未经 MOJANG 或 MICROSOFT 批准，也不与 MOJANG 或 MICROSOFT 关联。
 
-PCL Lite is an independent Minecraft launcher project, with extensive changes and fixes on top of its open-source base.
+PCL Light is an independent Minecraft launcher project, with extensive changes and fixes on top of its open-source base.
 
 This project is released under the **MIT License** with additional copyleft terms — see [License](#-license).
 
@@ -34,7 +34,7 @@ Get the latest build from [Releases](https://github.com/askbbtsk/pcl-lite/releas
 
 | Architecture | File | Notes |
 |---|---|---|
-| x64 | `PCL-Lite_[version]-[tag]_x64.exe` | Single file, no extraction needed |
+| x64 | `PCL-Light_[version]-[tag]_x64.exe` | Single file, no extraction needed |
 
 `[tag]` is one of `pre`, `snapshot`, `nightly`, or `hotfix` (a patch on the stable release, e.g. `1.6.0-hotfix-1`). Builds without a tag are stable releases.
 
@@ -53,17 +53,17 @@ Get the latest build from [Releases](https://github.com/askbbtsk/pcl-lite/releas
 
 **✅ Fully supported**: we will provide as much support as possible, but you must ensure you are using the latest version of the launcher.
 
-**⚠️ Expected to run; support offered at discretion**: PCL Lite should run on these platforms, but full functionality is not guaranteed. You may need to upgrade to a fully supported OS version to receive further support.
+**⚠️ Expected to run; support offered at discretion**: PCL Light should run on these platforms, but full functionality is not guaranteed. You may need to upgrade to a fully supported OS version to receive further support.
 
-**❌ Not supported**: PCL Lite is barely usable on these platforms and may not even launch. Please upgrade your OS to use PCL Lite.
+**❌ Not supported**: PCL Light is barely usable on these platforms and may not even launch. Please upgrade your OS to use PCL Light.
 
-**⚠️ Cross-platform development only (cross-compilation)**: PCL Lite's source code can be built on macOS and Linux, but cannot run there directly. As a developer, you can develop on these platforms and then move the build output to Windows for testing.
+**⚠️ Cross-platform development only (cross-compilation)**: PCL Light's source code can be built on macOS and Linux, but cannot run there directly. As a developer, you can develop on these platforms and then move the build output to Windows for testing.
 
 **Note**:
 Only the latest version of the launcher is supported.
 Depending on the nature of certain issues (e.g. an incomplete system environment), you may still need to upgrade your OS to keep receiving support.
-PCL Lite always recommends using the latest version of your OS for the best experience.
-You can still try PCL Lite on unsupported systems, but you may run into many additional problems.
+PCL Light always recommends using the latest version of your OS for the best experience.
+You can still try PCL Light on unsupported systems, but you may run into many additional problems.
 
 ## 📖 Documentation
 
@@ -84,7 +84,7 @@ This project is released under the **[MIT License](LICENSE)** with the additiona
 
 - **Copyleft**: any modified version, derivative work, or redistribution must be distributed under this same license (MIT + these additional terms); no other license may be used
 - **Attribution required**: the copyright notice and author credit must be retained in full, and must not be removed or replaced
-- **Modified distributions must be labelled PCL Lite**: if you distribute a modified version, its name or description must clearly identify the project as **PCL Lite**
+- **Modified distributions must be labelled PCL Light**: if you distribute a modified version, its name or description must clearly identify the project as **PCL Light**
 - **Not affiliated with Mojang / Microsoft**: this project has no relationship with Mojang Studios, Microsoft, or their affiliates, and is not approved, authorized, or endorsed by them
 - **Regional restriction**: do not use this project if you are located in mainland China
 - **License may change**: this license may be updated at any time without prior notice; updates apply only to versions obtained afterwards, and **already forked or already distributed versions are unaffected**

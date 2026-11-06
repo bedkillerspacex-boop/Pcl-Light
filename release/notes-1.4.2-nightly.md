@@ -1,6 +1,6 @@
-<summary>修复正版登录：改用 PCL CE 的 OAuth Client ID（PCL Lite 自己的还没过审，会 403）；Lunar 启动改为复用主页面已登录的凭据，不再重复弹登录。</summary>
+<summary>修复正版登录：改用 PCL CE 的 OAuth Client ID（PCL Light 自己的还没过审，会 403）；Lunar 启动改为复用主页面已登录的凭据，不再重复弹登录。</summary>
 
-PCL Lite 1.4.2 不稳定版（nightly）。
+PCL Light 1.4.2 不稳定版（nightly）。
 
 > **这是 nightly，不是正式版。** 只有把更新通道选成「最新」才会收到。
 
@@ -8,7 +8,7 @@ PCL Lite 1.4.2 不稳定版（nightly）。
 
 ### 1. 正版登录会 403
 
-1.4.0 / 1.4.1-nightly 打包时用的是 PCL Lite 自己申请的 OAuth Client ID。
+1.4.0 / 1.4.1-nightly 打包时用的是 PCL Light 自己申请的 OAuth Client ID。
 **那个应用还没通过微软审核**，拿它去登录会被拒。
 
 1.4.2 换成了 PCL CE 的 Client ID（从官方 v2.15.1 发布包里提取，已验过
@@ -64,7 +64,7 @@ PCL Lite 1.4.2 不稳定版（nightly）。
 
 | 架构 | 文件 |
 | --- | --- |
-| x64 | `PCL-Lite_1.4.2-nightly_x64.exe` |
+| x64 | `PCL-Light_1.4.2-nightly_x64.exe` |
 
 单文件、免解压。**需要已安装 [.NET 10 桌面运行时](https://dotnet.microsoft.com/download/dotnet/10.0)**。
 
@@ -77,7 +77,7 @@ SHA-256：`413C16F02133271950C46B6EEDFBCE128DADA1D3690E0964A15A3DC9B49FB2C6`
 - Lunar 的本地 IPC 服务未实现，好友与社交面板不可用（见上文）
 - 基岩版 GDK 安装包（`.msixvc`）解包依赖内置的内容密钥（CIK），正式版与预览版各一把，
   均已编入本构建；密钥若被官方轮换会失效，届时用环境变量覆盖即可，不必重新下载启动器
-- 主页语言信封与 `lang:` 标签是 PCL Lite 扩展，原版 PCL 加载含这些内容的文件时
+- 主页语言信封与 `lang:` 标签是 PCL Light 扩展，原版 PCL 加载含这些内容的文件时
   会按普通 XAML 渲染（所有语言分支堆在一起）——属于预期的单向兼容
 - UWP 安装需要开发者模式；系统策略禁用旁加载时只能手动到「设置 → 系统 → 开发者选项」打开
 

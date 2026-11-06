@@ -1,6 +1,6 @@
 <summary>不再向任何服务器上报启动器版本号。此前每个网络请求的 User-Agent（以及部分请求的 Referer）里都带着构建号，对方可以据此统计「谁在用哪个版本、有多少人」。现在只报产品名。另外删掉「关于」页里那段已经变成假话的隐私说明，以及早就没人维护的「用户协议与免责声明」按钮。</summary>
 
-PCL Lite 1.5.11 预览版（pre）。
+PCL Light 1.5.11 预览版（pre）。
 
 > **这是预览版，不是正式版。** 把更新通道选成「预览体验」就能收到；
 > 「快照尝鲜」「始终最新」也会收到，「稳定版」不会。
@@ -18,8 +18,8 @@ PCL Lite 1.5.11 预览版（pre）。
 
 | 位置 | 原来 | 现在 |
 | --- | --- | --- |
-| `HttpSenderExtension`（通用请求） | `PCL-Lite/1.5.10-pre` | `PCL-Lite` |
-| `NetworkService`（HttpClient 默认头） | `PCL-Lite/1.5.10-pre` | `PCL-Lite` |
+| `HttpSenderExtension`（通用请求） | `PCL-Light/1.5.10-pre` | `PCL-Light` |
+| `NetworkService`（HttpClient 默认头） | `PCL-Light/1.5.10-pre` | `PCL-Light` |
 | `RequestSigning`（下载器的 UA） | `PCL2/2.12.1.0 PCLCE/1.5.10` | `PCL2 PCLCE` |
 
 顺带删掉一处更隐蔽的：通用请求原来还带
@@ -29,7 +29,7 @@ Referer: https://<构建号>.ce.open.pcl2.server/
 ```
 
 构建号直接写进了域名。这一行整个去掉了 —— 它本来只是为了对齐上游的鉴权口径，
-而 PCL Lite 的请求根本不需要它。
+而 PCL Light 的请求根本不需要它。
 
 需要伪装成浏览器时（个别 CDN 会拦非浏览器 UA），浏览器段原样保留，
 只是前面不再挂版本号：
@@ -66,7 +66,7 @@ SHA-256：`4435AFB7246F57A9DDF2BA65AB897A5968C042C6D78ECDB6FBCE8868325C9AB5`
   均已编入本构建；密钥若被官方轮换会失效，届时用环境变量覆盖即可，不必重新下载启动器
 - PCL2 原版（`setup.ini`）来源的导入只搬设置，**账号需要在账号页重新登录**——
   那一代的账号不是按新格式存的，硬转会写坏账号库
-- PCL2 原版里改过名的键搬不过来，比如「上次选的版本」（PCL Lite 叫 `LaunchInstanceSelect`，
+- PCL2 原版里改过名的键搬不过来，比如「上次选的版本」（PCL Light 叫 `LaunchInstanceSelect`，
   PCL2 叫 `LaunchVersionSelect`），导入后需要重新选一次
 - Lunar 的本地 IPC 只实现了 `AuthService/RefreshAccount`（会话续期），
   好友列表、游戏内商店、聊天面板这些走 IPC 的功能仍然是空的。回空响应是安全的，

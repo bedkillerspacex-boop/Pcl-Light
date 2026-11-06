@@ -1,6 +1,6 @@
 <summary>修复 Lunar 游戏内菜单不显示（--uiDir 少了一层 SHA-1 目录）；物料校验改成多线程，并可在「设置 → 启动」里关掉。</summary>
 
-PCL Lite 1.4.3 不稳定版（nightly）。
+PCL Light 1.4.3 不稳定版（nightly）。
 
 > **这是 nightly，不是正式版。** 只有把更新通道选成「最新」才会收到。
 
@@ -33,7 +33,7 @@ Lunar 把界面资源按 SHA-1 分目录放在 `~/.lunarclient/ui/<sha1>/` 下�
 
 ### 正版登录：改用 PCL CE 的 Client ID
 
-之前用的是 PCL Lite 自己申请的 OAuth 应用，**那个应用没过审，登录会 403**。
+之前用的是 PCL Light 自己申请的 OAuth 应用，**那个应用没过审，登录会 403**。
 现在换成 PCL CE 的（已验过 `login.microsoftonline.com` 的 devicecode 接口返回 200）。
 
 ### Lunar 启动复用主页面凭据
@@ -74,7 +74,7 @@ PCL 只做一件事：**绕过 Lunar 启动器，直接拉起游戏进程**。
 
 | 架构 | 文件 |
 | --- | --- |
-| x64 | `PCL-Lite_1.4.3-nightly_x64.exe` |
+| x64 | `PCL-Light_1.4.3-nightly_x64.exe` |
 
 单文件、免解压。**需要已安装 [.NET 10 桌面运行时](https://dotnet.microsoft.com/download/dotnet/10.0)**。
 
@@ -87,7 +87,7 @@ SHA-256：`5C77334B30C0AD6C67018CB66A7AF4BE83074D6D6C1368AA010281B2C1F21341`
 - Lunar 的本地 IPC 服务未实现，好友与社交面板不可用（见上文）
 - 基岩版 GDK 安装包（`.msixvc`）解包依赖内置的内容密钥（CIK），正式版与预览版各一把，
   均已编入本构建；密钥若被官方轮换会失效，届时用环境变量覆盖即可，不必重新下载启动器
-- 主页语言信封与 `lang:` 标签是 PCL Lite 扩展，原版 PCL 加载含这些内容的文件时
+- 主页语言信封与 `lang:` 标签是 PCL Light 扩展，原版 PCL 加载含这些内容的文件时
   会按普通 XAML 渲染（所有语言分支堆在一起）——属于预期的单向兼容
 - UWP 安装需要开发者模式；系统策略禁用旁加载时只能手动到「设置 → 系统 → 开发者选项」打开
 

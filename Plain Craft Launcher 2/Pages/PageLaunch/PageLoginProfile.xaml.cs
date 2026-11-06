@@ -47,7 +47,7 @@ public partial class PageLoginProfile
         {
             foreach (var p in ProfileService.Profiles)
                 ProfileCollection.Add(new ProfileItem(p));
-            // PCL Lite：不再要求先完成正版验证，该提示始终隐藏
+            // PCL Light：不再要求先完成正版验证，该提示始终隐藏
             HintMicrosoft.Visibility = Visibility.Collapsed;
             ModBase.Log("[Profile] 档案列表刷新完成");
         }

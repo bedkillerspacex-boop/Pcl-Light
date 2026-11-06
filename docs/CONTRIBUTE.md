@@ -159,7 +159,7 @@ public const string GitHubRepo = "pcl-lite";
 改完重新编译，`update.json` 里的 `self` 就自动展开到你的仓库，你发的 Release 就能被认出来。
 这份文件依然保持 `self` 不变，所以它还是不会跟上游冲突。
 
-> 自己发 Release 时注意：附件名里要带架构，比如 `PCL-Lite_1.0.0_x64.exe`。
+> 自己发 Release 时注意：附件名里要带架构，比如 `PCL-Light_1.0.0_x64.exe`。
 > 客户端挑资产时优先选文件名含 `x64` / `arm64` 的 `.exe` 或 `.zip`，
 > 都不含就退到第一个 `.zip`，再退到第一个附件——名字随便起就可能挑错。
 

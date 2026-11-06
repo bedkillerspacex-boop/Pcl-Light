@@ -1,6 +1,6 @@
 <summary>更新卡片的「下载并安装」按钮不再被裁成半截；百宝箱的按钮行里加了「转移 PCL 设置」；Lunar 缺的原版依赖（libraries 那几百个文件）现在也交给 PCL 下载，进度进下载任务栏，不再由 Genesis 闷头下 1.3 GB。</summary>
 
-PCL Lite 1.5.7 快照版（snapshot）。
+PCL Light 1.5.7 快照版（snapshot）。
 
 > **这是快照版，不是正式版。** 把更新通道选成「快照尝鲜」就能收到；
 > 「始终最新」也会收到，「稳定版」「预览体验」不会。
@@ -20,7 +20,7 @@ PCL Lite 1.5.7 快照版（snapshot）。
 多了一颗 **转移 PCL 设置**，点它直接跳过去，左栏的勾选也跟着走。
 
 功能本身没变：自动搜 `%APPDATA%` / `%LOCALAPPDATA%` 下的常见位置，也能自己选文件夹；
-认 PCL CE / PCL Lite（`config.v1.json`）、PCL2 原版（`setup.ini`）、PCL2 便携版（`PCL\setup.ini`）；
+认 PCL CE / PCL Light（`config.v1.json`）、PCL2 原版（`setup.ini`）、PCL2 便携版（`PCL\setup.ini`）；
 导入前二次确认，覆盖前留 `.importbak`，源文件夹只读。
 
 ## ③ Lunar 缺的原版依赖也交给 PCL 下载
@@ -67,7 +67,7 @@ SHA-256：`57505EE2F1A6DE2E1621E3C71F18DDA4EC0A04EBE774ABC7089EF306C44E0C16`
 - Lunar 物料清单接口偶发 `SSL unexpected EOF`，重试几次通常能过
 - 补齐原版依赖这一步是按文件存在性判断的，不校验哈希；文件损坏（下了一半）仍要等
   Genesis 自己发现并重下，那种情况依旧没有进度
-- 主页语言信封与 `lang:` 标签是 PCL Lite 扩展，原版 PCL 加载含这些内容的文件时
+- 主页语言信封与 `lang:` 标签是 PCL Light 扩展，原版 PCL 加载含这些内容的文件时
   会按普通 XAML 渲染（所有语言分支堆在一起）——属于预期的单向兼容
 - UWP 安装需要开发者模式；系统策略禁用旁加载时只能手动到「设置 → 系统 → 开发者选项」打开
 

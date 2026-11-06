@@ -348,7 +348,7 @@ public partial class PageSetupLauncherMisc
 
     #endregion
 
-    #region 停止使用 PCL Lite
+    #region 停止使用 PCL Light
 
     private void BtnSystemStopUsingPclCe_Click(object sender, MouseButtonEventArgs e)
     {
@@ -376,7 +376,7 @@ public partial class PageSetupLauncherMisc
 
     private void StopUsingPClCeCore(bool removeMcResources)
     {
-        // 删除 MC 文件夹内的 PCL Lite 配置
+        // 删除 MC 文件夹内的 PCL Light 配置
         if (removeMcResources && States.Game.Folders != "")
         {
             foreach (var path in States.Game.Folders.Split('|'))

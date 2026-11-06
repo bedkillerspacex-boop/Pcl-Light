@@ -1,6 +1,6 @@
 <summary>1.7.0 正式版：Lunar 页面改成独立登录并能导入令牌，Discord 游玩时长不再归零，启动器公告真的能用了，Windows 用户名默认打码，滚动条重做成随主题的细胶囊。</summary>
 
-PCL Lite 1.7.0。
+PCL Light 1.7.0。
 
 这是自 `1.6.4-hotfix-5` 以来的第一个正式版。下面按主题把这一路的全部改动列一遍，最后一节是这一版相对上一个预发布（`1.7.0-early-3`）新增的内容。
 
@@ -43,7 +43,7 @@ PCL Lite 1.7.0。
 - 启动时自动合并历史遗留的重复条目（先看有没有 Refresh Token，再看到期时间）
 - 每条标出是怎么登进来的：设备代码 / Access Token / Refresh Token / Cookie
 - 登录方式挂在第二行的「正版验证 · xxx」里，不再跟账号名抢位置被省略号吃掉
-- 续期记住了「谁签发的」（`RefreshClientId`），依次试 PCL Lite / Lunar 启动器 / In-Game Account Switcher，都不是就明说换不了，而不是丢一个 `AADSTS70000` 让人猜
+- 续期记住了「谁签发的」（`RefreshClientId`），依次试 PCL Light / Lunar 启动器 / In-Game Account Switcher，都不是就明说换不了，而不是丢一个 `AADSTS70000` 让人猜
 
 ## 二、Discord 状态：时长不再莫名归零
 
@@ -147,7 +147,7 @@ hotfix(+1) > 正式版(0) > early(-1) > pre(-2) > snapshot(-3) > nightly(-4)
 
 大小：19,394,856 字节
 
-签名：`Valid`（PCL Lite，DigiCert 时间戳）
+签名：`Valid`（PCL Light，DigiCert 时间戳）
 
 ## 已知问题
 

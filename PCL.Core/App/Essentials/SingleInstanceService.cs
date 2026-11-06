@@ -79,7 +79,7 @@ public sealed partial class SingleInstanceService
             MessageBox.Show(
                 $"PCL 已经在运行（进程 {processId}），但这次没能唤醒它的窗口。\n\n" +
                 "如果看不到它的界面，可以在任务管理器里结束这个进程，再重新打开 PCL。",
-                "PCL Lite", MessageBoxButton.OK, MessageBoxImage.Warning);
+                "PCL Light", MessageBoxButton.OK, MessageBoxImage.Warning);
         }
         catch (Exception ex)
         {

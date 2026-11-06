@@ -1,6 +1,6 @@
 <summary>在任务列表里点 × 取消基岩版下载，不再弹「安装失败：A task was canceled.」——取消就只是取消；顺手把失败原因里那层没营养的英文包装拆掉了。</summary>
 
-PCL Lite 1.6.2 热修复 2。
+PCL Light 1.6.2 热修复 2。
 
 ## ① 取消下载不再算「安装失败」
 
@@ -53,7 +53,7 @@ System.Threading.Tasks.TaskCanceledException: A task was canceled.
 
 | 架构 | 文件 |
 | --- | --- |
-| x64 | `PCL-Lite_1.6.2-hotfix-2_x64.exe` |
+| x64 | `PCL-Light_1.6.2-hotfix-2_x64.exe` |
 
 单文件、免解压。**需要已安装 [.NET 10 桌面运行时](https://dotnet.microsoft.com/download/dotnet/10.0)**。
 
@@ -75,7 +75,7 @@ SHA-256：`AB67BB6816484658589BF3EE109D5A5F4A136ECE47BF02530EDFBE239BDF08F9`
 - 补齐原版依赖是按文件存在性判断的，不校验哈希；文件损坏（下了一半）仍要等 Genesis 自己
   发现并重下，那种情况依旧没有进度
 - PCL2 原版（`setup.ini`）来源的导入只搬设置，**账号需要在账号页重新登录**
-- 主页语言信封与 `lang:` 标签是 PCL Lite 扩展，原版 PCL 加载含这些内容的文件时
+- 主页语言信封与 `lang:` 标签是 PCL Light 扩展，原版 PCL 加载含这些内容的文件时
   会按普通 XAML 渲染（所有语言分支堆在一起）——属于预期的单向兼容
 - UWP 安装需要开发者模式；系统策略禁用旁加载时只能手动到「设置 → 系统 → 开发者选项」打开
 

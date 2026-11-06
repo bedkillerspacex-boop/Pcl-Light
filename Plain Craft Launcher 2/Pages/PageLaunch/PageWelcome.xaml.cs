@@ -9,7 +9,7 @@ using PCL.Core.IO.Net.Consent;
 namespace PCL;
 
 /// <summary>
-/// PCL Lite 欢迎页。
+/// PCL Light 欢迎页。
 /// <para>
 /// 静态文案按语言分分支存放，加载时由 <see cref="HomepageLanguageApi"/> 按当前 UI 语言过滤——
 /// 与自定义主页（Custom.xaml）走的是同一套语言协议，所以欢迎页本身就是该协议的第一个内置示例。
@@ -118,11 +118,11 @@ public partial class PageWelcome
 
         var description = new StackPanel();
         _AddLocalizedText(description, 13, false,
-            ("zh-CN", "PCL Lite 不会在你不知情时联网。每一次出站连接都会先归入某个「用途」，" +
+            ("zh-CN", "PCL Light 不会在你不知情时联网。每一次出站连接都会先归入某个「用途」，" +
                       "由你决定是否放行；未登记的目标会被直接拦截，请求不会离开进程。"),
-            ("zh-TW", "PCL Lite 不會在你不知情時連網。每一次連出連線都會先歸入某個「用途」，" +
+            ("zh-TW", "PCL Light 不會在你不知情時連網。每一次連出連線都會先歸入某個「用途」，" +
                       "由你決定是否放行；未登記的目標會被直接攔截，請求不會離開行程。"),
-            ("en", "PCL Lite never goes online behind your back. Every outbound connection is first " +
+            ("en", "PCL Light never goes online behind your back. Every outbound connection is first " +
                    "classified into a purpose that you choose to allow or block; unregistered targets " +
                    "are dropped before the request ever leaves the process."));
         panel.Children.Add(description);

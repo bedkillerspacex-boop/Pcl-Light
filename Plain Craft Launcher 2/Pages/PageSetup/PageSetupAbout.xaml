@@ -37,7 +37,7 @@
                         Info="{DynamicResource Setup.About.Version.Info}"
                         IsHitTestVisible="False"
                         Title="{Binding Name}" />
-                    <!--  PCL Lite 徽标：与标题栏同源的纯矢量渲染，不使用任何图片资源。  -->
+                    <!--  PCL Light 徽标：小尺寸纯文字，标题栏 Bloom 只用于主字标。  -->
                     <Border
                         x:Name="ImgPCLLogo"
                         Grid.Row="0"
@@ -50,11 +50,11 @@
                         MouseLeftButtonDown="ImgPCLLogo_Click">
                         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                             <TextBlock
-                                Text="LITE"
+                                Text="LIGHT"
                                 HorizontalAlignment="Center"
-                                FontFamily="Cascadia Mono, Consolas, Segoe UI"
-                                FontSize="12"
-                                LineHeight="11"
+                                FontFamily="Segoe UI Semibold, Segoe UI"
+                                FontSize="10"
+                                LineHeight="10"
                                 LineStackingStrategy="BlockLineHeight"
                                 FontWeight="Bold"
                                 Foreground="#FFF4F7FA" />

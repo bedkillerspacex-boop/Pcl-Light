@@ -57,8 +57,8 @@ out_dir = server._ensure_out()
 
 
 def find_pcl_window():
-    for w in server._enum_windows("PCL Lite"):
-        if w["title"].strip().lower() == "pcl lite":
+    for w in server._enum_windows("PCL Light"):
+        if w["title"].strip().lower() == "PCL Light":
             return w
     return None
 

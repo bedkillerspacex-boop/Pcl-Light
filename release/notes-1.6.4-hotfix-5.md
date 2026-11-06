@@ -1,6 +1,6 @@
 <summary>1.6.4-hotfix-5：删掉 Lunar 页的「回到游戏」按钮 —— 游戏端收到 FocusGamePush 只做一次 AWT toFront()，被 Windows 前台锁定挡掉，点了窗口纹丝不动。</summary>
 
-PCL Lite 1.6.4-hotfix-5。
+PCL Light 1.6.4-hotfix-5。
 
 > 热修复，稳定版通道会收到。
 

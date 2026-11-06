@@ -110,8 +110,8 @@ public partial class PageLaunchRight : IRefreshable
         }
         else if (uiCustomType == 3)
         {
-            // 预设主页：目前只有「PCL Lite 欢迎页」一项，完全由 C# 构造控件树，不加载任何远程 XAML
-            LogWrapper.Info("[Page] 主页数据来源：PCL Lite 欢迎页（预设）");
+            // 预设主页：目前只有「PCL Light 欢迎页」一项，完全由 C# 构造控件树，不加载任何远程 XAML
+            LogWrapper.Info("[Page] 主页数据来源：PCL Light 欢迎页（预设）");
             Dispatcher.Invoke(() =>
             {
                 if (ModMain.frmWelcome is null)

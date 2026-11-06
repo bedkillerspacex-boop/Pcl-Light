@@ -1,6 +1,6 @@
 <summary>「转移 PCL 设置」现在真能用了：PCL2 原版那一项点上去没反应，是因为点击回调拿错了 sender；Lunar 里选了 PCL 账号 A、进游戏却是账号 B，是因为 A 压根不在 Lunar 的账户库里。另外修了设置页「按版本覆盖」两个输入框发黑、转移页没有返回入口。</summary>
 
-PCL Lite 1.5.10 预览版（pre）。
+PCL Light 1.5.10 预览版（pre）。
 
 > **这是预览版，不是正式版。** 把更新通道选成「预览体验」就能收到；
 > 「快照尝鲜」「始终最新」也会收到，「稳定版」不会。
@@ -15,10 +15,10 @@ PCL Lite 1.5.10 预览版（pre）。
 
 顺手把导入本身也做扎实了：
 
-- **只写 PCL Lite 真认得的键**。`setup.ini` 里混着 `UiLauncherEmail`、`LoginPageType`、
+- **只写 PCL Light 真认得的键**。`setup.ini` 里混着 `UiLauncherEmail`、`LoginPageType`、
   `LaunchVersionSelect` 这类早就没有的键，原样塞进去只会把本地配置弄脏。认不出来的跳过，
   一个都认不出来时直接报错，而不是假装导入成功
-- **先合并再覆盖**。以前是凭空造一份新的 `config.v1.yml` 盖过去，你在 PCL Lite 里已经调过
+- **先合并再覆盖**。以前是凭空造一份新的 `config.v1.yml` 盖过去，你在 PCL Light 里已经调过
   的东西会一起没了。现在先把现有配置复制成暂存，再把 `setup.ini` 的值盖在上面
 - **自动扫描也覆盖 MC 根目录**。PCL2 绝大多数是便携版，`setup.ini` 就在启动器旁边，
   而启动器一般直接扔在 `.minecraft` 那一层或者它的 `PCL` 子目录里
@@ -70,7 +70,7 @@ SHA-256：`053FF2F845864A6076FD6A82CB0DCB5B41B20EAD21241112F693004B13082EF5`
   均已编入本构建；密钥若被官方轮换会失效，届时用环境变量覆盖即可，不必重新下载启动器
 - PCL2 原版（`setup.ini`）来源的导入只搬设置，**账号需要在账号页重新登录**——
   那一代的账号不是按新格式存的，硬转会写坏账号库
-- PCL2 原版里改过名的键搬不过来，比如「上次选的版本」（PCL Lite 叫 `LaunchInstanceSelect`，
+- PCL2 原版里改过名的键搬不过来，比如「上次选的版本」（PCL Light 叫 `LaunchInstanceSelect`，
   PCL2 叫 `LaunchVersionSelect`），导入后需要重新选一次
 - Lunar 的本地 IPC 只实现了 `AuthService/RefreshAccount`（会话续期），
   好友列表、游戏内商店、聊天面板这些走 IPC 的功能仍然是空的。回空响应是安全的，

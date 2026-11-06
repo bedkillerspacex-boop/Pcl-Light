@@ -1,6 +1,6 @@
 <summary>修「Lunar 主界面黑色背景变透明」——UI 资源被解到了错误的目录，<code>assets/</code> 根本没被创建；修「PCL 覆盖 Lunar 启动器已有的内存设置」——现在会读官方启动器的 <code>allocatedMemory</code> 作为默认值，堆大小也改成纯粹的自定义输入；顺带把按版本覆盖的默认值填成当前生效值，不再留一个空框。</summary>
 
-PCL Lite 1.6.2 正式版。
+PCL Light 1.6.2 正式版。
 
 ## ① Lunar 主界面的黑色背景没了（变透明）
 
@@ -73,7 +73,7 @@ PCL 以前完全不看它，只按自己的规则算：PCL 全局内存 → 保�
 
 | 架构 | 文件 |
 | --- | --- |
-| x64 | `PCL-Lite_1.6.2_x64.exe` |
+| x64 | `PCL-Light_1.6.2_x64.exe` |
 
 单文件、免解压。**需要已安装 [.NET 10 桌面运行时](https://dotnet.microsoft.com/download/dotnet/10.0)**。
 
@@ -98,7 +98,7 @@ SHA-256：`DE26EC49C3DC33C2C6A961AE2F46B29C0B8D6AAE1FBE8FE048CA1D5B7AA3F65F`
 - 第三方 addon（比如 Meowtils）可能与某个 Lunar 构建不兼容，表现为进游戏直接
   `NoSuchMethodError` 崩掉，这类崩溃不归 PCL
 - PCL2 原版（`setup.ini`）来源的导入只搬设置，**账号需要在账号页重新登录**
-- 主页语言信封与 `lang:` 标签是 PCL Lite 扩展，原版 PCL 加载含这些内容的文件时
+- 主页语言信封与 `lang:` 标签是 PCL Light 扩展，原版 PCL 加载含这些内容的文件时
   会按普通 XAML 渲染（所有语言分支堆在一起）——属于预期的单向兼容
 
 ## 许可证

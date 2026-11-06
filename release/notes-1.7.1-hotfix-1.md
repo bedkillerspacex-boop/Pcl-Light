@@ -1,6 +1,6 @@
 <summary>修掉一个把自己锁死的门禁：没装过官方 Lunar Client 的机器，点「启动」只会弹「请先安装 Lunar Client 并至少启动一次」，而物料本来就该由 PCL 自己下 —— 结果永远启动不了，也永远触发不了下载。另外进 Lunar 板块时就开始预热令牌，聊天不用再等。</summary>
 
-PCL Lite 1.7.1 热修复 1。
+PCL Light 1.7.1 热修复 1。
 
 ## ① 「请先安装 Lunar Client」是个死循环
 
@@ -44,7 +44,7 @@ if (!ModLunar.IsInstalled) {
 
 大小：19,395,368 字节
 
-签名：`Valid`（PCL Lite，DigiCert 时间戳）
+签名：`Valid`（PCL Light，DigiCert 时间戳）
 
 ## 已知问题
 

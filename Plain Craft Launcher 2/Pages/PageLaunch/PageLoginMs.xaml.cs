@@ -90,7 +90,7 @@ public partial class PageLoginMs
         if (string.IsNullOrWhiteSpace(PCL.Core.App.Secrets.MSOAuthClientId))
         {
             HintService.Hint(
-                "PCL Lite 未内置微软登录凭据，无法使用正版登录。\n请改用「离线登录」或「第三方登录」，游戏内功能不受影响。",
+                "PCL Light 未内置微软登录凭据，无法使用正版登录。\n请改用「离线登录」或「第三方登录」，游戏内功能不受影响。",
                 HintType.Error);
             return;
         }

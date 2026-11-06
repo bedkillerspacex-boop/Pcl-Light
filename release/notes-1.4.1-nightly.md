@@ -1,6 +1,6 @@
 <summary>修复 1.4.0-nightly 里点「启动 Lunar」会把整个界面卡死的问题。其余内容与 1.4.0-nightly 一致。</summary>
 
-PCL Lite 1.4.1 不稳定版（nightly）。
+PCL Light 1.4.1 不稳定版（nightly）。
 
 > **这是 nightly，不是正式版。** 只有把更新通道选成「最新」才会收到。
 
@@ -58,7 +58,7 @@ PCL Lite 1.4.1 不稳定版（nightly）。
 
 | 架构 | 文件 |
 | --- | --- |
-| x64 | `PCL-Lite_1.4.1-nightly_x64.exe` |
+| x64 | `PCL-Light_1.4.1-nightly_x64.exe` |
 
 单文件、免解压。**需要已安装 [.NET 10 桌面运行时](https://dotnet.microsoft.com/download/dotnet/10.0)**。
 
@@ -71,7 +71,7 @@ SHA-256：`B422016961B6B14E27B4DC66F6AD4E3DAA111AF5EB52C0453958E78011F25A68`
 - Lunar 的本地 IPC 服务未实现，好友与社交面板不可用（见上文）
 - 基岩版 GDK 安装包（`.msixvc`）解包依赖内置的内容密钥（CIK），正式版与预览版各一把，
   均已编入本构建；密钥若被官方轮换会失效，届时用环境变量覆盖即可，不必重新下载启动器
-- 主页语言信封与 `lang:` 标签是 PCL Lite 扩展，原版 PCL 加载含这些内容的文件时
+- 主页语言信封与 `lang:` 标签是 PCL Light 扩展，原版 PCL 加载含这些内容的文件时
   会按普通 XAML 渲染（所有语言分支堆在一起）——属于预期的单向兼容
 - UWP 安装需要开发者模式；系统策略禁用旁加载时只能手动到「设置 → 系统 → 开发者选项」打开
 

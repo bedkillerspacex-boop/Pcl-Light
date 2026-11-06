@@ -53,13 +53,13 @@ out_dir = server._ensure_out()
 
 
 def find_pcl_window():
-    """只认标题正好是 "PCL Lite " 的那个窗口。
+    """只认标题正好是 "PCL Light " 的那个窗口。
 
-    server._find_main_window() 是「标题包含 PCL Lite，取面积最大」，浏览器标签页
+    server._find_main_window() 是「标题包含 PCL Light，取面积最大」，浏览器标签页
     标题里也带这个词，结果抓到的是 GitHub 页面（1920×1029）。必须精确匹配。
     """
-    for w in server._enum_windows("PCL Lite"):
-        if w["title"].strip().lower() == "pcl lite":
+    for w in server._enum_windows("PCL Light"):
+        if w["title"].strip().lower() == "PCL Light":
             return w
     return None
 
@@ -81,7 +81,7 @@ for _ in range(50):
         break
 if not win:
     print("窗口没出来，进程状态：", proc.poll())
-    print("候选：", server._enum_windows("PCL Lite"))
+    print("候选：", server._enum_windows("PCL Light"))
     sys.exit(1)
 print("window:", win["width"], "x", win["height"], "title", repr(win["title"]))
 

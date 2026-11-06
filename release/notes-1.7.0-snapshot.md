@@ -1,6 +1,6 @@
 <summary>1.7.0-snapshot：Lunar 页面的账号改成独立登录 —— 在本页点「登录」用 Lunar 的应用身份授权一次，产出的令牌游戏端才认，不再卡 Connecting...</summary>
 
-PCL Lite 1.7.0-snapshot。
+PCL Light 1.7.0-snapshot。
 
 > 快照版，只有选了「快照」或更激进通道的用户会收到。稳定版通道请继续用 1.6.4-hotfix-5。
 

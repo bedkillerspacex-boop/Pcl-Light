@@ -14,7 +14,7 @@ public static class Secrets
     /// 其次读取运行时环境变量 <c>PCL_MS_CLIENT_ID</c>。
     /// 这里刻意允许 Release 读取运行时环境变量，这样用户不必重新编译就能接上自己的 Azure 应用。
     /// </para>
-    /// <para><b>这是 PCL Lite 自己的身份</b>，主页面登录、普通账号刷新都用它。</para>
+    /// <para><b>这是 PCL Light 自己的身份</b>，主页面登录、普通账号刷新都用它。</para>
     /// </summary>
     public static string MSOAuthClientId { get; } = EnvironmentInterop.GetSecret("MS_CLIENT_ID").ReplaceNullOrEmpty();
 

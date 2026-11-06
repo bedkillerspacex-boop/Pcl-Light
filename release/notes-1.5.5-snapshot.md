@@ -1,6 +1,6 @@
 <summary>Lunar 现在每个版本都能自己选 loader（OptiFine / 原版 / Fabric / Forge，点一下就换）；修好 1.17.1 点启动后没窗口的问题；数据目录从 PCLCE 改名 PCLLite；基岩版页面不再被挤成一条缝。</summary>
 
-PCL Lite 1.5.5 快照版（snapshot）。
+PCL Light 1.5.5 快照版（snapshot）。
 
 > **这是快照版，不是正式版。** 把更新通道选成「快照尝鲜」就能收到；
 > 「始终最新」也会收到，「稳定版」「预览体验」不会。
@@ -112,7 +112,7 @@ SHA-256：`472476881DB83C7FFD9E7CDF4A1368E8894FA5C80B54D198C3DEBA6A78CE5412`
 - Lunar 物料清单接口偶发 `SSL unexpected EOF`，重试几次通常能过
 - 首次启动某个 Lunar 版本时，Lunar 会先把原版客户端下到 `%APPDATA%\.minecraft`
   （约 100–200 MB），这期间没有窗口是正常的，页面状态会显示「正在下载原版 X 的依赖」
-- 主页语言信封与 `lang:` 标签是 PCL Lite 扩展，原版 PCL 加载含这些内容的文件时
+- 主页语言信封与 `lang:` 标签是 PCL Light 扩展，原版 PCL 加载含这些内容的文件时
   会按普通 XAML 渲染（所有语言分支堆在一起）——属于预期的单向兼容
 - UWP 安装需要开发者模式；系统策略禁用旁加载时只能手动到「设置 → 系统 → 开发者选项」打开
 

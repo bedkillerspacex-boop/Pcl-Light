@@ -1,14 +1,14 @@
-PCL Lite 许可证
+PCL Light 许可证
 ===============
 
-本项目（PCL Lite）是 PCL（Plain Craft Launcher）的衍生作品。
+本项目（PCL Light）是 PCL（Plain Craft Launcher）的衍生作品。
 PCL 使用 MIT 许可证，本项目同样以 MIT 发布，并附带下列传染性（copyleft）附加条款。
 
 
 MIT License
 -----------
 
-Copyright (c) 2026 PCL Lite
+Copyright (c) 2026 PCL Light
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -40,8 +40,8 @@ Addendum(Copyleft)
 2. 必须署名
    必须完整保留本项目的版权声明与作者署名，不得删除或替换。
 
-3. 二次修改须标注 PCL Lite
-   修改后分发时，必须在名称或说明中明确标注本项目为 PCL Lite，
+3. 二次修改须标注 PCL Light
+   修改后分发时，必须在名称或说明中明确标注本项目为 PCL Light，
    不得抹去或替换原有标识。
 
 4. 与 Mojang / Microsoft / Moonsworth 无关

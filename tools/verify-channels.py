@@ -27,7 +27,7 @@ def fetch(url):
         handlers.append(urllib.request.ProxyHandler({}))
     opener = urllib.request.build_opener(*handlers)
     req = urllib.request.Request(url, headers={
-        "User-Agent": "pcl-lite-verify/1.0",
+        "User-Agent": "PCL-Light-verify/1.0",
         "Accept": "application/vnd.github+json",
     })
     with opener.open(req, timeout=30) as resp:

@@ -5,7 +5,7 @@ using System.Linq;
 namespace PCL.Core.IO.Net.Consent;
 
 /// <summary>
-/// 网络用途。PCL Lite 把每一次出站连接都归属到某个用途上，
+/// 网络用途。PCL Light 把每一次出站连接都归属到某个用途上，
 /// 用户按用途授权，而不是按域名逐个确认。
 /// </summary>
 public enum NetworkPurpose
@@ -54,7 +54,7 @@ public static class NetworkPurposeCatalog
 {
     /// <summary>
     /// 自建更新服务地址。
-    /// TODO: 替换为 PCL Lite 实际的更新域名。
+    /// TODO: 替换为 PCL Light 实际的更新域名。
     /// </summary>
     public const string UpdateHost = "update.pcl-lite.dev";
 

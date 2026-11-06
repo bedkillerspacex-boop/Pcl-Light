@@ -2,7 +2,7 @@
 
 <div align="center">
 
-# PCL Lite
+# PCL Light
 
 前言：pcl和它的护卫队天天说动了蛋糕，顺手扣帽子，我想知道pcl这个帽子工厂和烘焙店是有仇吗 怎么帽子工厂天天动蛋糕？
 [神秘文章来自cubk](https://github.com/askbbtsk/pcl-lite/blob/main/readmedlc.md)
@@ -22,7 +22,7 @@
 > **非 MINECRAFT 官方产品。** 未经 MOJANG 或 MICROSOFT 批准，也不与 MOJANG 或 MICROSOFT 关联。
 > NOT AN OFFICIAL MINECRAFT PRODUCT. NOT APPROVED BY OR ASSOCIATED WITH MOJANG OR MICROSOFT.
 
-PCL Lite 是一个独立的 Minecraft 启动器项目，在开源代码基础上加入了大量改动与修复。
+PCL Light 是一个独立的 Minecraft 启动器项目，在开源代码基础上加入了大量改动与修复。
 
 本项目以 **MIT 许可证** 发布，并附带传染性（copyleft）附加条款，详见[许可证](#-许可证)。
 
@@ -34,7 +34,7 @@ PCL Lite 是一个独立的 Minecraft 启动器项目，在开源代码基础上
 
 | 架构 | 文件 | 说明 |
 |---|---|---|
-| x64 | `PCL-Lite_[version]-[tag]_x64.exe` | 单文件、免解压 |
+| x64 | `PCL-Light_[version]-[tag]_x64.exe` | 单文件、免解压 |
 tag包括pre、snapshot、nightly和hotfix（热修复，如 `1.6.0-hotfix-1`）
 
 
@@ -53,17 +53,17 @@ tag包括pre、snapshot、nightly和hotfix（热修复，如 `1.6.0-hotfix-1`）
 
 **✅ 完整支持**：尽可能提供一切相关支持，但必须确保启动器为最新版本。
 
-**⚠️ 理论能跑，酌情提供支持**：PCL Lite 应该可以在这些平台上运行，但不保证功能完全可用。你可能需要升级到完整支持的系统版本以获得进一步支持。
+**⚠️ 理论能跑，酌情提供支持**：PCL Light 应该可以在这些平台上运行，但不保证功能完全可用。你可能需要升级到完整支持的系统版本以获得进一步支持。
 
-**❌ 不支持**：PCL Lite 在这些平台的可用性较低，甚至压根打不开。请升级操作系统以使用 PCL Lite。
+**❌ 不支持**：PCL Light 在这些平台的可用性较低，甚至压根打不开。请升级操作系统以使用 PCL Light。
 
-**⚠️ 仅跨平台开发支持（交叉编译）**：PCL Lite 的源代码可以在 macOS 与 Linux 平台编译，但无法直接运行。作为开发者，你可以在这些平台上进行开发，然后将编译产物转移到 Windows 系统测试。
+**⚠️ 仅跨平台开发支持（交叉编译）**：PCL Light 的源代码可以在 macOS 与 Linux 平台编译，但无法直接运行。作为开发者，你可以在这些平台上进行开发，然后将编译产物转移到 Windows 系统测试。
 
 **注**：
 仅对最新版本的启动器提供支持。
 取决于部分问题的特殊性（如系统不完整），有时你仍然必须升级操作系统以继续获得支持。
-PCL Lite 始终建议使用最新版本的操作系统以获得最佳体验。
-你仍然可以尝试在不受支持的系统上使用 PCL Lite，但可能会遇到很多额外问题。
+PCL Light 始终建议使用最新版本的操作系统以获得最佳体验。
+你仍然可以尝试在不受支持的系统上使用 PCL Light，但可能会遇到很多额外问题。
 
 ## 📖 文档
 
@@ -82,7 +82,7 @@ PCL Lite 始终建议使用最新版本的操作系统以获得最佳体验。
 
 - **传染性**：任何修改版、衍生版或再分发版，必须同样以本协议（MIT + 附加条款）分发，不得改用其他许可证
 - **必须署名**：必须完整保留本项目的版权声明与作者署名，不得删除或替换
-- **二次修改须标注 PCL Lite**：修改后分发时，必须在名称或说明中明确标注本项目为 **PCL Lite**
+- **二次修改须标注 PCL Light**：修改后分发时，必须在名称或说明中明确标注本项目为 **PCL Light**
 - **与 Mojang / Microsoft 无关**：本项目与 Mojang Studios、Microsoft 及其关联公司没有任何关系，未获其批准、授权或背书
 - **地域限制**：中国大陆用户请勿使用
 - **协议可变**：本协议可能随时更新，且不提前通知；更新只对之后获取的版本生效，**已经 fork 或已经分发的版本不受影响**

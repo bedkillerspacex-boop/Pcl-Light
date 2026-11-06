@@ -24,7 +24,7 @@ internal static class Program
             while (!Debugger.IsAttached) Thread.Sleep(50);
         }
 #endif
-        Console.WriteLine("Welcome to PCL Lite!");
+        Console.WriteLine("Welcome to PCL Light!");
         // 网络授权弹窗：必须早于任何联网操作注册
         PCL.Network.NetworkConsentDialog.Register();
         // Preloading tasks

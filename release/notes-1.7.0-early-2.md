@@ -1,6 +1,6 @@
 <summary>1.7.0-early-2：界面和启动日志里的 Windows 用户名默认打码成 *****，截图发出去不会带出你自己的用户名。</summary>
 
-PCL Lite 1.7.0-early-2。
+PCL Light 1.7.0-early-2。
 
 > 抢先体验版：1.7.0 正式发布之前先放出来的那一份。四个更新通道（稳定版 / 预览版 / 快照版 / 始终最新）都能收到它。
 
@@ -36,7 +36,7 @@ PCL Lite 1.7.0-early-2。
 
 大小：19,384,104 字节
 
-签名：`Valid`（PCL Lite，DigiCert 时间戳）
+签名：`Valid`（PCL Light，DigiCert 时间戳）
 
 ## 已知问题
 

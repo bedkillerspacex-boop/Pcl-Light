@@ -6,7 +6,7 @@ using PCL.Core.App.Localization;
 namespace PCL;
 
 /// <summary>
-///     PCL Lite 官方 QQ 交流群。
+///     PCL Light 官方 QQ 交流群。
 ///     <para>
 ///         群号与加群链接写在这一个地方，欢迎页与贡献者页共用，改群号只改这里。
 ///     </para>

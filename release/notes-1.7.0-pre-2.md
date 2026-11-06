@@ -1,6 +1,6 @@
 <summary>1.7.0-pre-2：Cookie 登录终于认浏览器导出的 cookies.txt 了（之前整份文件被当成 refresh token）；Lunar 页那 8 行过时说明换成一句概述 + 跳转文档；「新建档案」那个方框现在整块都能点。</summary>
 
-PCL Lite 1.7.0-pre-2。
+PCL Light 1.7.0-pre-2。
 
 > 预览版，只有选了「预览」「快照」或更激进通道的用户会收到。稳定版通道请继续用 1.6.4-hotfix-5。
 

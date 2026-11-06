@@ -1,6 +1,6 @@
 <summary>1.7.0-snapshot-4：Discord 状态的应用 ID 固定内置不再可改，游玩时长不再莫名归零；启动器公告改由 service 仓库的 notice.json 下发，改文件即生效。</summary>
 
-PCL Lite 1.7.0-snapshot-4。
+PCL Light 1.7.0-snapshot-4。
 
 > 快照版，只有选了「快照」或更激进通道的用户会收到。稳定版通道请继续用 1.6.4-hotfix-5。
 

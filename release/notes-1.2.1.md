@@ -1,4 +1,4 @@
-PCL Lite 1.2.1-beta。
+PCL Light 1.2.1-beta。
 
 ## 本次内容
 
@@ -26,7 +26,7 @@ PCL Lite 1.2.1-beta。
 
 | 架构 | 文件 |
 | --- | --- |
-| x64 | `PCL-Lite_1.2.1-beta_x64.exe` |
+| x64 | `PCL-Light_1.2.1-beta_x64.exe` |
 
 单文件、免解压。**需要已安装 [.NET 10 桌面运行时](https://dotnet.microsoft.com/download/dotnet/10.0)**。
 
@@ -45,7 +45,7 @@ PCL Lite 1.2.1-beta。
 ### MIT License
 
 ```
-Copyright (c) 2026 PCL Lite
+Copyright (c) 2026 PCL Light
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -71,8 +71,8 @@ SOFTWARE.
 1. **传染性**：任何修改版、衍生版或再分发版，必须同样以本协议（MIT + 本附加条款）分发，
    不得改用其他许可证。
 2. **必须署名**：必须完整保留本项目的版权声明与作者署名，不得删除或替换。
-3. **二次修改须标注 PCL Lite**：修改后分发时，必须在名称或说明中明确标注本项目为
-   **PCL Lite**，不得抹去或替换原有标识。
+3. **二次修改须标注 PCL Light**：修改后分发时，必须在名称或说明中明确标注本项目为
+   **PCL Light**，不得抹去或替换原有标识。
 4. **与 Mojang / Microsoft 无关**：本项目与 Mojang Studios、Microsoft 及其关联公司
    没有任何关系，未获其批准、授权或背书。
 5. **地域限制**：中国大陆用户请勿使用。

@@ -46,7 +46,7 @@ public partial class PageSetupUpdate
         ComboSystemUpdateMode.SelectedIndex = (int)Config.Update.UpdateMode;
         _RefreshUpdateModeEnabled();
 
-        TextCurrentVersion.Text = "PCL Lite " + VersionNameFormat(ModBase.versionBaseName);
+        TextCurrentVersion.Text = "PCL Light " + VersionNameFormat(ModBase.versionBaseName);
         ModAnimation.AniControlEnabled -= 1;
         CheckUpdate();
     }
@@ -134,7 +134,7 @@ public partial class PageSetupUpdate
                     // 这里原本是同步调用，等于把网络 IO 放在 UI 线程上——断网时窗口直接假死。
                     updateInfo = await Task.Run(() => UpdateManager.remoteServer.GetLatestVersion(
                         UpdateManager.TargetChannel, SystemInfo.IsArm64System ? UpdateArch.arm64 : UpdateArch.x64));
-                    TextUpdateName.Text = "PCL Lite " + VersionNameFormat(updateInfo.VersionName);
+                    TextUpdateName.Text = "PCL Light " + VersionNameFormat(updateInfo.VersionName);
                     var summary = updateInfo.Changelog.Between("<summary>", "</summary>");
                     if (!updateInfo.Changelog.Contains("<summary>") || string.IsNullOrWhiteSpace(summary.Trim()))
                         TextChangelog.Text = Lang.Text("Setup.Update.Changelog.Empty");

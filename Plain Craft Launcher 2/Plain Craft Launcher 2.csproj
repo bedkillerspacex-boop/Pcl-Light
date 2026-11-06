@@ -24,9 +24,9 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <ApplicationManifest>app.manifest</ApplicationManifest>
         <ApplicationIcon>Images\icon.ico</ApplicationIcon>
-        <AssemblyTitle>PCL Lite</AssemblyTitle>
-        <Description>Minecraft 启动器 (PCL Lite)</Description>
-        <Product>PCL Lite</Product>
+        <AssemblyTitle>PCL Light</AssemblyTitle>
+        <Description>Minecraft 启动器 (PCL Light)</Description>
+        <Product>PCL Light</Product>
         <!--
             版本号唯一真源是 metadata.json，这里不再手写。
             以前两处各写一份，发版时漏改其中一处就会出现「装完还是旧版本号、

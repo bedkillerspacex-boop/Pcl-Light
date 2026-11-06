@@ -1,7 +1,7 @@
 """按 PID 定位 PCL 主窗口，还原后截图。
 
 MCP 自带的 `_find_main_window` 按标题子串匹配，浏览器标签页（GitHub Release 页标题里
-也有 "PCL Lite"）会被误抓；这里改成按进程 PID 匹配。
+也有 "PCL Light"）会被误抓；这里改成按进程 PID 匹配。
 """
 import ctypes
 import os

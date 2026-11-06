@@ -1,6 +1,6 @@
 # 镜像仓库指南
 
-想给 PCL Lite 做一份更新源备份（镜像）时看这个。从复制仓库、搬 Release，到被列进更新清单，
+想给 PCL Light 做一份更新源备份（镜像）时看这个。从复制仓库、搬 Release，到被列进更新清单，
 一步步写清楚。
 
 > 只是想改代码提 PR？看 [CONTRIBUTE.md](CONTRIBUTE.md)。
@@ -61,7 +61,7 @@
 | 有 GitHub Releases | 客户端只从 Release 的资产里取包，不读仓库文件 |
 | tag 命名与官方一致 | `v1.6.4` 是正式版，`v1.6.4-pre` / `-snapshot` / `-nightly` 是预发布 |
 | `prerelease` 标记与 tag 一致 | 正式版**不要**勾 prerelease；预发布**必须**勾 |
-| 资产名带架构 | `PCL-Lite_<版本>_x64.exe` 或 `_arm64.exe`，`.zip` 也认 |
+| 资产名带架构 | `PCL-Light_<版本>_x64.exe` 或 `_arm64.exe`，`.zip` 也认 |
 | 保留 LICENSE 与署名 | 协议要求，不能抹掉原有标识 |
 
 **不要做**的三件事：
@@ -149,7 +149,7 @@ curl -s https://raw.githubusercontent.com/<你的账号>/<随机仓库名>/main/
 # 以 1.6.4 为例，下载到当前目录
 gh release download v1.6.4 -R askbbtsk/pcl-lite -D ./assets-1.6.4
 ls ./assets-1.6.4
-# PCL-Lite_1.6.4_x64.exe   PCL-Lite_1.6.4_arm64.exe   ...（有几个下几个）
+# PCL-Light_1.6.4_x64.exe   PCL-Light_1.6.4_arm64.exe   ...（有几个下几个）
 ```
 
 > `gh release download` 也可以顺手把发布说明取下来：
@@ -161,7 +161,7 @@ ls ./assets-1.6.4
 ```bash
 gh release create v1.6.4 -R <你的账号>/<随机仓库名> \
   --target main \
-  --title "PCL Lite 1.6.4 正式版" \
+  --title "PCL Light 1.6.4 正式版" \
   --notes-file notes-1.6.4.md \
   --latest \
   ./assets-1.6.4/*
@@ -172,7 +172,7 @@ gh release create v1.6.4 -R <你的账号>/<随机仓库名> \
 ```bash
 gh release create v1.6.4-pre -R <你的账号>/<随机仓库名> \
   --target main \
-  --title "PCL Lite 1.6.4 预览版" \
+  --title "PCL Light 1.6.4 预览版" \
   --notes-file notes-1.6.4-pre.md \
   --prerelease \
   ./assets-1.6.4-pre/*
@@ -200,7 +200,7 @@ curl -s https://api.github.com/repos/<你的账号>/<随机仓库名>/releases \
   | grep -E '"tag_name"|"prerelease"'
 
 # 3. 资产在、大小对得上
-curl -sI https://github.com/<你的账号>/<随机仓库名>/releases/download/v1.6.4/PCL-Lite_1.6.4_x64.exe
+curl -sI https://github.com/<你的账号>/<随机仓库名>/releases/download/v1.6.4/PCL-Light_1.6.4_x64.exe
 
 # 4. 确认没有 fork 关联（应该什么都不输出）
 curl -s https://api.github.com/repos/<你的账号>/<随机仓库名> | grep -E '"fork": *true|"parent": *\{'
@@ -276,7 +276,7 @@ curl -s https://api.github.com/repos/<你的账号>/<随机仓库名> | grep -E 
 | 稳定版用户收不到你的版本 | Release 被勾了 prerelease | 取消 prerelease 标记 |
 | 预览版用户收不到 | tag 没写后缀，或者没勾 prerelease | tag 用 `v1.6.4-pre` 这种形式并勾 prerelease |
 | 「这个 Release 的附件里没有 .zip 或 .exe」 | 资产没传，或者传成了 `.7z` / `.msi` | 只认 `.exe` 和 `.zip` |
-| 下载到的架构不对 | 资产名里没有 `x64` / `arm64` | 按 `PCL-Lite_<版本>_x64.exe` 命名 |
+| 下载到的架构不对 | 资产名里没有 `x64` / `arm64` | 按 `PCL-Light_<版本>_x64.exe` 命名 |
 | 哈希对不上 | 资产被替换过，或者传了个重新编译的包 | 原样搬运官方资产 |
 | 同步官方新版本时天天冲突 | 改过 `update.json` | `git checkout -- update.json` 还原成 `self` |
 

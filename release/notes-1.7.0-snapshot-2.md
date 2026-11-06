@@ -1,6 +1,6 @@
 <summary>1.7.0-snapshot-2：账号能直接导入令牌了 —— 粘 Refresh Token、Minecraft 令牌或 Cookie 就能登，重复的正版档案也会自动合并成一条。</summary>
 
-PCL Lite 1.7.0-snapshot-2。
+PCL Light 1.7.0-snapshot-2。
 
 > 快照版，只有选了「快照」或更激进通道的用户会收到。稳定版通道请继续用 1.6.4-hotfix-5。
 
@@ -27,7 +27,7 @@ Refresh Token 是绑死在签发它的 Azure 应用上的。以前不管哪来�
 
 现在档案里记一个 `RefreshClientId`，续期时用同一个身份换。依次试三个已知签发方：
 
-- PCL Lite 自己
+- PCL Light 自己
 - Lunar 启动器（`4358653d-…`）
 - In-Game Account Switcher（`54fd49e4-…`）
 

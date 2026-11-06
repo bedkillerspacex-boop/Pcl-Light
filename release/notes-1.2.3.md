@@ -1,8 +1,8 @@
-<summary>更新页的应用图标改为 PCL Lite 自己的 LITE 图标，不再从上游 CDN 拉取 CE 的图标。</summary>
+<summary>更新页的应用图标改为 PCL Light 自己的 LITE 图标，不再从上游 CDN 拉取 CE 的图标。</summary>
 
 ## 更新页图标
 
-「软件更新」里新版本卡片左侧那张图，原来是从 `https://www.pclc.cc/img/pcl-ce/icon.webp` 在线拉的，也就是上游 PCL-CE 的图标——所以启动器明明叫 PCL Lite，更新卡片上却顶着别人的 logo。
+「软件更新」里新版本卡片左侧那张图，原来是从 `https://www.pclc.cc/img/pcl-ce/icon.webp` 在线拉的，也就是上游 PCL-CE 的图标——所以启动器明明叫 PCL Light，更新卡片上却顶着别人的 logo。
 
 现在改成读启动器自带的 `Images/icon.png`（蓝底白字 LITE）：
 

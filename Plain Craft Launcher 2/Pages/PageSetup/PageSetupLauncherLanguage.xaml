@@ -116,7 +116,7 @@
                                         FontSize="42"
                                         FontWeight="Bold"
                                         Foreground="{DynamicResource ColorBrush1}"
-                                        Text="PCL Lite"
+                                        Text="PCL Light"
                                         TextWrapping="Wrap" />
 
                                     <TextBlock

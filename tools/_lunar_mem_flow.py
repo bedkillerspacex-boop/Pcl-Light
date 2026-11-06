@@ -45,7 +45,7 @@ server.FLAVORS["debug"]["bin"] = "PCL-CE/Plain Craft Launcher 2/bin/Debug/net10.
 
 def restore() -> int:
     """还原主窗口，返回 hwnd。"""
-    wins = [w for w in windows_of(pids()) if w[1].strip().lower() == "pcl lite"]
+    wins = [w for w in windows_of(pids()) if w[1].strip().lower() == "PCL Light"]
     if not wins:
         raise SystemExit(f"没找到 PCL 主窗口，当前：{windows_of(pids())}")
     hwnd = wins[0][0]

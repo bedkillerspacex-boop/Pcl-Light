@@ -111,8 +111,8 @@ public static class NetworkConsentService
             NetworkPurpose.Unknown,
             "unknown:" + host,
             "未登记的目标", "Unregistered target",
-            $"连接到 {host}。该域名不在 PCL Lite 的网络白名单中。",
-            $"Connect to {host}. This host is not in the PCL Lite allow-list.",
+            $"连接到 {host}。该域名不在 PCL Light 的网络白名单中。",
+            $"Connect to {host}. This host is not in the PCL Light allow-list.",
             "发起该请求的功能", "the feature that requested it",
             [host]);
 

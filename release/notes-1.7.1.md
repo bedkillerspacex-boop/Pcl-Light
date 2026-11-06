@@ -1,6 +1,6 @@
 <summary>Lunar 物料首次下载改走启动器自己的下载管线：代理、HTTP 模式、限速、分段下载、统一重试全都生效，启动页多了物料准备进度条；顺手还清 44 个环境性红测试，其中 4 个是真实的产品 bug。</summary>
 
-PCL Lite 1.7.1。
+PCL Light 1.7.1。
 
 ## 一、Lunar 物料下载接入启动器下载器
 
@@ -59,7 +59,7 @@ Lunar 启动页在物料准备阶段多了一条 4px 的进度条，按「已完
 
 大小：19,395,368 字节
 
-签名：`Valid`（PCL Lite，DigiCert 时间戳）
+签名：`Valid`（PCL Light，DigiCert 时间戳）
 
 ## 已知问题
 

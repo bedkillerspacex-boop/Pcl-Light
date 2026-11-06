@@ -1,6 +1,6 @@
 <summary>1.6.4-hotfix-3：修游戏内点「添加账号」后 Lunar 报错、启动器界面被撕成两半 —— AddAccount 的 IPC 应答写错了（回了失败还顺手把主界面从 Lunar 页切走），页面切换的左右两栏又是两组独立动画，停掉其中一组就只剩半张脸。</summary>
 
-PCL Lite 1.6.4-hotfix-3。
+PCL Light 1.6.4-hotfix-3。
 
 > 热修复，稳定版通道会收到。
 

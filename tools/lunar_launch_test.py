@@ -1,4 +1,4 @@
-"""按 PCL Lite 的拼装逻辑真实拉起一个 Lunar 子版本，用于验证多版本支持。
+"""按 PCL Light 的拼装逻辑真实拉起一个 Lunar 子版本，用于验证多版本支持。
 
 用法: python lunar_launch_test.py 1.21.4 [--keep]
 """
@@ -68,7 +68,7 @@ def metadata(sub, tries=4):
 
 def fetch(url, dest):
     tmp = dest + ".tmp"
-    req = urllib.request.Request(url, headers={"User-Agent": "PCL-Lite-Test"})
+    req = urllib.request.Request(url, headers={"User-Agent": "PCL-Light-Test"})
     with OPENER.open(req, timeout=120) as r, open(tmp, "wb") as f:
         while True:
             chunk = r.read(1 << 20)

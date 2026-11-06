@@ -1,6 +1,6 @@
 <summary>修 Lunar 账号的令牌问题：命令行现在传真正的 Minecraft 令牌，不再是 Lunar 自己签的那串 JWT；账号列表会标出「会话已过期」，并说明为什么游戏内会显示 Invalid session。</summary>
 
-PCL Lite 1.4.6 不稳定版（nightly）。
+PCL Light 1.4.6 不稳定版（nightly）。
 
 > **这是 nightly，不是正式版。** 只有把更新通道选成「最新」才会收到。
 
@@ -83,7 +83,7 @@ AADSTS70000: The token was issued for a different client id
 
 | 架构 | 文件 |
 | --- | --- |
-| x64 | `PCL-Lite_1.4.6-nightly_x64.exe` |
+| x64 | `PCL-Light_1.4.6-nightly_x64.exe` |
 
 单文件、免解压。**需要已安装 [.NET 10 桌面运行时](https://dotnet.microsoft.com/download/dotnet/10.0)**。
 
@@ -95,7 +95,7 @@ SHA-256：`713904C7C38E3871C9F7F07F76072FEFC0F39EF62298821E9ED387BD07EC6467`
   个别安全软件首次运行时仍可能提示发布者信息
 - 基岩版 GDK 安装包（`.msixvc`）解包依赖内置的内容密钥（CIK），正式版与预览版各一把，
   均已编入本构建；密钥若被官方轮换会失效，届时用环境变量覆盖即可，不必重新下载启动器
-- 主页语言信封与 `lang:` 标签是 PCL Lite 扩展，原版 PCL 加载含这些内容的文件时
+- 主页语言信封与 `lang:` 标签是 PCL Light 扩展，原版 PCL 加载含这些内容的文件时
   会按普通 XAML 渲染（所有语言分支堆在一起）——属于预期的单向兼容
 - UWP 安装需要开发者模式；系统策略禁用旁加载时只能手动到「设置 → 系统 → 开发者选项」打开
 

@@ -1,4 +1,4 @@
-PCL Lite 1.2.6-beta。
+PCL Light 1.2.6-beta。
 
 ## 本次内容
 
@@ -31,7 +31,7 @@ PCL Lite 1.2.6-beta。
 
 - 版本号 `1.2.6-beta`
 - 原「百宝箱 → 基岩版」入口移除，功能整体搬到新板块
-- 移除更新后的「PCL Lite 版本说明」弹窗
+- 移除更新后的「PCL Light 版本说明」弹窗
 - `docs/CREDITS.md` 补全基岩版移植范围；`docs/BUILD.md` 增加 CIK 注入说明
 
 ## 关于 GDK 包的内容密钥
@@ -51,7 +51,7 @@ $env:PCL_BEDROCK_PREVIEW_CIK = "<预览版 CIK>"
 
 | 架构 | 文件 |
 | --- | --- |
-| x64 | `PCL-Lite_1.2.6-beta_x64.exe` |
+| x64 | `PCL-Light_1.2.6-beta_x64.exe` |
 
 单文件、免解压。**需要已安装 [.NET 10 桌面运行时](https://dotnet.microsoft.com/download/dotnet/10.0)**。
 

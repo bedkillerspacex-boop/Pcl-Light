@@ -1,19 +1,19 @@
-<summary>换成 PCL Lite 自己的微软 OAuth 应用，正版登录不再借用 PCL CE 的 client id；登录授权页现在显示的是 PCL Lite 自己。</summary>
+<summary>换成 PCL Light 自己的微软 OAuth 应用，正版登录不再借用 PCL CE 的 client id；登录授权页现在显示的是 PCL Light 自己。</summary>
 
-PCL Lite 1.4.5 不稳定版（nightly）。
+PCL Light 1.4.5 不稳定版（nightly）。
 
 > **这是 nightly，不是正式版。** 只有把更新通道选成「最新」才会收到。
 
 ## 这个版本只改一件事：换回自己的微软应用
 
 1.3.4 之后的正版登录一直借的是 **PCL CE 的 OAuth 应用**。
-之所以借，是因为 PCL Lite 自己申请的那个应用卡在审核里，用它去登录会直接被微软拒掉（403）。
+之所以借，是因为 PCL Light 自己申请的那个应用卡在审核里，用它去登录会直接被微软拒掉（403）。
 
-现在它过审了，这个版本换回 **PCL Lite 自己的应用**。
+现在它过审了，这个版本换回 **PCL Light 自己的应用**。
 
 对你来说的区别：
 
-- **授权页上显示的应用名是 PCL Lite 自己**，不再是「Plain Craft Launcher」。
+- **授权页上显示的应用名是 PCL Light 自己**，不再是「Plain Craft Launcher」。
   以前在微软账号的「应用与授权」页面里，授权记录也挂在 CE 名下，现在归到 Lite 名下
 - **不再依赖别人的应用状态**。CE 那边如果改了应用配置或撤销授权，Lite 的登录不会跟着一起挂
 - 登录流程本身没变：还是设备码登录，还是拿 Minecraft 的 accessToken 去换 Xbox 凭据
@@ -40,7 +40,7 @@ Lunar 全版本支持、Lunar 账户库选择、启动目录跟随实例、运�
 
 | 架构 | 文件 |
 | --- | --- |
-| x64 | `PCL-Lite_1.4.5-nightly_x64.exe` |
+| x64 | `PCL-Light_1.4.5-nightly_x64.exe` |
 
 单文件、免解压。**需要已安装 [.NET 10 桌面运行时](https://dotnet.microsoft.com/download/dotnet/10.0)**。
 
@@ -58,7 +58,7 @@ SHA-256：`A4B7812BB823BE8F5C048E941B625F6D9A5BFD264F2727DC80EC5E95A493530B`
   和对应 JRE（约 40 MB），会慢一次
 - 基岩版 GDK 安装包（`.msixvc`）解包依赖内置的内容密钥（CIK），正式版与预览版各一把，
   均已编入本构建；密钥若被官方轮换会失效，届时用环境变量覆盖即可，不必重新下载启动器
-- 主页语言信封与 `lang:` 标签是 PCL Lite 扩展，原版 PCL 加载含这些内容的文件时
+- 主页语言信封与 `lang:` 标签是 PCL Light 扩展，原版 PCL 加载含这些内容的文件时
   会按普通 XAML 渲染（所有语言分支堆在一起）——属于预期的单向兼容
 - UWP 安装需要开发者模式；系统策略禁用旁加载时只能手动到「设置 → 系统 → 开发者选项」打开
 

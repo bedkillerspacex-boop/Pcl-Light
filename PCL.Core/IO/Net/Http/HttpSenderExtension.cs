@@ -25,9 +25,9 @@ public static class HttpSenderExtension
 
             if(addMetedata)
             {
-                // 只报「我是 PCL Lite」，不带版本号：以前这里和 Referer 里都塞了构建号，
+                // 只报「我是 PCL Light」，不带版本号：以前这里和 Referer 里都塞了构建号，
                 // 等于每个请求都在向对方上报「谁在用哪个版本」，现在一概不带
-                request.WithHeader("User-Agent", "PCL-Lite");
+                request.WithHeader("User-Agent", "PCL-Light");
             }
 
             var requestId = Guid.NewGuid().ToString();

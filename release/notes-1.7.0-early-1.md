@@ -1,6 +1,6 @@
 <summary>1.7.0-early-1：代码和 1.7.0-pre-4 一模一样，只是改用 early 号段发布 —— 默认「稳定版」通道的用户现在也能提前拿到 1.7.0 了。</summary>
 
-PCL Lite 1.7.0-early-1。
+PCL Light 1.7.0-early-1。
 
 > 抢先体验版：1.7.0 正式发布之前先放出来的那一份。四个更新通道（稳定版 / 预览版 / 快照版 / 始终最新）都能收到它。
 
@@ -31,7 +31,7 @@ hotfix(+1) > 正式版(0) > early(-1) > pre(-2) > snapshot(-3) > nightly(-4)
 
 大小：19,380,008 字节
 
-签名：`Valid`（PCL Lite，DigiCert 时间戳）
+签名：`Valid`（PCL Light，DigiCert 时间戳）
 
 ## 已知问题
 

@@ -1,6 +1,6 @@
 <summary>1.6.4-hotfix-4：修 Lunar 卡在 Connecting... —— 账户库一直跟着「物料根目录」走，续期全写进了 D 盘那份游戏根本不看的 accounts.json，游戏读的 ~/.lunarclient 那份永远是过期令牌，每秒重试一次。</summary>
 
-PCL Lite 1.6.4-hotfix-4。
+PCL Light 1.6.4-hotfix-4。
 
 > 热修复，稳定版通道会收到。
 

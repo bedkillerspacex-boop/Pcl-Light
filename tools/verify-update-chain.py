@@ -1,4 +1,4 @@
-"""模拟 PCL Lite 客户端更新链路，端到端验证 1.3.2 可下载。
+"""模拟 PCL Light 客户端更新链路，端到端验证 1.3.2 可下载。
 
 链路：
   锚点 update.json（多通道并发抢答）
@@ -42,7 +42,7 @@ def _opener(use_proxy):
 
 
 def fetch(url, accept=None, use_proxy=None):
-    req = urllib.request.Request(url, headers={"User-Agent": "pcl-lite-verify/1.0"})
+    req = urllib.request.Request(url, headers={"User-Agent": "PCL-Light-verify/1.0"})
     if accept:
         req.add_header("Accept", accept)
     t0 = time.time()
@@ -94,7 +94,7 @@ def parse_pointer(pointer: str):
 def main():
     proxy = PROXY or None
     print("=" * 66)
-    print("PCL Lite 更新链路端到端验证")
+    print("PCL Light 更新链路端到端验证")
     print(f"代理: {proxy or '直连（已禁用环境变量代理）'}")
     print("=" * 66)
 
@@ -169,7 +169,7 @@ def main():
     for name, u in candidates:
         try:
             t0 = time.time()
-            req = urllib.request.Request(u, headers={"User-Agent": "pcl-lite-verify/1.0"})
+            req = urllib.request.Request(u, headers={"User-Agent": "PCL-Light-verify/1.0"})
             with _opener(proxy).open(req, timeout=60) as resp:
                 data = resp.read()
             dt = time.time() - t0

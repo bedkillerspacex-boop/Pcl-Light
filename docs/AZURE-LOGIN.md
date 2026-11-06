@@ -1,6 +1,6 @@
 # 正版登录：从零注册 Azure 应用
 
-> 面向 PCL Lite 开发者。跟着做完，你会有自己的 `client_id`，启动器就能走微软正版登录。
+> 面向 PCL Light 开发者。跟着做完，你会有自己的 `client_id`，启动器就能走微软正版登录。
 >
 > 全程免费。应用注册本身不收费，也不需要买任何 Azure 服务。
 
@@ -283,7 +283,7 @@ GitHub README 顶部、关于页、下载页都该有。这条最容易被忽略
 准则规定 `Minecraft` 不能作为主名称，只能作为次要描述。另外审核表单自己也列了禁用词：
 `Mojang`、`Minecraft`、`Microsoft`、`Live`、`Xbox`、`Discord`、`Hypixel`。
 
-`PCL Lite` 这个名字本身没问题。
+`PCL Light` 这个名字本身没问题。
 
 ---
 

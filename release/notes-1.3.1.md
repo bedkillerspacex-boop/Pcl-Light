@@ -1,6 +1,6 @@
 <summary>仓库迁移至 askbbtsk/pcl-lite，自动更新改为读 update.json 指针（以后再换仓库旧版本也不会失联）。新增主页语言 API：同一份主页内容可针对不同语言展示不同内容，完全兼容 PCL 原版主页协议；欢迎页改用该协议实现多语言；精简为简体中文 / 繁體中文 / 英文三种语种；标题栏 Lite 徽标改为纯文字并不再强加到自定义标题后面。</summary>
 
-PCL Lite 1.3.1 正式版。
+PCL Light 1.3.1 正式版。
 
 > **仓库已迁移**：本项目现在位于 <https://github.com/askbbtsk/pcl-lite>。
 > 旧的 `bedkillerspacex-boop/Pcl-Lite` 已转为私有备份，不再更新。
@@ -107,11 +107,11 @@ XAML 中任意元素都可以带语言标签，实例化后只保留命中当前
 
 ## 主页语言 API 双端兼容
 
-用 PCL Lite 的语言 API 写主页，直接丢给原版 PCL 会出两种问题：
+用 PCL Light 的语言 API 写主页，直接丢给原版 PCL 会出两种问题：
 只打 `lang:` 标签 → 所有分支一起显示（丑）；用语言信封 → 原版 PCL 把 JSON 当 XAML 解析，**直接报错**。
 
 现在给出了双端兼容写法：非默认分支预先写 `Visibility="Collapsed"`，并保留一个 `lang:default` 兜底。
-PCL Lite 会把命中当前语言的那一支重新设为可见，原版 PCL 则只显示默认分支——
+PCL Light 会把命中当前语言的那一支重新设为可见，原版 PCL 则只显示默认分支——
 同一份文件在两个客户端上都正常，**不会崩、不会重叠**。
 
 完整 API 参考与写法约定见
@@ -152,7 +152,7 @@ PCL Lite 会把命中当前语言的那一支重新设为可见，原版 PCL 则
 
 | 架构 | 文件 |
 | --- | --- |
-| x64 | `PCL-Lite_1.3.1_x64.exe` |
+| x64 | `PCL-Light_1.3.1_x64.exe` |
 
 单文件、免解压。**需要已安装 [.NET 10 桌面运行时](https://dotnet.microsoft.com/download/dotnet/10.0)**。
 
@@ -160,7 +160,7 @@ SHA-256：`f6f33e0b6d5b9218e73c3b4eb24f145f70e246cf2bff326cd7e6f48635480a24`
 
 ## 已知问题
 
-- 主页语言信封与 `lang:` 标签是 PCL Lite 扩展，原版 PCL 加载含这些内容的文件时
+- 主页语言信封与 `lang:` 标签是 PCL Light 扩展，原版 PCL 加载含这些内容的文件时
   会按普通 XAML 渲染（所有语言分支堆在一起）——属于预期的单向兼容
 - UWP 安装需要开发者模式；系统策略禁用旁加载时只能手动到「设置 → 系统 → 开发者选项」打开
 - 预览版 GDK 包仅在设备拥有该包 license（装过商店预览版）时才能解密

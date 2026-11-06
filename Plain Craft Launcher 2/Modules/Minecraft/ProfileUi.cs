@@ -206,7 +206,7 @@ public static class ProfileUi
     /// <summary>
     ///     是否允许创建非微软验证方式的档案（离线 / 第三方验证）。
     ///     <para>
-    ///     PCL Lite：不再要求先完成一次正版验证。离线与第三方登录从一开始就可用。
+    ///     PCL Light：不再要求先完成一次正版验证。离线与第三方登录从一开始就可用。
     ///     </para>
     /// </summary>
     public static bool CanCreateOtherProfile()

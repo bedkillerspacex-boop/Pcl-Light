@@ -22,7 +22,7 @@ namespace PCL;
 /// <summary>
 ///     百宝箱：把 PCL2 或 PCLCE 的设置搬过来。
 ///     <para>
-///         两种来源：PCL CE / PCL Lite 的 <c>config.v1.json</c>（直接复制），
+///         两种来源：PCL CE / PCL Light 的 <c>config.v1.json</c>（直接复制），
 ///         以及 PCL2 原版的 <c>setup.ini</c> + <c>HKCU\Software\PCL</c>（转成本地配置）。
 ///         源文件夹只读，不会改动。
 ///     </para>
@@ -484,7 +484,7 @@ public partial class PageToolsImport
     }
 
     /// <summary>
-    ///     PCL CE / PCL Lite：整份配置和密钥一起带过去，正版账号就在里面。
+    ///     PCL CE / PCL Light：整份配置和密钥一起带过去，正版账号就在里面。
     ///     <para>
     ///         只能写 <c>.pending</c>。运行中直接覆盖 <c>config.v1.json</c> 是没用的：
     ///         配置在启动时已经整份读进内存，十来秒后一次落盘就把文件重写回去了 ——
@@ -619,14 +619,14 @@ public partial class PageToolsImport
     /// <summary>
     ///     PCL2 原版：<c>setup.ini</c> 是 <c>键:值</c> 的纯文本，先转成 yml 放进暂存。
     ///     <para>
-    ///         只写 PCL Lite 真认得的键（<see cref="ConfigService.KeySet" />）：setup.ini 里混着
+    ///         只写 PCL Light 真认得的键（<see cref="ConfigService.KeySet" />）：setup.ini 里混着
     ///         <c>UiLauncherEmail</c>、<c>LoginPageType</c> 这类早就没了的键，原样塞进去只会把
     ///         本地配置弄脏。写进去的值保持字符串，和启动时自带的 <c>setup.ini</c> 迁移
     ///         （<c>CatIniMigration</c>）完全一致，读取时由 provider 负责转类型。
     ///     </para>
     ///     <para>
     ///         先复制现有 <c>config.v1.yml</c> 再往上盖，这样导入是合并而不是清空 ——
-    ///         用户已经在 PCL Lite 里调过的东西不会因为导入一次别人的配置就全没了。
+    ///         用户已经在 PCL Light 里调过的东西不会因为导入一次别人的配置就全没了。
     ///     </para>
     /// </summary>
     /// <returns>没搬过来的账号数量，用于提示用户重新登录。</returns>
@@ -690,7 +690,7 @@ public partial class PageToolsImport
             }
 
             // 空值不写：PCL2 里没设置过的键就是空串，照搬过去会把用户已经在
-            // PCL Lite 里调好的值（比如代理地址）清掉，这不是「导入」该干的事
+            // PCL Light 里调好的值（比如代理地址）清掉，这不是「导入」该干的事
             if (value.Length == 0)
             {
                 empty++;

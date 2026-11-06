@@ -71,7 +71,7 @@ def _opener(use_proxy):
 
 
 def fetch(url, accept=None, use_proxy=None):
-    req = urllib.request.Request(url, headers={"User-Agent": "pcl-lite-verify/1.0"})
+    req = urllib.request.Request(url, headers={"User-Agent": "PCL-Light-verify/1.0"})
     if accept:
         req.add_header("Accept", accept)
     t0 = time.time()

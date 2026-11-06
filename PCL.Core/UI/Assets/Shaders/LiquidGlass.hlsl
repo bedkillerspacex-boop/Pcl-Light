@@ -1,4 +1,4 @@
-// LiquidGlass.hlsl —— PCL Lite 液态玻璃材质（覆盖层版）
+// LiquidGlass.hlsl —— PCL Light 液态玻璃材质（覆盖层版）
 //
 // 为什么不再采样控件本身：
 //   WPF 把带 Effect 的元素先渲染进一张中间位图再贴回来，控件只要落在非整数像素上，

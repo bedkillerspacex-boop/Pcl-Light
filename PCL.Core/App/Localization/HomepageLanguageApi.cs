@@ -182,7 +182,7 @@ public static class HomepageLanguageApi
     /// </para>
     /// <para>
     /// 命中分支如果被作者写成 <c>Visibility="Collapsed"</c>（双端兼容写法：原版 PCL 只会显示
-    /// <c>lang:default</c> 分支，PCL Lite 把命中的分支重新露出来），这里会把它设为可见。
+    /// <c>lang:default</c> 分支，PCL Light 把命中的分支重新露出来），这里会把它设为可见。
     /// </para>
     /// </summary>
     /// <param name="root">可视化树根节点。</param>

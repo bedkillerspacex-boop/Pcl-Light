@@ -92,12 +92,12 @@ jobs:
 
       - name: Rename binaries
         run: |
-          mv "./artifact/Plain Craft Launcher 2.exe" "PCL-Lite_${{ matrix.configuration }}_${{ matrix.architecture }}.exe"
+          mv "./artifact/Plain Craft Launcher 2.exe" "PCL-Light_${{ matrix.configuration }}_${{ matrix.architecture }}.exe"
 
       - name: Sign the binary
         uses: sigstore/gh-action-sigstore-python@790bc6befb9d733738f18d8f895854b453640ec9 # v3.5.0
         with:
-          inputs: PCL-Lite_${{ matrix.configuration }}_${{ matrix.architecture }}.exe
+          inputs: PCL-Light_${{ matrix.configuration }}_${{ matrix.architecture }}.exe
           verify: true
           # 这里原本写死成上游 PCL-Community/PCL-CE。fork 之后签名证书的颁发对象变成了本仓库，
           # 写死会导致校验失败、整个 job 直接挂掉，所以改成跟着当前仓库和分支走。
@@ -110,8 +110,8 @@ jobs:
           draft: true
           tag_name: v${{ inputs.version }}
           files: |
-            PCL-Lite_${{ matrix.configuration }}_${{ matrix.architecture }}.exe
-            PCL-Lite_${{ matrix.configuration }}_${{ matrix.architecture }}.exe.sigstore.json
+            PCL-Light_${{ matrix.configuration }}_${{ matrix.architecture }}.exe
+            PCL-Light_${{ matrix.configuration }}_${{ matrix.architecture }}.exe.sigstore.json
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 

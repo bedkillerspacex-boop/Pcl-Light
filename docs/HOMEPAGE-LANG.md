@@ -1,6 +1,6 @@
 # 主页语言 API
 
-PCL Lite 的主页协议在 PCL 原版基础上增加了**语言协商**能力：同一份主页内容可以针对不同语言
+PCL Light 的主页协议在 PCL 原版基础上增加了**语言协商**能力：同一份主页内容可以针对不同语言
 展示不同内容。该 API 是**纯增量扩展**——原版主页文件无需任何改动即可继续使用，行为完全一致。
 
 实现见 `PCL.Core/App/Localization/HomepageLanguageApi.cs`，单元测试见
@@ -10,7 +10,7 @@ PCL Lite 的主页协议在 PCL 原版基础上增加了**语言协商**能力�
 
 ## 一、先看这个：怎么让主页在**原版 PCL** 上也不炸
 
-这是最容易踩的坑。开发者按 PCL Lite 的 API 写好主页，直接丢给原版 PCL，会出现两种后果：
+这是最容易踩的坑。开发者按 PCL Light 的 API 写好主页，直接丢给原版 PCL，会出现两种后果：
 
 | 你用了什么 | 原版 PCL 的表现 | 危险程度 |
 | --- | --- | --- |
@@ -28,24 +28,24 @@ PCL Lite 的主页协议在 PCL 原版基础上增加了**语言协商**能力�
 ### 结论二：非默认分支预先 `Collapsed`，两边都好看
 
 只打 `lang:` 标签的话，原版 PCL 会把所有语言的分支堆在一起。加一行 `Visibility="Collapsed"`
-就解决了——因为 PCL Lite 会把**命中当前语言的那一支重新设为可见**：
+就解决了——因为 PCL Light 会把**命中当前语言的那一支重新设为可见**：
 
 ```xml
 <StackPanel>
-    <!--  英文分支：原版 PCL 看不到（Collapsed），PCL Lite 在英文环境下把它露出来  -->
-    <TextBlock Tag="lang:en" Visibility="Collapsed" Text="Welcome to PCL Lite" />
+    <!--  英文分支：原版 PCL 看不到（Collapsed），PCL Light 在英文环境下把它露出来  -->
+    <TextBlock Tag="lang:en" Visibility="Collapsed" Text="Welcome to PCL Light" />
     <!--  繁体分支：同理  -->
-    <TextBlock Tag="lang:zh-TW" Visibility="Collapsed" Text="歡迎使用 PCL Lite" />
+    <TextBlock Tag="lang:zh-TW" Visibility="Collapsed" Text="歡迎使用 PCL Light" />
     <!--  默认分支：不写 Visibility，两边都显示  -->
-    <TextBlock Tag="lang:default" Text="欢迎使用 PCL Lite" />
+    <TextBlock Tag="lang:default" Text="欢迎使用 PCL Light" />
 </StackPanel>
 ```
 
 | 客户端 | 实际看到的内容 |
 | --- | --- |
 | 原版 PCL | 只看到 `lang:default`（其余被 `Collapsed` 挡住）→ **看起来完全正常** |
-| PCL Lite（简体） | `lang:default`（没有 zh-CN 分支时兜底） |
-| PCL Lite（英文） | `lang:en` 被重新设为可见，其余分支被移除 |
+| PCL Light（简体） | `lang:default`（没有 zh-CN 分支时兜底） |
+| PCL Light（英文） | `lang:en` 被重新设为可见，其余分支被移除 |
 
 于是同一份文件在两个客户端上都对。这就是**双端兼容写法**：
 
@@ -54,13 +54,13 @@ PCL Lite 的主页协议在 PCL 原版基础上增加了**语言协商**能力�
 
 两个必须遵守的点：
 
-1. **一定要写 `lang:default`**。原版 PCL 只显示默认分支，PCL Lite 在没有任何分支命中时也靠它兜底。
+1. **一定要写 `lang:default`**。原版 PCL 只显示默认分支，PCL Light 在没有任何分支命中时也靠它兜底。
    没有默认分支 = 原版 PCL 上整块内容消失。
-2. **不要在需要双端兼容的分支里用语言信封**。信封只适合「只给 PCL Lite 用」的主页。
+2. **不要在需要双端兼容的分支里用语言信封**。信封只适合「只给 PCL Light 用」的主页。
 
 ---
 
-## 二、兼容性保证（PCL Lite 侧）
+## 二、兼容性保证（PCL Light 侧）
 
 | 内容形态 | 行为 |
 | --- | --- |
@@ -69,7 +69,7 @@ PCL Lite 的主页协议在 PCL 原版基础上增加了**语言协商**能力�
 | 以 `{` 开头但不是合法 JSON | 原样返回，由 XAML 解析器报出与上游相同的错误 |
 | 是合法 JSON 但没有 `languages` / `default` 字段 | 原样返回，按普通 JSON 文本处理 |
 
-> 也就是说：**任何能在原版 PCL 上工作的主页，在 PCL Lite 上的表现一模一样。**
+> 也就是说：**任何能在原版 PCL 上工作的主页，在 PCL Light 上的表现一模一样。**
 
 ---
 
@@ -100,7 +100,7 @@ PCL Lite 的主页协议在 PCL 原版基础上增加了**语言协商**能力�
 
 `format` 与 `version` 字段会被读取但不强制校验；判定是否为信封只看 `languages` / `default`。
 
-> **只给 PCL Lite 用。** 原版 PCL 会把它当 XAML 解析并失败，见第一节。
+> **只给 PCL Light 用。** 原版 PCL 会把它当 XAML 解析并失败，见第一节。
 
 ---
 
@@ -128,7 +128,7 @@ XAML 中任意元素都可以带上语言标签，实例化后启动器只保留
 **按父容器生效**：只有当某个父容器下存在命中当前语言的分支（或 `default`）时，才会移除未命中的
 分支；如果一个父容器下没有任何分支命中，则保留全部分支——主页不会因为漏翻而变成空白。
 
-**命中分支会被设为可见**：如果命中的那一支写着 `Visibility="Collapsed"`，PCL Lite 会把它改回
+**命中分支会被设为可见**：如果命中的那一支写着 `Visibility="Collapsed"`，PCL Light 会把它改回
 `Visible`。这就是第一节的双端兼容写法能成立的原因。
 
 未被打标签的元素永远不受影响。
@@ -147,7 +147,7 @@ XAML 中任意元素都可以带上语言标签，实例化后启动器只保留
 }
 ```
 
-叠加是允许的，但同样**只适合 PCL Lite 专用主页**。
+叠加是允许的，但同样**只适合 PCL Light 专用主页**。
 
 ---
 
@@ -244,7 +244,7 @@ HomepageLanguageApi.ApplyToTree(this, LocalizationService.CurrentLanguage.Code);
 只打了 `lang:` 标签、没写 `Visibility="Collapsed"`。按第一节的双端兼容写法改。
 
 **Q：主页在原版 PCL 上直接报解析错误 / 白屏？**
-用了语言信封。信封是 PCL Lite 专属，原版 PCL 无法解析。改回 `lang:` 标签方案。
+用了语言信封。信封是 PCL Light 专属，原版 PCL 无法解析。改回 `lang:` 标签方案。
 
 **Q：切了语言但主页没变？**
 自定义主页会在切换语言后重新加载；如果是自己写的页面，需要在语言变更回调里重新

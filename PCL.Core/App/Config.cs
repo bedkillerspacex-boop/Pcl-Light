@@ -427,7 +427,7 @@ public static partial class Config
             /// <summary>
             /// 主页来源类型。0 = 空白，1 = 本地文件，2 = 联网，3 = 预设。
             /// <para>
-            /// 默认用 3（预设）而不是 0：预设里第一个就是 PCL Lite 欢迎页，
+            /// 默认用 3（预设）而不是 0：预设里第一个就是 PCL Light 欢迎页，
             /// 首次启动直接看到欢迎页；用户主动选「空白」才会真的什么都不显示。
             /// </para>
             /// </summary>
@@ -617,7 +617,7 @@ public static partial class Config
         /// <summary>
         /// 自定义左下角版本信息。
         /// </summary>
-        [ConfigItem<string>("LaunchArgumentInfo", "PCL Lite", ConfigSource.Local)] public partial string TypeInfo { get; set; }
+        [ConfigItem<string>("LaunchArgumentInfo", "PCL Light", ConfigSource.Local)] public partial string TypeInfo { get; set; }
 
         /// <summary>
         /// 选择的默认 Java 实例。

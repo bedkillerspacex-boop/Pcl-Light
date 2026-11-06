@@ -1,6 +1,6 @@
 <summary>修掉游戏内主界面按钮整块消失：界面资源的下载目录以前会「猜」，猜中 ui/assets 这种数据目录时，整个 ui 压缩包被解进错误位置，--uiDir 跟着指过去，Genesis 拿到的界面根目录就是错的。现在下载只认 ui/&lt;sha1&gt;/。</summary>
 
-PCL Lite 1.7.1 热修复 2。
+PCL Light 1.7.1 热修复 2。
 
 ## 症状
 
@@ -51,7 +51,7 @@ if (candidates.Length > 1)
 
 大小：19,395,368 字节
 
-签名：`Valid`（PCL Lite，DigiCert 时间戳）
+签名：`Valid`（PCL Light，DigiCert 时间戳）
 
 ## 已知问题
 

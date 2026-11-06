@@ -1,6 +1,6 @@
 <summary>1.5.1 以来的全部改动收进一个正式版：Lunar Client 的安装、依赖下载、多 loader 选择、会话续期全部由 PCL 自己完成，不用再装官方启动器；更新链路换成多源清单，点「检查更新」也不会再把窗口卡死；「转移 PCL 设置」真能用了，连 PCL2 存在注册表里的那 58 项一起搬；另外不再向任何服务器上报启动器版本号。</summary>
 
-PCL Lite 1.6.0 正式版。
+PCL Light 1.6.0 正式版。
 
 从 1.5.1 到这一版中间隔了 11 个快照 / 预览版，这里一次性写全。
 
@@ -88,7 +88,7 @@ Release 被删）时客户端没有任何退路——2026-10 就这么断过一�
   "schema": 2,
   "sources": [
     { "repo": "askbbtsk/pcl-lite", "tier": "official" },
-    { "repo": "some-mirror/pcl-lite", "tier": "mirror" }
+    { "repo": "some-mirror/PCL-Light", "tier": "mirror" }
   ]
 }
 ```
@@ -125,7 +125,7 @@ Release 被删）时客户端没有任何退路——2026-10 就这么断过一�
 
 | 来源 | 认的标志 | 怎么导入 |
 | --- | --- | --- |
-| PCL CE / PCL Lite | `config.v1.json` | 连 `UserKey.bin` 一起复制 |
+| PCL CE / PCL Light | `config.v1.json` | 连 `UserKey.bin` 一起复制 |
 | PCL2 原版 | `setup.ini` | 逐行转成本地配置 |
 | PCL2 便携版 | `PCL\setup.ini` | 同上 |
 
@@ -135,9 +135,9 @@ Release 被删）时客户端没有任何退路——2026-10 就这么断过一�
 58 个。加密的 19 个用 `EncryptHelper.SecretDecrypt` 解，密钥派生自 `SHA256(CpuId)`，
 **换台机器就解不开**——那种情况跳过该键并记日志，不会写空值。
 
-导入本身也做扎实了：**只写 PCL Lite 真认得的键**（`setup.ini` 里混着一堆早就没有的键，
+导入本身也做扎实了：**只写 PCL Light 真认得的键**（`setup.ini` 里混着一堆早就没有的键，
 原样塞进去只会把配置弄脏，一个都认不出来时直接报错而不是假装成功）；**先合并再覆盖**
-（以前是凭空造一份新的盖过去，你在 PCL Lite 里已经调过的东西会一起没了）；
+（以前是凭空造一份新的盖过去，你在 PCL Light 里已经调过的东西会一起没了）；
 自动扫描也覆盖 MC 根目录（PCL2 大多是便携版，启动器一般就扔在 `.minecraft` 那一层）。
 导入前有二次确认，覆盖前留 `.importbak`，**源文件夹只读**。
 
@@ -173,8 +173,8 @@ Release 被删）时客户端没有任何退路——2026-10 就这么断过一�
 
 | 位置 | 原来 | 现在 |
 | --- | --- | --- |
-| `HttpSenderExtension`（通用请求） | `PCL-Lite/1.5.10-pre` | `PCL-Lite` |
-| `NetworkService`（HttpClient 默认头） | `PCL-Lite/1.5.10-pre` | `PCL-Lite` |
+| `HttpSenderExtension`（通用请求） | `PCL-Light/1.5.10-pre` | `PCL-Light` |
+| `NetworkService`（HttpClient 默认头） | `PCL-Light/1.5.10-pre` | `PCL-Light` |
 | `RequestSigning`（下载器 UA） | `PCL2/2.12.1.0 PCLCE/1.5.10` | `PCL2 PCLCE` |
 
 顺带删掉一处更隐蔽的：通用请求原来还带 `Referer: https://<构建号>.ce.open.pcl2.server/`，
@@ -185,7 +185,7 @@ Release 被删）时客户端没有任何退路——2026-10 就这么断过一�
 「用户协议与免责声明」按钮一起删了；「开源与法律信息」卡片里仍然保留 README 和
 「查看开源代码」两个入口。
 
-> 1.5.11 改 UA 时踩了个坑：`new ProductInfoHeaderValue("PCL-Lite")` 的单参数重载收的是**注释**
+> 1.5.11 改 UA 时踩了个坑：`new ProductInfoHeaderValue("PCL-Light")` 的单参数重载收的是**注释**
 > 而不是产品名，构造时直接抛 `FormatException`，而这行在 `ConfigureHttpClient` 里，
 > 等于任何一次网络请求都会炸——下载页、模组搜索、CurseForge 和 Modrinth 全部取不到数据。
 > 1.5.12 已修（双参数、显式传 `null`，下载器那行也换成 `TryAddWithoutValidation`）。
@@ -230,7 +230,7 @@ Release 被删）时客户端没有任何退路——2026-10 就这么断过一�
 
 | 架构 | 文件 |
 | --- | --- |
-| x64 | `PCL-Lite_1.6.0_x64.exe` |
+| x64 | `PCL-Light_1.6.0_x64.exe` |
 
 单文件、免解压。**需要已安装 [.NET 10 桌面运行时](https://dotnet.microsoft.com/download/dotnet/10.0)**。
 
@@ -251,8 +251,8 @@ SHA-256：`BF93897F33235F1FB19FD5A775D7095B68546EAFBF40B8350F32191FBFE1850E`
   发现并重下，那种情况依旧没有进度
 - PCL2 原版（`setup.ini`）来源的导入只搬设置，**账号需要在账号页重新登录**——那一代的账号
   不是按新格式存的，硬转会写坏账号库。改过名的键也搬不过来，比如「上次选的版本」
-  （PCL Lite 叫 `LaunchInstanceSelect`，PCL2 叫 `LaunchVersionSelect`），导入后要重新选一次
-- 主页语言信封与 `lang:` 标签是 PCL Lite 扩展，原版 PCL 加载含这些内容的文件时
+  （PCL Light 叫 `LaunchInstanceSelect`，PCL2 叫 `LaunchVersionSelect`），导入后要重新选一次
+- 主页语言信封与 `lang:` 标签是 PCL Light 扩展，原版 PCL 加载含这些内容的文件时
   会按普通 XAML 渲染（所有语言分支堆在一起）——属于预期的单向兼容
 - UWP 安装需要开发者模式；系统策略禁用旁加载时只能手动到「设置 → 系统 → 开发者选项」打开
 
