@@ -18,6 +18,6 @@ PCL Light 1.0.0 热修复 3。
 
 - 目标框架：`.NET 6.0`（`net6.0-windows`）
 - 支持：Windows 7 SP1 及以上
-- 发布：x64 单文件
-- 本地 Release 单文件实测：17.05 MiB（GitHub Actions 发布包会随注入的 Client ID 略有差异）
+- 发布：x64 与 ARM64 单文件
+- x64 Release 附件：17.05 MiB
 - GitHub Release 附件带 Sigstore 签名文件
