@@ -12,7 +12,8 @@ public static class ThemeManager
 {
     private static bool _contextMenuHandlerRegistered;
     private static readonly Color DefaultDarkTitleBarColor = Color.FromRgb(52, 55, 61);
-    private static readonly Color DefaultLightTitleBarColor = Colors.White;
+    // 浅色模式保留一点柔和灰度，避免纯白标题栏把 Light 的高光冲淡。
+    private static readonly Color DefaultLightTitleBarColor = Color.FromRgb(241, 243, 245);
     private static readonly Color DefaultLightTitleForeground = Color.FromRgb(39, 47, 59);
 
     public static bool IsDarkMode => ThemeService.IsDarkMode;
@@ -121,10 +122,10 @@ public static class ThemeManager
                 Colors.White, Color.FromRgb(213, 231, 255), 0d);
             main.CELogo.Effect = new DropShadowEffect
             {
-                Color = Color.FromRgb(143, 196, 255),
-                BlurRadius = 12d,
+                Color = Color.FromRgb(103, 158, 229),
+                BlurRadius = 14d,
                 ShadowDepth = 0d,
-                Opacity = 0.9d,
+                Opacity = 0.78d,
                 RenderingBias = RenderingBias.Quality
             };
         }
