@@ -1,4 +1,4 @@
-﻿using System.IO;
+using System.IO;
 using PCL.Core.App;
 using PCL.Core.App.Configuration;
 using PCL.Core.App.Localization;
@@ -70,6 +70,8 @@ namespace PCL
             "LaunchAdvanceRun", 
             "VersionAdvanceRun"
         };
+
+        private static bool _allowEventActions;
         
         /// <summary>
         /// EventType → 执行逻辑 的字典映射，O(1) 分发。
@@ -81,16 +83,12 @@ namespace PCL
             [EventType.ExecuteCommand] = _OpenFileOrCommand,
             [EventType.LaunchGame] = _LaunchGame,
             [EventType.CopyText] = _CopyText,
-            [EventType.RefreshHomepage] = _Refresh,
             [EventType.RefreshPage] = _Refresh,
-            [EventType.DailyFortune] = _DailyFortune,
-            [EventType.ClearTrash] = _ClearTrash,
             [EventType.ShowDialog] = _ShowDialog,
             [EventType.ShowHint] = _ShowHint,
             [EventType.SwitchPage] = _SwitchPage,
             [EventType.ImportModpack] = _ModpackInstall,
             [EventType.InstallModpack] = _ModpackInstall,
-            [EventType.DownloadFile] = _DownloadFile,
             [EventType.ModifySetting] = _WriteSetting,
             [EventType.WriteSetting] = _WriteSetting,
             [EventType.ModifyVariable] = _WriteVariable,
@@ -184,17 +182,6 @@ namespace PCL
         }
 
         /// <summary>
-        /// 今日人品。
-        /// </summary>
-        private static void _DailyFortune(string _, EventType __) => PageToolsTest.Jrrp();
-
-        /// <summary>
-        /// 清理垃圾。异步执行 RubbishClear。
-        /// </summary>
-        private static void _ClearTrash(string _, EventType __) =>
-            ModBase.RunInThread(PageToolsTest.RubbishClear);
-
-        /// <summary>
         /// 弹出消息框。参数：Title|Content[|ButtonText]。
         /// </summary>
         private static void _ShowDialog(string arg, EventType type)
@@ -251,33 +238,6 @@ namespace PCL
         /// </summary>
         private static void _ModpackInstall(string _, EventType __) =>
             ModBase.RunInUi(ModModpack.ModpackInstall);
-
-        /// <summary>
-        /// 下载文件。参数：Url[|SavePath[|FileName]]，校验 http/https 前缀并弹安全确认。
-        /// </summary>
-        private static void _DownloadFile(string arg, EventType _)
-        {
-            var args = SplitArgs(arg);
-            args[0] = args[0].Replace('\\', '/');
-            if (!args[0].StartsWithF("http://", true) && !args[0].StartsWithF("https://", true))
-            {
-                ModMain.MyMsgBox(Lang.Text("Event.Error.DownloadUrlRequired"), Lang.Text("Event.Error.Title"));
-                return;
-            }
-            if (!EventSafetyConfirm(Lang.Text("Event.Download.Confirm", args[0])))
-                return;
-
-            try
-            {
-                PageToolsTest.StartCustomDownload(args[0],
-                    args.Length >= 2 ? args[1] : ModBase.GetFileNameFromPath(args[0]),
-                    args.Length >= 3 ? args[2] : null);
-            }
-            catch
-            {
-                PageToolsTest.StartCustomDownload(args[0], Lang.Text("Common.State.Unknown"));
-            }
-        }
 
         /// <summary>
         /// 写入 / 修改设置。参数：SettingName|Value。
@@ -445,7 +405,7 @@ namespace PCL
         /// </summary>
         private static bool EventSafetyConfirm(string message)
         {
-            if (States.Hint.HomepageCommand)
+            if (_allowEventActions)
                 return true;
 
             return ModMain.MyMsgBox(
@@ -456,7 +416,7 @@ namespace PCL
                 Lang.Text("Common.Action.Cancel")) switch
             {
                 1 => true,
-                2 => States.Hint.HomepageCommand = true,
+                2 => _allowEventActions = true,
                 _ => false,
             };
         }

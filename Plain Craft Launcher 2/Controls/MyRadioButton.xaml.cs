@@ -23,7 +23,8 @@ public partial class MyRadioButton
     public enum ColorState
     {
         White,
-        Highlight
+        Highlight,
+        TitleBar
     }
 
     // 动画
@@ -318,6 +319,12 @@ public partial class MyRadioButton
     {
         try
         {
+            if (ColorType == ColorState.TitleBar)
+            {
+                RefreshTitleBarColor();
+                return;
+            }
+
             if (IsLoaded && ModAnimation.AniControlEnabled == 0 &&
                 !false.Equals(e)) // 防止默认属性变更触发动画，若强制不执行动画，则 e 为 False
             {
@@ -500,6 +507,27 @@ public partial class MyRadioButton
         {
             ModBase.Log(ex, "刷新单选按钮颜色出错");
         }
+    }
+
+    private void RefreshTitleBarColor()
+    {
+        var normalForeground = ThemeManager.IsMonochromeDefault && !ThemeManager.IsDarkMode
+            ? new ModBase.MyColor(39d, 47d, 59d)
+            : new ModBase.MyColor(255d, 255d, 255d);
+        var foreground = Checked
+            ? new ModBase.MyColor(39d, 47d, 59d)
+            : normalForeground;
+        var background = Checked
+            ? new ModBase.MyColor(255d, 255d, 255d, 255d)
+            : IsMouseOver || isMouseDown
+                ? new ModBase.MyColor(35d, normalForeground)
+                : new ModBase.MyColor(0d, normalForeground);
+
+        ModAnimation.AniStop("MyRadioButton Checked " + Uuid);
+        ModAnimation.AniStop("MyRadioButton Color " + Uuid);
+        Background = background;
+        ShapeLogo.Fill = foreground;
+        LabText.Foreground = foreground;
     }
 
     public void RefreshMyRadioButtonColor()

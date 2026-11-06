@@ -29,7 +29,10 @@ public partial class FormMain
 
     private void FormMain_MouseMove(object sender, MouseEventArgs e)
     {
-        lastMouseArg = e;
+        // The position is only needed by the April Fool animation. Avoid retaining
+        // the most recent WPF input event (and its visual tree references) otherwise.
+        if (ModMain.isAprilEnabled)
+            lastMouseArg = e;
     }
 
     #region 基础
@@ -182,7 +185,11 @@ public partial class FormMain
         // #End If
         Topmost = false;
         if (ModMain.frmStart is not null)
-            ModMain.frmStart.Close(new TimeSpan(0, 0, 0, 0, (int)Math.Round(400d / ModAnimation.aniSpeed)));
+        {
+            var splash = ModMain.frmStart;
+            ModMain.frmStart = null;
+            splash.Close(new TimeSpan(0, 0, 0, 0, (int)Math.Round(400d / ModAnimation.aniSpeed)));
+        }
         // 更改窗口
         // Top = (GetWPFSize(My.Computer.Screen.WorkingArea.Height) - Height) / 2
         // Left = (GetWPFSize(My.Computer.Screen.WorkingArea.Width) - Width) / 2
@@ -272,7 +279,10 @@ public partial class FormMain
                         userSummary: Lang.Text("Main.Error.OperationFailed"));
                 }
 
-                HardwareInfo.GetHardwareInfo();
+                // Hardware details are only needed when exporting a crash report.
+                // Loading WMI providers during every normal startup adds transient
+                // allocations and keeps the management stack warm for no user-visible
+                // feature, so the exporter loads it on demand instead.
             }
             catch (Exception ex)
             {
@@ -327,11 +337,6 @@ public partial class FormMain
         ShowUpdateLog();
         
         // 重置自定义主页配置
-        if (lastVersionCode < 521 && Config.Preference.Homepage.SelectedPreset >= 3)
-        {
-            Config.Preference.Homepage.SelectedPreset = 0;
-            ModMain.MyMsgBox(Lang.Text("Main.HomepageReset.Content"), Lang.Text("Main.HomepageReset.Title"));
-        }
     }
 
     private void DowngradeSub(int lastVersionCode)
@@ -993,26 +998,8 @@ public partial class FormMain
                 }
             }
 
-            // 主页
-            var extension = filePath.AfterLast(".").ToLower();
-            if (extension == "xaml")
-            {
-                ModBase.Log("[System] 文件后缀为 XAML，作为主页加载");
-                if (File.Exists(ModBase.exePath + @"PCL\Custom.xaml"))
-                    if (ModMain.MyMsgBox(Lang.Text("Main.FileDrag.HomepageExists"), Lang.Text("Main.FileDrag.OverwriteTitle"), Lang.Text("Common.Action.Overwrite"), Lang.Text("Common.Action.Cancel")) == 2)
-                        return;
-
-                ModBase.CopyFile(filePath, ModBase.exePath + @"PCL\Custom.xaml");
-                ModBase.RunInUi(() =>
-                {
-                    Config.Preference.Homepage.Type = 1;
-                    ModMain.frmLaunchRight.ForceRefresh();
-                    HintService.Hint(Lang.Text("Main.FileDrag.HomepageLoaded"), HintType.Success);
-                });
-                return;
-            }
-
             // 安装 Mod
+            var extension = filePath.AfterLast(".").ToLower();
             if (PageInstanceCompResource.InstallMods(filePathList))
                 return;
             // 安装投影文件
@@ -1344,11 +1331,6 @@ public partial class FormMain
         Setup = 3,
 
         /// <summary>
-        ///     联机。
-        /// </summary>
-        Tools = 4,
-
-        /// <summary>
         ///     实例选择。这是一个副页面。
         /// </summary>
         InstanceSelect = 5,
@@ -1420,14 +1402,6 @@ public partial class FormMain
         SetupUpdate = 8,
         SetupJava = 9,
         SetupLauncherMisc = 10,
-        SetupLauncherLanguage = 11,
-
-        ToolsTest = 3,
-
-        /// <summary>
-        ///     百宝箱：导入 PCL2 / PCLCE 的设置。
-        /// </summary>
-        ToolsImport = 4,
 
         VersionOverall = 0,
         VersionSetup = 1,
@@ -1834,13 +1808,6 @@ public partial class FormMain
                             subType = ModMain.frmDownloadLeft.pageID;
                         // PageGet 方法会在未设置 SubType 时指定默认值，并建立相关页面的实例
                         PageChangeAnim(ModMain.frmDownloadLeft, (FrameworkElement)ModMain.frmDownloadLeft.PageGet(subType));
-                        break;
-                    }
-                case PageType.Tools: // 联机
-                    {
-                        ModMain.frmToolsLeft ??= new PageToolsLeft();
-                        subType = ModMain.frmToolsLeft.pageID;
-                        PageChangeAnim(ModMain.frmToolsLeft, (FrameworkElement)ModMain.frmToolsLeft.PageGet(subType));
                         break;
                     }
                 case PageType.Setup: // 设置

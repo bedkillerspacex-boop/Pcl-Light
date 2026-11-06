@@ -20,7 +20,6 @@ public partial class PageSetupLeft
         if (ItemJava.Checked && hide.SetupJava) isHiddenPage = true;
         if (ItemGameManage.Checked && hide.SetupGameManage)  isHiddenPage = true;
         if (ItemUI.Checked && hide.SetupUi) isHiddenPage = true;
-        if (ItemLauncherLanguage.Checked && hide.SetupLauncherLanguage) isHiddenPage = true;
         if (ItemLauncherMisc.Checked && hide.SetupLauncherMisc) isHiddenPage = true;
         if (ItemAbout.Checked && hide.SetupAbout) isHiddenPage = true;
         if (ItemUpdate.Checked && hide.SetupUpdate) isHiddenPage = true;
@@ -46,8 +45,6 @@ public partial class PageSetupLeft
             ItemGameManage.SetChecked(true, false, false);
         else if (!hideCfg.SetupUi) 
             ItemUI.SetChecked(true, false, false);
-        else if (!hideCfg.SetupLauncherLanguage)
-            ItemLauncherLanguage.SetChecked(true, false, false);
         else if (!hideCfg.SetupLauncherMisc) 
             ItemLauncherMisc.SetChecked(true, false, false);
         else if (!hideCfg.SetupAbout) 
@@ -104,18 +101,6 @@ public partial class PageSetupLeft
                         ModMain.frmSetupGameManage = new PageSetupGameManage();
                     ModMain.frmSetupGameManage.Reset();
                     ItemGameManage.Checked = true;
-                }
-
-                break;
-            }
-            case (double)FormMain.PageSubType.SetupLauncherLanguage:
-            {
-                if (ModMain.MyMsgBox(Lang.Text("Setup.Left.Reset.Language.Message"), Lang.Text("Setup.Left.Reset.Title"), button2: Lang.Text("Common.Action.Cancel"), isWarn: true) == 1)
-                {
-                    if (ModMain.frmSetupLauncherLanguage is null)
-                        ModMain.frmSetupLauncherLanguage = new PageSetupLauncherLanguage();
-                    ModMain.frmSetupLauncherLanguage.Reset();
-                    ItemLauncherLanguage.Checked = true;
                 }
 
                 break;
@@ -199,8 +184,6 @@ public partial class PageSetupLeft
             pageID = FormMain.PageSubType.SetupGameManage;
         else if (!hideCfg.SetupUi)
             pageID = FormMain.PageSubType.SetupUI;
-        else if (!hideCfg.SetupLauncherLanguage)
-            pageID = FormMain.PageSubType.SetupLauncherLanguage;
         else if (!hideCfg.SetupLauncherMisc)
             pageID = FormMain.PageSubType.SetupLauncherMisc;
         else if (!hideCfg.SetupAbout)
@@ -279,12 +262,6 @@ public partial class PageSetupLeft
                 if (ModMain.frmSetupFeedback is null)
                     ModMain.frmSetupFeedback = new PageSetupFeedback();
                 return ModMain.frmSetupFeedback;
-            }
-            case FormMain.PageSubType.SetupLauncherLanguage:
-            {
-                if (ModMain.frmSetupLauncherLanguage is null)
-                    ModMain.frmSetupLauncherLanguage = new PageSetupLauncherLanguage();
-                return ModMain.frmSetupLauncherLanguage;
             }
             case FormMain.PageSubType.SetupLauncherMisc:
             {

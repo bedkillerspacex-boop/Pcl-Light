@@ -3,7 +3,6 @@ using PCL.Core.App;
 using PCL.Core.App.IoC;
 using PCL.Core.IO.Net.Http;
 using PCL.Core.IO.Net.Http.Cache;
-using PCL.Core.IO.Net.Consent;
 using PCL.Core.IO.Storage.Cache;
 using PCL.Core.Logging;
 using Polly;
@@ -73,7 +72,6 @@ public partial class NetworkService
         var services = new ServiceCollection();
         services.ConfigureHttpClientDefaults(b => b
             .ConfigurePrimaryHttpMessageHandler(_GetSocketsHttpHandler)
-            .AddHttpMessageHandler(() => new NetworkGuardHandler())
             .ConfigureHttpClient(c => c.DefaultRequestHeaders
                 // 不带版本号：见 HttpSenderExtension，统一只报产品名。
                 // 必须走双参数重载并显式传 null —— 单参数的 ProductInfoHeaderValue 是「注释」重载，

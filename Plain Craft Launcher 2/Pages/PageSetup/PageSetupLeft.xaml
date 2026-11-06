@@ -68,26 +68,6 @@
                 </local:MyListItem.Buttons>
             </local:MyListItem>
 
-            <local:MyListItem x:Name="ItemLauncherLanguage"
-                              IsScaleAnimationEnabled="False"
-                              Tag="11" MinPaddingRight="35"
-                              Check="PageCheck"
-                              Height="36" VerticalAlignment="Top"
-                              Title="{DynamicResource Setup.Language.Title}"
-                              Type="RadioBox"
-                              LogoScale="0.95"
-                              SvgIcon="lucide/earth">
-                <local:MyListItem.Buttons>
-                    <x:Array Type="{x:Type local:MyIconButton}">
-                        <local:MyIconButton Tag="11" ToolTip="{DynamicResource Common.Action.Initialize}" ToolTipService.Placement="Right"
-                                            ToolTipService.InitialShowDelay="200" ToolTipService.VerticalOffset="-1"
-                                            Click="Reset"
-                                            SvgIcon="lucide/rotate-ccw"
-                                            LogoScale="0.9" />
-                    </x:Array>
-                </local:MyListItem.Buttons>
-            </local:MyListItem>
-
             <local:MyListItem x:Name="ItemLauncherMisc" IsScaleAnimationEnabled="False" Tag="10" MinPaddingRight="35"
                                Check="PageCheck"
                                Height="36" VerticalAlignment="Top" Title="{DynamicResource Setup.Left.Item.Misc}" Type="RadioBox"

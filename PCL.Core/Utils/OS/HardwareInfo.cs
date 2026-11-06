@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Management;
+using System.Threading;
 using PCL.Core.Logging;
 
 namespace PCL.Core.Utils.OS;
@@ -8,6 +9,7 @@ namespace PCL.Core.Utils.OS;
 public static class HardwareInfo
 {
     private static readonly object _Lock = new();
+    private static int _isLoaded;
     
     /// <summary>
     /// 系统 CPU 信息
@@ -79,5 +81,14 @@ public static class HardwareInfo
                 GPUs = gpuList;
         }
         LogWrapper.Info("已获取系统硬件信息");
+    }
+
+    /// <summary>
+    /// Load hardware details only for features that actually display them.
+    /// </summary>
+    public static void EnsureLoaded()
+    {
+        if (Interlocked.Exchange(ref _isLoaded, 1) == 0)
+            GetHardwareInfo();
     }
 }

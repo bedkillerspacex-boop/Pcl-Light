@@ -69,16 +69,6 @@ public static partial class States
         [ConfigItem<bool>("HintUpdateMod", false)] public partial bool UpdateMod { get; set; }
 
         /// <summary>
-        /// 执行自定义主页内含命令提示。
-        /// </summary>
-        [ConfigItem<bool>("HintCustomCommand", false)] public partial bool HomepageCommand { get; set; }
-
-        /// <summary>
-        /// 非信任主页警告。
-        /// </summary>
-        [ConfigItem<bool>("HintCustomWarn", false)] public partial bool UntrustedHomepage { get; set; }
-
-        /// <summary>
         /// 全局设置中在实例独立设置中寻找更多高级启动选项的提示。
         /// </summary>
         [ConfigItem<bool>("HintMoreAdvancedSetup", false)] public partial bool MoreInstanceSetup { get; set; }
@@ -170,16 +160,6 @@ public static partial class States
     /// </summary>
     [ConfigGroup("UI")] partial class UiStatesGroup
     {
-        /// <summary>
-        /// 当前自定义主页 URL。
-        /// </summary>
-        [ConfigItem<string>("CacheSavedPageUrl", "")] public partial string SavedHomepageUrl { get; set; }
-
-        /// <summary>
-        /// 当前自定义主页版本。
-        /// </summary>
-        [ConfigItem<string>("CacheSavedPageVersion", "")] public partial string SavedHomepageVersion { get; set; }
-
         /// <summary>
         /// 窗口高度。
         /// </summary>

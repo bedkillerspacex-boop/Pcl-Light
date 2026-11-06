@@ -63,15 +63,6 @@ public class ModSetup
         Config.Preference.FontConfig.Observe(new ConfigObserver(ConfigEvent.Changed,
             e => UiFont((string)(e.Value ?? ""))));
 
-        // UI - Homepage
-        Config.Preference.Homepage.TypeConfig.Observe(new ConfigObserver(ConfigEvent.Changed,
-            e =>
-            {
-                UiCustomType((int)e.Value!);
-                // 改完主页来源立刻反映到主页上，不用等用户手动切回启动页
-                ModMain.frmLaunchRight?.ForceRefresh();
-            }));
-
         // UI - Blur
         Config.Preference.Blur.IsEnabledConfig.Observe(new ConfigObserver(ConfigEvent.Changed,
             e => UiBlur((bool)e.Value!)));
@@ -146,9 +137,6 @@ public class ModSetup
 
         // UI - Font
         UiFont(Config.Preference.Font);
-
-        // UI - Homepage
-        UiCustomType(Config.Preference.Homepage.Type);
 
         // UI - Blur
         if (Config.Preference.Blur.IsEnabled)
@@ -459,63 +447,6 @@ public class ModSetup
                 ModBase.LogLevel.Hint,
                 userSummary: Lang.Text("Setup.Error.OperationFailed"));
         }
-    }
-
-    // 主页
-    public static void UiCustomType(int value)
-    {
-        if (ModMain.frmSetupUI is null)
-            return;
-        switch (value)
-        {
-            case 0: // 无
-            {
-                ModMain.frmSetupUI.PanCustomPreset.Visibility = Visibility.Collapsed;
-                ModMain.frmSetupUI.PanCustomLocal.Visibility = Visibility.Collapsed;
-                ModMain.frmSetupUI.PanCustomNet.Visibility = Visibility.Collapsed;
-                ModMain.frmSetupUI.HintCustom.Visibility = Visibility.Collapsed;
-                ModMain.frmSetupUI.HintCustomWarn.Visibility = Visibility.Collapsed;
-                break;
-            }
-            case 1: // 本地
-            {
-                ModMain.frmSetupUI.PanCustomPreset.Visibility = Visibility.Collapsed;
-                ModMain.frmSetupUI.PanCustomLocal.Visibility = Visibility.Visible;
-                ModMain.frmSetupUI.PanCustomNet.Visibility = Visibility.Collapsed;
-                ModMain.frmSetupUI.HintCustom.Visibility = Visibility.Visible;
-                ModMain.frmSetupUI.HintCustomWarn.Visibility =
-                    States.Hint.UntrustedHomepage ? Visibility.Collapsed : Visibility.Visible;
-                ModMain.frmSetupUI.HintCustom.Text =
-                    Lang.Text("Setup.Ui.Homepage.LocalFile.Hint");
-                CustomEventService.SetEventType(ModMain.frmSetupUI.HintCustom, EventType.None);
-                break;
-            }
-            case 2: // 联网
-            {
-                ModMain.frmSetupUI.PanCustomPreset.Visibility = Visibility.Collapsed;
-                ModMain.frmSetupUI.PanCustomLocal.Visibility = Visibility.Collapsed;
-                ModMain.frmSetupUI.PanCustomNet.Visibility = Visibility.Visible;
-                ModMain.frmSetupUI.HintCustom.Visibility = Visibility.Visible;
-                ModMain.frmSetupUI.HintCustomWarn.Visibility =
-                    States.Hint.UntrustedHomepage ? Visibility.Collapsed : Visibility.Visible;
-                ModMain.frmSetupUI.HintCustom.Text =
-                    Lang.Text("Setup.Ui.Homepage.NetUpdate.Hint");
-                CustomEventService.SetEventType(ModMain.frmSetupUI.HintCustom, EventType.OpenUrl);
-                CustomEventService.SetEventData(ModMain.frmSetupUI.HintCustom, ProjectLinks.Issues);
-                break;
-            }
-            case 3: // 预设
-            {
-                ModMain.frmSetupUI.PanCustomPreset.Visibility = Visibility.Visible;
-                ModMain.frmSetupUI.PanCustomLocal.Visibility = Visibility.Collapsed;
-                ModMain.frmSetupUI.PanCustomNet.Visibility = Visibility.Collapsed;
-                ModMain.frmSetupUI.HintCustom.Visibility = Visibility.Collapsed;
-                ModMain.frmSetupUI.HintCustomWarn.Visibility = Visibility.Collapsed;
-                break;
-            }
-        }
-
-        ModMain.frmSetupUI.CardCustom.TriggerForceResize();
     }
 
     // 高级材质

@@ -1,4 +1,3 @@
-using System.Collections.Concurrent;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
@@ -14,9 +13,6 @@ namespace PCL;
 
 public class MyBitmap
 {
-    // 使用缓存
-    private readonly ConcurrentDictionary<string, MyBitmap> _Cache = new();
-
     /// <summary>
     ///     存储的图片
     /// </summary>
@@ -37,16 +33,11 @@ public class MyBitmap
                     filePathOrResourceName.Replace("pack://application:,,,/images/", ModBase.pathImage);
                 if (filePathOrResourceName.StartsWithF(ModBase.pathImage))
                 {
-                    if (_Cache.ContainsKey(filePathOrResourceName))
-                    {
-                        pic = _Cache[filePathOrResourceName].pic;
-                    }
-                    else
-                    {
-                        pic = new MyBitmap(
-                            (ImageSource)new ImageSourceConverter().ConvertFromString(filePathOrResourceName));
-                        _Cache.TryAdd(filePathOrResourceName, pic);
-                    }
+                    // Each MyBitmap instance used to allocate its own cache, so it could
+                    // never be reused by another instance. Load the resource directly and
+                    // avoid retaining an unnecessary dictionary for the lifetime of every image.
+                    pic = new MyBitmap(
+                        (ImageSource)new ImageSourceConverter().ConvertFromString(filePathOrResourceName));
                 }
                 else
                 {

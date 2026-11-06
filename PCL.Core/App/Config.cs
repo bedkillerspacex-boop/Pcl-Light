@@ -23,10 +23,6 @@ public static partial class Config
         /// </summary>
         [ConfigItem<bool>("SystemDisableHardwareAcceleration", false)] public partial bool DisableHardwareAcceleration { get; set; }
 
-        /// <summary>
-        /// 隐私模式：不弹窗询问，直接拒绝所有未永久授权的网络用途。
-        /// </summary>
-        [ConfigItem<bool>("SystemPrivacyMode", false)] public partial bool PrivacyMode { get; set; }
 
         /// <summary>
         /// 实时日志最大行数。
@@ -49,24 +45,6 @@ public static partial class Config
     {
         [ConfigItem<bool>("SystemNetEnableDoH", true)] public partial bool EnableDoH { get; set; }
 
-        /// <summary>
-        /// 永久授权的网络用途 Id，以 | 分隔。
-        /// </summary>
-        [ConfigItem<string>("NetworkAllowedPurposes", "")] public partial string AllowedPurposes { get; set; }
-
-        /// <summary>
-        /// 是否已写入过首次启动的默认网络白名单。写入一次后不再重复，用户撤销的条目不会被重新加回。
-        /// </summary>
-        [ConfigItem<bool>("NetworkConsentSeeded", false)] public partial bool ConsentSeeded { get; set; }
-
-        /// <summary>
-        /// 授权全部连接。
-        /// <para>
-        /// 默认开启：所有网络用途与未登记域名一律放行，不再弹出授权窗口。
-        /// 关掉之后才回到「按用途逐个确认」的细粒度模式。
-        /// </para>
-        /// </summary>
-        [ConfigItem<bool>("NetworkConsentAllowAll", true)] public partial bool ConsentAllowAll { get; set; }
 
         [ConfigGroup("HttpProxy")] partial class HttpProxyConfigGroup
         {
@@ -420,31 +398,6 @@ public static partial class Config
         }
 
         /// <summary>
-        /// 自定义主页。
-        /// </summary>
-        [ConfigGroup("Homepage")] partial class HomepageConfigGroup
-        {
-            /// <summary>
-            /// 主页来源类型。0 = 空白，1 = 本地文件，2 = 联网，3 = 预设。
-            /// <para>
-            /// 默认用 3（预设）而不是 0：预设里第一个就是 PCL Light 欢迎页，
-            /// 首次启动直接看到欢迎页；用户主动选「空白」才会真的什么都不显示。
-            /// </para>
-            /// </summary>
-            [ConfigItem<int>("UiCustomType", 3, ConfigSource.Local)] public partial int Type { get; set; }
-
-            /// <summary>
-            /// 预设选项。
-            /// </summary>
-            [ConfigItem<int>("UiCustomPreset", 0, ConfigSource.Local)] public partial int SelectedPreset { get; set; }
-
-            /// <summary>
-            /// 自定义 URL。
-            /// </summary>
-            [ConfigItem<string>("UiCustomNet", "", ConfigSource.Local)] public partial string CustomUrl { get; set; }
-        }
-
-        /// <summary>
         /// 背景音乐。
         /// </summary>
         [ConfigGroup("Music")] partial class MusicConfigGroup
@@ -489,12 +442,10 @@ public static partial class Config
             // 主页面
             [ConfigItem<bool>("UiHiddenPageDownload", false, ConfigSource.Local)] public partial bool PageDownload { get; set; }
             [ConfigItem<bool>("UiHiddenPageSetup", false, ConfigSource.Local)] public partial bool PageSetup { get; set; }
-            [ConfigItem<bool>("UiHiddenPageTools", false, ConfigSource.Local)] public partial bool PageTools { get; set; }
 
             // 子页面 设置
             [ConfigItem<bool>("UiHiddenSetupLaunch", false, ConfigSource.Local)] public partial bool SetupLaunch { get; set; }
             [ConfigItem<bool>("UiHiddenSetupUi", false, ConfigSource.Local)] public partial bool SetupUi { get; set; }
-            [ConfigItem<bool>("UiHiddenSetupLauncherLanguage", false, ConfigSource.Local)] public partial bool SetupLauncherLanguage { get; set; }
             [ConfigItem<bool>("UiHiddenSetupLauncherMisc", false, ConfigSource.Local)] public partial bool SetupLauncherMisc { get; set; }
             [ConfigItem<bool>("UiHiddenSetupGameManage", false, ConfigSource.Local)] public partial bool SetupGameManage { get; set; }
             [ConfigItem<bool>("UiHiddenSetupJava", false, ConfigSource.Local)] public partial bool SetupJava { get; set; }
@@ -504,7 +455,6 @@ public static partial class Config
             [ConfigItem<bool>("UiHiddenSetupLog", false, ConfigSource.Local)] public partial bool SetupLog { get; set; } // 修正名称
 
             // 子页面 工具
-            [ConfigItem<bool>("UiHiddenToolsTest", false, ConfigSource.Local)] public partial bool ToolsTest { get; set; } // 新增
 
             // 子页面 实例设置
             [ConfigItem<bool>("UiHiddenVersionEdit", false, ConfigSource.Local)] public partial bool InstanceEdit { get; set; }

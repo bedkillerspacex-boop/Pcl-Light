@@ -8,7 +8,6 @@ using System.Windows.Input;
 using PCL.Core.App;
 using PCL.Core.App.Configuration;
 using PCL.Core.App.IoC;
-using PCL.Core.IO.Net.Consent;
 using PCL.Core.UI;
 using PCL.Core.App.Localization;
 using PCL.Core.Utils.OS;
@@ -81,9 +80,6 @@ public partial class PageSetupLauncherMisc
         TextSystemHttpProxyCustomPassword.Text = Config.Network.HttpProxy.CustomPassword;
         ((MyRadioBox)FindName($"RadioHttpProxyType{Config.Network.HttpProxy.Type}")).SetChecked(true, false);
         CheckNetDohEnable.Checked = Config.Network.EnableDoH;
-        CheckSystemPrivacyMode.Checked = Config.System.PrivacyMode;
-        CheckAllowAllConsent.Checked = Config.Network.ConsentAllowAll;
-        BuildConsentList();
 
         // 调试选项
         SliderDebugAnim.Value = Config.Debug.AnimationSpeed;
@@ -157,100 +153,6 @@ public partial class PageSetupLauncherMisc
         Config.Network.HttpProxy.CustomUsername = TextSystemHttpProxyCustomUsername.Text;
         Config.Network.HttpProxy.CustomPassword = TextSystemHttpProxyCustomPassword.Text;
     }
-
-    #region 网络白名单
-
-    /// <summary>
-    ///     重建网络白名单列表。每个用途一行，显示依赖域名数量与永久授权状态。
-    /// </summary>
-    private void BuildConsentList()
-    {
-        PanConsentList.Children.Clear();
-        var allowed = NetworkConsentService.GetPersistedAllowed();
-
-        foreach (var info in NetworkPurposeCatalog.All.Where(x => x.Purpose != NetworkPurpose.Unknown))
-        {
-            var isAllowed = allowed.Contains(info.Id);
-
-            var row = new Grid { Margin = new Thickness(0, 0, 0, 7) };
-            row.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
-            row.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
-
-            var label = new TextBlock
-            {
-                VerticalAlignment = VerticalAlignment.Center,
-                TextWrapping = TextWrapping.Wrap,
-                Text = $"{info.TitleZh}　{info.Hosts.Length} 个域名"
-            };
-            label.SetResourceReference(TextBlock.ForegroundProperty,
-                isAllowed ? "ColorBrush1" : "ColorBrushGray2");
-
-            var toggle = new MyTextButton
-            {
-                Text = isAllowed ? "撤销" : "允许",
-                VerticalAlignment = VerticalAlignment.Center,
-                Margin = new Thickness(10, 0, 0, 0)
-            };
-            toggle.Click += (_, _) =>
-            {
-                if (isAllowed)
-                    NetworkConsentService.Revoke(info.Purpose);
-                else
-                    NetworkConsentService.AllowPermanently(info.Purpose);
-                BuildConsentList();
-                HintService.Hint(
-                    $"已{(isAllowed ? "撤销" : "允许")}「{info.TitleZh}」的网络访问",
-                    HintType.Success, false);
-            };
-
-            Grid.SetColumn(toggle, 1);
-            row.Children.Add(label);
-            row.Children.Add(toggle);
-            PanConsentList.Children.Add(row);
-        }
-
-        UpdateConsentVisibility();
-    }
-
-    /// <summary>
-    ///     授权全部连接。
-    ///     <para>
-    ///     不走 <c>SetByTag</c>：该路径经 <c>ConfigService.TrySetValue</c> 写入会静默失败，
-    ///     因此直接赋值给强类型配置项。
-    ///     </para>
-    /// </summary>
-    private void AllowAllConsent_Change(object senderRaw, bool user)
-    {
-        if (ModAnimation.AniControlEnabled != 0) return;
-        Config.Network.ConsentAllowAll = ((MyCheckBox)senderRaw).Checked == true;
-        UpdateConsentVisibility();
-    }
-
-    /// <summary>
-    ///     全部放行时，逐个用途的清单没有意义，直接收起来。
-    /// </summary>
-    private void UpdateConsentVisibility()
-    {
-        var allowAll = Config.Network.ConsentAllowAll;
-        var granular = allowAll ? Visibility.Collapsed : Visibility.Visible;
-        PanConsentList.Visibility = granular;
-        PanConsentActions.Visibility = granular;
-        LabConsentGranularHint.Visibility = granular;
-        LabConsentAllowAllHint.Visibility = allowAll ? Visibility.Visible : Visibility.Collapsed;
-    }
-
-    private void ResetConsentBtn_OnClicked(object sender, MouseButtonEventArgs e)
-    {
-        if (ModMain.MyMsgBox("确定要清空全部网络白名单吗？\n清空后，每个用途都会在下一次联网前重新询问。",
-                "清空网络白名单", "清空", "取消", isWarn: true) != 1)
-            return;
-
-        NetworkConsentService.ResetAll();
-        BuildConsentList();
-        HintService.Hint("网络白名单已清空", HintType.Success, false);
-    }
-
-    #endregion
 
     // 滑动条
     private void SliderLoad()

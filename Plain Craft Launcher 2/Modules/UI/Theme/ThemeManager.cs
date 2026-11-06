@@ -13,10 +13,12 @@ public static class ThemeManager
     private static bool _contextMenuHandlerRegistered;
     private static readonly Color DefaultDarkTitleBarColor = Color.FromRgb(52, 55, 61);
     // 浅色模式保留一点柔和灰度，避免纯白标题栏把 Light 的高光冲淡。
-    private static readonly Color DefaultLightTitleBarColor = Color.FromRgb(241, 243, 245);
+    private static readonly Color DefaultLightTitleBarColor = Color.FromRgb(220, 225, 231);
     private static readonly Color DefaultLightTitleForeground = Color.FromRgb(39, 47, 59);
 
     public static bool IsDarkMode => ThemeService.IsDarkMode;
+
+    public static bool IsMonochromeDefault => Config.Preference.Theme.ThemeSelected == 0;
 
     public static ResourceDictionary AppResources => System.Windows.Application.Current.Resources;
 
@@ -59,7 +61,7 @@ public static class ThemeManager
 
         // 编号 0 是新的简洁黑白预设。配置迁移时 UiCustomTheme 可能仍为旧值，
         // 但只要选中默认预设，就必须稳定地使用黑白纯色标题栏。
-        var isMonochromeDefault = Config.Preference.Theme.ThemeSelected == 0;
+        var isMonochromeDefault = IsMonochromeDefault;
         if (isMonochromeDefault)
         {
             main.PanTitle.BackgroundBrush = new SolidColorBrush(
@@ -139,6 +141,10 @@ public static class ThemeManager
         main.BtnTitleMin.RefreshAnim();
         main.BtnTitleHelp.RefreshAnim();
         main.BtnTitleInner.RefreshAnim();
+
+        main.BtnTitleSelect0.RefreshMyRadioButtonColor();
+        main.BtnTitleSelect1.RefreshMyRadioButtonColor();
+        main.BtnTitleSelect3.RefreshMyRadioButtonColor();
     }
 
     private static bool _ResourceExists(Uri uri)

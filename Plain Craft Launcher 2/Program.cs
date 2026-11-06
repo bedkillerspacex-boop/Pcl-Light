@@ -4,7 +4,6 @@ using PCL.Core.App;
 using PCL.Core.App.Essentials;
 using PCL.Core.App.IoC;
 using PCL.Core.Utils.OS;
-using PCL.Network;
 
 namespace PCL;
 
@@ -25,8 +24,6 @@ internal static class Program
         }
 #endif
         Console.WriteLine("Welcome to PCL Light!");
-        // 网络授权弹窗：必须早于任何联网操作注册
-        PCL.Network.NetworkConsentDialog.Register();
         // Preloading tasks
         ApplicationService.Loading = static () =>
         {
@@ -36,8 +33,6 @@ internal static class Program
         };
         MainWindowService.Loading = static () =>
         {
-            // 首次启动写入默认网络白名单（必须在任何联网操作之前，且此时配置系统已就绪）
-            PCL.Core.IO.Net.Consent.NetworkConsentService.SeedDefaults();
             var form = new FormMain();
             return form;
         };

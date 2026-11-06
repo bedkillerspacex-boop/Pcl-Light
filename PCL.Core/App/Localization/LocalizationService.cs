@@ -54,20 +54,8 @@ public sealed partial class LocalizationService
     /// </summary>
     public static CultureInfo CurrentFormatCulture { get; private set; } = CultureInfo.CurrentCulture;
 
-    /// <summary>
-    ///     受支持的 UI 语言。
-    ///     <para>
-    ///         只保留简体中文、繁體中文与英文（en-US / en-GB）：这三个语种的翻译是完整的，
-    ///         其余语种长期只有机翻残页，留在列表里只会让人点到一半翻译的界面。
-    ///     </para>
-    /// </summary>
-    public static IReadOnlyList<LocalizationLanguage> SupportedLanguages { get; } =
-    [
-        _DefaultLanguage,
-        new("zh-TW", "繁體中文（台灣）", "zh-TW", LocalizationFontProfile.TraditionalChinese),
-        new("en-US", "English (US)", "en-US", LocalizationFontProfile.English),
-        new("en-GB", "English (United Kingdom)", "en-GB", LocalizationFontProfile.English)
-    ];
+    /// <summary>固定使用简体中文，语言资源只保留这一套以减少启动时的资源索引和常驻内存。</summary>
+    public static IReadOnlyList<LocalizationLanguage> SupportedLanguages { get; } = [_DefaultLanguage];
 
     [RegisterConfigEvent]
     public static ConfigEventRegistry OnLanguageConfigChanged => new(
@@ -99,14 +87,12 @@ public sealed partial class LocalizationService
     {
         if (!ConfigService.IsInitialized)
         {
-            Apply(Auto, Auto, false);
+            Apply(DefaultLanguageCode, FormatCultureFollowLanguage, false);
             return;
         }
 
-        Apply(
-            Config.Preference.Localization.Language,
-            Config.Preference.Localization.FormatCulture,
-            save);
+        // PCL Light 固定使用简体中文，不再提供语言切换入口。
+        Apply(DefaultLanguageCode, FormatCultureFollowLanguage, save: true);
     }
 
     /// <summary>

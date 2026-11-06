@@ -196,6 +196,7 @@ internal sealed class CrashReportExporter
         StringBuilder builder,
         string launcherLog)
     {
+        HardwareInfo.EnsureLoaded();
         builder.AppendLine(Lang.Text("Crash.Report.Environment.EnvironmentSection"));
 
         builder.AppendLine(

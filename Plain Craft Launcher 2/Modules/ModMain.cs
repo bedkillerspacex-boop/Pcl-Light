@@ -34,9 +34,6 @@ public static class ModMain
     public static PageSelectRight? frmSelectRight;
     public static PageSpeedLeft? frmSpeedLeft;
     public static PageSpeedRight? frmSpeedRight;
-    public static PageToolsLeft? frmToolsLeft;
-    public static PageToolsTest? frmToolsTest;
-    public static PageToolsImport? frmToolsImport;
     public static PageDownloadLeft? frmDownloadLeft;
     public static PageDownloadInstall? frmDownloadInstall;
     public static PageDownloadClient? frmDownloadClient;
@@ -64,7 +61,6 @@ public static class ModMain
     public static PageSetupAbout? frmSetupAbout;
     public static PageSetupLog? frmSetupLog;
     public static PageSetupFeedback? frmSetupFeedback;
-    public static PageSetupLauncherLanguage? frmSetupLauncherLanguage;
     public static PageSetupLauncherMisc? frmSetupLauncherMisc;
     public static PageLoginAuth? frmLoginAuth;
     public static PageLoginMs? frmLoginMs;
@@ -89,8 +85,6 @@ public static class ModMain
     public static PageInstanceSavesInfo? frmInstanceSavesInfo;
     public static PageInstanceSavesDatapack? frmInstanceSavesDatapack;
     public static PageDownloadCompDetail? frmDownloadCompDetail;
-    public static PageHomepageNewsView? frmHomepageNews;
-    public static PageWelcome? frmWelcome;
 
     public static MySlider? dragControl = null;
     private static int timer4Count;
@@ -1079,8 +1073,6 @@ public static class ModMain
     }
     
     // 高级
-    text = ModBase.RegexReplaceEach(text, @"\{hint\}", m => replacer(PageToolsTest.GetRandomHint()));
-    text = ModBase.RegexReplaceEach(text, @"\{cave\}", m => replacer(PageToolsTest.GetRandomCave()));
     text = ModBase.RegexReplaceEach(text, @"\{setup:([a-zA-Z0-9]+)\}", m =>
     {
         if (ConfigService.TryGetConfigItemNoType(m.Groups[1].Value, out var item) && item.Source != ConfigSource.SharedEncrypt)
