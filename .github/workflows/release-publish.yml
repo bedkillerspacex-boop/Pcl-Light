@@ -3,6 +3,7 @@ name: Release publish
 permissions:
   contents: write
   actions: write
+  pull-requests: read
 
 on:
   workflow_dispatch:
