@@ -3109,7 +3109,7 @@ Any of these credentials is equivalent to your account password.</sys:String>
     <sys:String x:Key="Setup.Ui.Music.Volume">Volume</sys:String>
 
     <!-- Setup.Ui.Theme.Preset -->
-    <sys:String x:Key="Setup.Ui.Theme.Preset.0">Totoro Blue</sys:String>
+    <sys:String x:Key="Setup.Ui.Theme.Preset.0">Simple Monochrome</sys:String>
     <sys:String x:Key="Setup.Ui.Theme.Preset.1">Lemon Mint</sys:String>
     <sys:String x:Key="Setup.Ui.Theme.Preset.2">Grass Green</sys:String>
     <sys:String x:Key="Setup.Ui.Theme.Preset.3">Pineapple Yellow</sys:String>

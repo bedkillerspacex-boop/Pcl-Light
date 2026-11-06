@@ -45,7 +45,7 @@
 配置项都是源生成器生成的 partial 属性，键名就是 `ConfigItem` 的第一个参数：
 
 ```csharp
-[ConfigItem<int>("UiLauncherHue", 210, ConfigSource.Local)]
+[ConfigItem<int>("UiLauncherHue", 0, ConfigSource.Local)]
 public partial int WindowHue { get; set; }
 ```
 
@@ -65,8 +65,8 @@ public partial int WindowHue { get; set; }
 | `UiDarkColor` | `ColorTheme` | `CatBlue` | 深色模式用哪个内置主题（路径 B） |
 | `UiLightColor` | `ColorTheme` | `CatBlue` | 浅色模式同上 |
 | `UiCustomTheme` | bool | `true` | 是否走 HSL 引擎（路径 A） |
-| `UiLauncherHue` | int | 210 | 色相 0–360 |
-| `UiLauncherSat` | int | 85 | 饱和度 0–100 |
+| `UiLauncherHue` | int | 0 | 色相 0–360 |
+| `UiLauncherSat` | int | 0 | 饱和度 0–100 |
 | `UiLauncherLight` | int | 20 | 明度调整，**实际值 = 存储值 − 20** |
 | `UiLauncherDelta` | int | 90 | 标题栏色相偏移，**实际值 = 存储值 − 90** |
 | `UiLauncherDeltaTriple` | string | `""` | 三元组，如 `-30,10,50` |

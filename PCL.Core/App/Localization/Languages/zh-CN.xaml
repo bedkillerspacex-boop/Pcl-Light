@@ -3166,7 +3166,7 @@ Cookie 可以直接粘扩展导出的 cookies.txt（Netscape 格式）整份内�
     <sys:String x:Key="Setup.Ui.Music.Volume">音量</sys:String>
 
     <!-- Setup.Ui.Theme.Preset -->
-    <sys:String x:Key="Setup.Ui.Theme.Preset.0">龙猫蓝</sys:String>
+    <sys:String x:Key="Setup.Ui.Theme.Preset.0">简洁黑白</sys:String>
     <sys:String x:Key="Setup.Ui.Theme.Preset.1">甜柠青</sys:String>
     <sys:String x:Key="Setup.Ui.Theme.Preset.2">小草绿</sys:String>
     <sys:String x:Key="Setup.Ui.Theme.Preset.3">菠萝黄</sys:String>

@@ -320,7 +320,7 @@ public static class PclThemePresets
     /// </summary>
     public static readonly IReadOnlyList<PclThemePreset> Main =
     [
-        new(0, "龙猫蓝", new PclThemeArgs(210, 85, 0, 0)),
+        new(0, "简洁黑白", new PclThemeArgs(0, 0, 0, 0)),
         new(1, "甜柠青", new PclThemeArgs(180, 50, 0, 0)),
         new(2, "小草绿", new PclThemeArgs(130, 40, 0, 0, TopbarHueTriple: [5, -5, 5])),
         new(3, "菠萝黄", new PclThemeArgs(75, 50, 0, 0)),

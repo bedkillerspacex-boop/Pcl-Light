@@ -3109,7 +3109,7 @@ Cookie 可以直接貼擴充功能匯出的 cookies.txt（Netscape 格式）整�
     <sys:String x:Key="Setup.Ui.Music.Volume">音量</sys:String>
 
     <!-- Setup.Ui.Theme.Preset -->
-    <sys:String x:Key="Setup.Ui.Theme.Preset.0">龍貓藍</sys:String>
+    <sys:String x:Key="Setup.Ui.Theme.Preset.0">簡潔黑白</sys:String>
     <sys:String x:Key="Setup.Ui.Theme.Preset.1">甜檸青</sys:String>
     <sys:String x:Key="Setup.Ui.Theme.Preset.2">小草綠</sys:String>
     <sys:String x:Key="Setup.Ui.Theme.Preset.3">菠蘿黃</sys:String>

@@ -322,12 +322,12 @@ public static partial class Config
             /// <summary>
             /// 自定义主题：色相 (H)，0-360。
             /// </summary>
-            [ConfigItem<int>("UiLauncherHue", 210, ConfigSource.Local)] public partial int WindowHue { get; set; }
+            [ConfigItem<int>("UiLauncherHue", 0, ConfigSource.Local)] public partial int WindowHue { get; set; }
 
             /// <summary>
             /// 自定义主题：饱和度 (S)，0-100。
             /// </summary>
-            [ConfigItem<int>("UiLauncherSat", 85, ConfigSource.Local)] public partial int WindowSat { get; set; }
+            [ConfigItem<int>("UiLauncherSat", 0, ConfigSource.Local)] public partial int WindowSat { get; set; }
 
             /// <summary>
             /// 自定义主题：明度调整 (L)，存储值 20 表示不调整，对应实际偏移 <c>存储值 - 20</c>。

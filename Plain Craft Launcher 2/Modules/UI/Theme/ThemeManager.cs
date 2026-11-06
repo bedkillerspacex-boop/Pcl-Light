@@ -56,8 +56,9 @@ public static class ThemeManager
         var main = ModMain.frmMain;
         if (main?.ImgTitleGradient is null) return;
 
-        var isMonochromeDefault = !ThemeService.IsCustomTheme
-                                  && Config.Preference.Theme.ThemeSelected == 0;
+        // 编号 0 是新的简洁黑白预设。配置迁移时 UiCustomTheme 可能仍为旧值，
+        // 但只要选中默认预设，就必须稳定地使用黑白纯色标题栏。
+        var isMonochromeDefault = Config.Preference.Theme.ThemeSelected == 0;
         if (isMonochromeDefault)
         {
             main.PanTitle.BackgroundBrush = new SolidColorBrush(
