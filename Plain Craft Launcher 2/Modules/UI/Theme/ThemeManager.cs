@@ -1,6 +1,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Media.Effects;
 using System.Windows.Media.Imaging;
 using PCL.Core.App;
 using PCL.Core.UI.Theme;
@@ -10,6 +11,9 @@ namespace PCL;
 public static class ThemeManager
 {
     private static bool _contextMenuHandlerRegistered;
+    private static readonly Color DefaultDarkTitleBarColor = Color.FromRgb(52, 55, 61);
+    private static readonly Color DefaultLightTitleBarColor = Colors.White;
+    private static readonly Color DefaultLightTitleForeground = Color.FromRgb(39, 47, 59);
 
     public static bool IsDarkMode => ThemeService.IsDarkMode;
 
@@ -41,7 +45,7 @@ public static class ThemeManager
     }
 
     /// <summary>
-    /// 刷新标题栏：渐变底色 + 原版纹理叠加。
+    /// 刷新标题栏：默认主题使用纯色，其余主题保留渐变底色与纹理。
     /// <para>
     /// 对应原版 <c>PCL.ModSecret.ThemeRefreshMain</c>：三点渐变写进 <c>PanTitle.Background</c>，
     /// 编号 5 以上再叠一张 <c>Themes/{n}.png</c> 纹理（编号 13 透明度 0.25，其余 0.5）。
@@ -51,6 +55,22 @@ public static class ThemeManager
     {
         var main = ModMain.frmMain;
         if (main?.ImgTitleGradient is null) return;
+
+        var isMonochromeDefault = !ThemeService.IsCustomTheme
+                                  && Config.Preference.Theme.ThemeSelected == 0;
+        if (isMonochromeDefault)
+        {
+            main.PanTitle.BackgroundBrush = new SolidColorBrush(
+                IsDarkMode ? DefaultDarkTitleBarColor : DefaultLightTitleBarColor);
+            main.ImgTitleGradient.Fill = null;
+            main.ImgTitle.Source = null;
+            ApplyTitleBarContrast(main, useDarkForeground: !IsDarkMode);
+            return;
+        }
+
+        // 非默认主题继续使用原有彩色标题栏。
+        main.PanTitle.SetResourceReference(AnimatedBackgroundGrid.BackgroundBrushProperty, "ColorBrush3");
+        ApplyTitleBarContrast(main, useDarkForeground: false);
 
         if (ThemeService.GetCustomThemeArgs() is not { } args)
         {
@@ -68,6 +88,55 @@ public static class ThemeManager
         main.ImgTitle.Opacity = index == 13 ? 0.25d : 0.5d;
         ModBase.Log($"[Theme] 标题栏渐变 {args}；纹理 {index}.png = {(hasTexture ? "已加载" : "无")}",
             ModBase.LogLevel.Developer);
+    }
+
+    private static void ApplyTitleBarContrast(FormMain main, bool useDarkForeground)
+    {
+        var foreground = new SolidColorBrush(useDarkForeground
+            ? DefaultLightTitleForeground
+            : Colors.White);
+
+        main.ShapeTitleLogo.Stroke = foreground;
+        main.ShapeHMCLTitleLogo.Stroke = foreground;
+        main.ShapeHMCLTitleLogo.Fill = foreground;
+        main.LabTitleLogo.Foreground = foreground;
+        main.LabTitleInner.Foreground = foreground;
+
+        if (useDarkForeground)
+        {
+            main.CELogo.Foreground = foreground;
+            main.CELogo.Effect = new DropShadowEffect
+            {
+                Color = Color.FromRgb(35, 111, 216),
+                BlurRadius = 17d,
+                ShadowDepth = 0d,
+                Opacity = 0.95d,
+                RenderingBias = RenderingBias.Quality
+            };
+        }
+        else
+        {
+            main.CELogo.Foreground = new LinearGradientBrush(
+                Colors.White, Color.FromRgb(213, 231, 255), 0d);
+            main.CELogo.Effect = new DropShadowEffect
+            {
+                Color = Color.FromRgb(143, 196, 255),
+                BlurRadius = 12d,
+                ShadowDepth = 0d,
+                Opacity = 0.9d,
+                RenderingBias = RenderingBias.Quality
+            };
+        }
+
+        var iconTheme = useDarkForeground ? MyIconButton.Themes.Black : MyIconButton.Themes.White;
+        main.BtnTitleClose.Theme = iconTheme;
+        main.BtnTitleMin.Theme = iconTheme;
+        main.BtnTitleHelp.Theme = iconTheme;
+        main.BtnTitleInner.Theme = iconTheme;
+        main.BtnTitleClose.RefreshAnim();
+        main.BtnTitleMin.RefreshAnim();
+        main.BtnTitleHelp.RefreshAnim();
+        main.BtnTitleInner.RefreshAnim();
     }
 
     private static bool _ResourceExists(Uri uri)
