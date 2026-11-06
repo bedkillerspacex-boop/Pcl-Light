@@ -149,16 +149,23 @@
                                 StrokeThickness="0.2" SnapsToDevicePixels="False" UseLayoutRounding="False" IsHitTestVisible="False" HorizontalAlignment="Left" Height="15" Margin="45,15.5,0,15.5" Stretch="Fill" Stroke="White" Fill="White" Width="52" />
                             <TextBlock Grid.Column="0" x:Name="LabTitleLogo" Visibility="Collapsed" SnapsToDevicePixels="False" UseLayoutRounding="False" IsHitTestVisible="False" HorizontalAlignment="Left" Margin="18,0,0,0" Foreground="White" FontSize="17" VerticalAlignment="Center" />
                             <local:MyImage Grid.Column="0" x:Name="ImageTitleLogo" SnapsToDevicePixels="False" UseLayoutRounding="False" IsHitTestVisible="False" HorizontalAlignment="Left" Margin="7" VerticalAlignment="Center" Visibility="Collapsed" />
-                            <!--  PCL Light 徽标：纯文字 "Light"，紧贴 PCL 字标，并以紧凑 Bloom 突出 Light。
+                            <!--  PCL Light 徽标：纯文字 "Light"，由左侧 PCL 字标的冷白高光照亮。
                                   只在默认字标下显示；自定义标题（文本 / 图片）后面不强加。  -->
                             <TextBlock Grid.Column="1" x:Name="CELogo" Text="Light"
                                        VerticalAlignment="Center" HorizontalAlignment="Left"
                                        Margin="7,0,0,0" FontSize="17" FontWeight="Bold"
-                                       Foreground="#F2FFFC" IsHitTestVisible="False"
+                                       IsHitTestVisible="False"
                                        SnapsToDevicePixels="True" UseLayoutRounding="True">
+                                <TextBlock.Foreground>
+                                    <LinearGradientBrush StartPoint="0,0.5" EndPoint="1,0.5">
+                                        <GradientStop Color="#FFFFFF" Offset="0" />
+                                        <GradientStop Color="#D4E6FF" Offset="0.42" />
+                                        <GradientStop Color="#F5F9FF" Offset="1" />
+                                    </LinearGradientBrush>
+                                </TextBlock.Foreground>
                                 <TextBlock.Effect>
-                                    <DropShadowEffect Color="#76FFE1" BlurRadius="4" ShadowDepth="0"
-                                                      Opacity="0.75" RenderingBias="Performance" />
+                                    <DropShadowEffect Color="#8CBFFF" BlurRadius="11" ShadowDepth="0"
+                                                      Opacity="0.9" RenderingBias="Quality" />
                                 </TextBlock.Effect>
                             </TextBlock>
                         </Grid>
