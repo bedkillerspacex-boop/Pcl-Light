@@ -18,28 +18,26 @@ public static class ProjectLinks
     // ─────────────────────────────────────────────────────────────
 
     /// <summary>GitHub 用户名或组织名。</summary>
-    public const string GitHubOwner = "askbbtsk";
+    public const string GitHubOwner = "bedkillerspacex-boop";
 
     /// <summary>仓库名。</summary>
-    public const string GitHubRepo = "pcl-lite";
+    public const string GitHubRepo = "Pcl-Light";
 
     // ─────────────────────────────────────────────────────────────
     //  更新清单仓库（迁移锚点）
     // ─────────────────────────────────────────────────────────────
 
     /// <summary>
-    /// 更新清单所在的组织。与 <see cref="GitHubOwner"/> 刻意分开：这份清单的作用
+    /// 更新清单所在的账号。与 <see cref="GitHubOwner"/> 刻意分开：这份清单的作用
     /// 就是在仓库搬家之后还能把老客户端指到新地址，所以它必须留在原地不动。
     /// <para>
-    /// 2026-10 从 <c>Pcl-Lite</c> 组织迁到这里：那个组织被 GitHub 标记隐藏，
-    /// 组织下所有仓库对匿名访问全部 404，清单和 Release 一起失联。
-    /// 个人账号下的仓库不会因为「组织被标记」而整片消失。
+    /// Light 使用独立的公开锚点仓库，避免与 PCL Lite 共用清单而串用版本。
     /// </para>
     /// </summary>
     public const string ServiceOwner = "bedkillerspacex-boop";
 
     /// <summary>更新清单所在的仓库。</summary>
-    public const string ServiceRepo = "Pcl-Lite-service";
+    public const string ServiceRepo = "PCL-Light-service";
 
     // ─────────────────────────────────────────────────────────────
     //  以下由上面两个常量推导，一般不用改

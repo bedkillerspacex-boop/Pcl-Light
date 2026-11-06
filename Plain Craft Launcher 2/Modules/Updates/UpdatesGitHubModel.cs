@@ -393,7 +393,7 @@ public class UpdatesGitHubModel : IUpdateSource
         if (IsAvailable()) return;
         throw new UpdateSourceException(
             $"更新仓库地址不完整（{_owner}/{_repo}）。请检查 PCL.Core/App/ProjectLinks.cs 中的 " +
-            "GitHubOwner 与 GitHubRepo，或 Pcl-Lite-service 仓库 update.json 里写的仓库路径。");
+            "GitHubOwner 与 GitHubRepo，或 PCL-Light-service 仓库 update.json 里写的仓库路径。");
     }
 
     /// <summary>

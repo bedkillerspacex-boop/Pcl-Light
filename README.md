@@ -15,9 +15,9 @@ PCL Light 基于 .NET 6，支持 Windows 7 SP1 及以上系统。
 | 版本 | x64 单文件 | 空闲 Private Bytes（中位数；三次范围） | 空闲 Working Set（中位数；三次范围） |
 | --- | ---: | ---: | ---: |
 | PCL CE 2.15.1 | 22.40 MiB | 167.0 MiB（156.5–175.8） | 208.1 MiB（204.3–217.9） |
-| PCL Light 1.0-hotfix-1 | 17.74 MiB | 156.1 MiB（133.3–159.7） | 210.1 MiB（188.6–214.7） |
+| PCL Light 1.0-hotfix-2 | 17.19 MiB | 继承 hotfix-1 代码路径，未重新采样 | 继承 hotfix-1 代码路径，未重新采样 |
 
-PCL Light 1.0-hotfix-1 的单文件比 PCL CE 2.15.1 小约 20.8%，Private Bytes 中位数低约 6.5%；两者 Working Set 中位数接近。若更看重功能完整度和更低的 Private Bytes 占用，PCL Lite 提供更多功能且空闲 Private Bytes 更低，可访问 [PCL Lite 仓库](https://github.com/askbbtsk/pcl-lite)。
+PCL Light 的定位是保留核心启动能力并减少附加功能；若需要更多功能和更低常驻 Private Bytes 占用，可访问独立的 [PCL Lite 仓库](https://github.com/askbbtsk/pcl-lite)。
 
 ## 当前版本特性
 

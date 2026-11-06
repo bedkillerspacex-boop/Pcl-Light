@@ -17,6 +17,17 @@ namespace PCL.Core.Test;
 public class UpdateManifestPointerTest
 {
     [TestMethod]
+    public void ProjectLinksMustPointToPclLightReleaseRepository()
+    {
+        Assert.AreEqual("bedkillerspacex-boop", ProjectLinks.GitHubOwner);
+        Assert.AreEqual("Pcl-Light", ProjectLinks.GitHubRepo);
+        Assert.AreEqual("PCL-Light-service", ProjectLinks.ServiceRepo);
+        Assert.AreEqual(
+            "bedkillerspacex-boop/Pcl-Light/releases/latest",
+            UpdateManifestPointer.ResolveSelf("self"));
+    }
+
+    [TestMethod]
     public void ExtractShouldReadSingleLineJson()
     {
         Assert.AreEqual(

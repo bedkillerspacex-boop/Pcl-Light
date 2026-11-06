@@ -28,7 +28,7 @@ public static class UpdateManager
 
     public static UpdatesWrapperModel remoteServer = new(new List<IUpdateSource>
     {
-        // 第一优先：Pcl-Lite-service 仓库里的 update.json。
+        // 第一优先：PCL-Light-service 仓库里的 update.json。
         // 它才是「当前该去哪个仓库拿版本」的唯一真源——发布仓库搬家后只改这份 json，
         // 所有还在跑老版本的机器照样能找到新版本，不会失联。
         new UpdatesManifestModel(),
