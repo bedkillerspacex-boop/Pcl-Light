@@ -95,8 +95,35 @@ public static class UpdateVersion
     /// </summary>
     public static SemVer ParseForComparison(string? name)
     {
-        if (string.IsNullOrWhiteSpace(name))
+        if (!TryNormalize(name, out var text))
             throw new ArgumentException("Invalid semantic version format", nameof(name));
+
+        return SemVer.Parse(text);
+    }
+
+    /// <summary>把一个版本名拆成可比较的键。</summary>
+    public static bool TryParse(string? name, out Key key)
+    {
+        key = default;
+        if (!TryNormalize(name, out var text)) return false;
+
+        if (!SemVer.TryParse(text, out var semVer) || semVer is null) return false;
+
+        var suffix = semVer.Prerelease;
+        key = new Key(
+            semVer.Major, semVer.Minor, semVer.Patch,
+            _RankOf(suffix), _SequenceOf(suffix), _FamilyOf(suffix));
+        return true;
+    }
+
+    /// <summary>
+    /// 将启动器版本名规范化为 SemVer 可解析的三段核心版本号。
+    /// 比较时仍接收旧版 metadata 使用的两段式版本，避免旧安装被误判为永远落后。
+    /// </summary>
+    private static bool TryNormalize(string? name, out string normalized)
+    {
+        normalized = string.Empty;
+        if (string.IsNullOrWhiteSpace(name)) return false;
 
         var text = name.Trim();
         if (text.StartsWith('v') || text.StartsWith('V')) text = text[1..];
@@ -105,40 +132,19 @@ public static class UpdateVersion
         var core = suffixIndex >= 0 ? text[..suffixIndex] : text;
         var suffix = suffixIndex >= 0 ? text[suffixIndex..] : string.Empty;
         var parts = core.Split('.');
-        if (parts.Length is < 1 or > 3)
-            throw new ArgumentException("Invalid semantic version format", nameof(name));
+        if (parts.Length is < 1 or > 3) return false;
 
         foreach (var part in parts)
         {
-            if (part.Length == 0)
-                throw new ArgumentException("Invalid semantic version format", nameof(name));
+            if (part.Length == 0) return false;
             foreach (var character in part)
             {
-                if (character is < '0' or > '9')
-                    throw new ArgumentException("Invalid semantic version format", nameof(name));
+                if (character is < '0' or > '9') return false;
             }
         }
 
         while (parts.Length < 3) parts = [.. parts, "0"];
-        return SemVer.Parse(string.Join('.', parts) + suffix);
-    }
-
-    /// <summary>把一个版本名拆成可比较的键。</summary>
-    public static bool TryParse(string? name, out Key key)
-    {
-        key = default;
-        if (string.IsNullOrWhiteSpace(name)) return false;
-
-        // SemVer 的正则只认小写 v，GitHub 上大写 V 的 tag 也不少见，先自己削掉
-        var text = name.Trim();
-        if (text.StartsWith('v') || text.StartsWith('V')) text = text[1..];
-
-        if (!SemVer.TryParse(text, out var semVer) || semVer is null) return false;
-
-        var suffix = semVer.Prerelease;
-        key = new Key(
-            semVer.Major, semVer.Minor, semVer.Patch,
-            _RankOf(suffix), _SequenceOf(suffix), _FamilyOf(suffix));
+        normalized = string.Join('.', parts) + suffix;
         return true;
     }
 

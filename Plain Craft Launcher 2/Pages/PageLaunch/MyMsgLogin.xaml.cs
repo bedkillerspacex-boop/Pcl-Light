@@ -3,7 +3,6 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using PCL.Core.App;
 using PCL.Core.App.Localization;
-using PCL.Core.UI.Controls;
 using PCL.Core.Utils;
 using PCL.Core.IO.Net.Http;
 using PCL.Core.Logging;
@@ -210,7 +209,7 @@ public partial class MyMsgLogin
             // 动画
             Opacity = 0d;
             ModAnimation.AniStart(
-                ModAnimation.AaColor(ModMain.frmMain.PanMsgBackground, BlurBorder.BackgroundProperty,
+                ModAnimation.AaColor(ModMain.frmMain.PanMsgBackground, Border.BackgroundProperty,
                     (myConverter.IsWarn
                         ? new ModBase.MyColor(140d, 80d, 0d, 0d)
                         : new ModBase.MyColor(90d, 0d, 0d, 0d)) - ModMain.frmMain.PanMsgBackground.Background, 200),
@@ -247,7 +246,7 @@ public partial class MyMsgLogin
             {
                 if (!ModMain.WaitingMyMsgBox.Any())
                     ModAnimation.AniStart(ModAnimation.AaColor(ModMain.frmMain.PanMsgBackground,
-                        BlurBorder.BackgroundProperty,
+                        Border.BackgroundProperty,
                         new ModBase.MyColor(0d, 0d, 0d, 0d) - ModMain.frmMain.PanMsgBackground.Background, 200,
                         ease: new ModAnimation.AniEaseOutFluent(ModAnimation.AniEasePower.Weak)));
             }, 30),

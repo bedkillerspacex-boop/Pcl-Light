@@ -7,7 +7,7 @@
 | 需要 | 版本 | 备注 |
 | --- | --- | --- |
 | Windows | 10 1809+ / 11 | WPF 项目，只能在 Windows 上编 |
-| .NET SDK | 10.0 | `dotnet --version` 确认 |
+| .NET SDK | 6.0 | `dotnet --version` 确认 |
 | Git | 任意 | |
 
 不需要 Visual Studio，`dotnet` CLI 就够。装了 VS 也可以直接用 `Plain Craft Launcher 2.slnx` 打开。
@@ -20,9 +20,9 @@ dotnet publish "Plain Craft Launcher 2/Plain Craft Launcher 2.csproj" `
   -p:DeleteExistingFiles=true -o ./publish-x64
 ```
 
-产物：`publish-x64/Plain Craft Launcher 2.exe`，单文件约 19 MB。
+产物：`publish-x64/Plain Craft Launcher 2.exe`，单文件约 17 MB（取决于发布参数）。
 
-`--no-self-contained` 意味着**用户机器上要装 .NET 10 桌面运行时**。想要免安装运行时就把这个参数去掉，
+`--no-self-contained` 意味着**用户机器上要装 .NET 6 桌面运行时**。想要免安装运行时就把这个参数去掉，
 体积会涨到 60 MB 以上。
 
 ## 三、密钥注入
@@ -168,7 +168,7 @@ git rm --cached -r publish-x64     # 只从索引移除，本地文件保留
 | --- | --- | --- |
 | 改了密钥但产物哈希不变 | VBCSCompiler 缓存了旧环境变量 | `dotnet build-server shutdown` + `-t:Rebuild` |
 | 编译报一堆 `CS0414`（字段已赋值但从未使用） | 上游遗留，不是你的问题 | 忽略 |
-| `NU1510` 警告（PackageReference 不会删除） | .NET 10 对内置包的新提示 | 忽略 |
+| `NU1510` 警告（PackageReference 不会删除） | SDK 对内置包的新提示 | 忽略 |
 | 启动提示"未配置 Client ID" | 编译时没设 `PCL_WRITE_SECRET` / `PCL_MS_CLIENT_ID` | 见第三节 |
 | 用户侧"检查更新时出错" | GitHub API 限流（未认证 60 次/小时/IP） | 代码里已有 Atom 降级通道，确认它没被改坏 |
 | 单文件 exe 启动慢 | 单文件首次运行要解压到临时目录 | 正常，第二次会快 |

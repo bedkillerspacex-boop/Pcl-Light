@@ -18,7 +18,7 @@ PCL Light 的第一个正式版。
 | --- | --- |
 | x64 | `PCL-Light_1.0_x64.exe` |
 
-单文件、免解压。**需要已安装 [.NET 10 桌面运行时](https://dotnet.microsoft.com/download/dotnet/10.0)**。
+单文件、免解压。**需要已安装 [.NET 6 桌面运行时](https://dotnet.microsoft.com/download/dotnet/6.0)**。
 
 ## 已知问题
 
@@ -29,7 +29,7 @@ PCL Light 的第一个正式版。
 
 本项目以 **MIT** 发布，并附带下列**传染性（copyleft）**条款。
 
-完整条款见 [LICENSE](https://github.com/askbbtsk/pcl-lite/blob/main/LICENSE)。
+完整条款见 [LICENSE](https://github.com/bedkillerspacex-boop/Pcl-Light/blob/main/LICENSE)。
 
 ### MIT License
 

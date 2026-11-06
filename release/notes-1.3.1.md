@@ -63,15 +63,14 @@ XAML 中任意元素都可以带语言标签，实例化后只保留命中当前
 本地文件（`PCL/Custom.xaml`）与联网 URL 两种主页来源走同一条加载管线，都支持上述机制。
 切换界面语言后主页立即按新语言重新加载；停留在其他页面时只清缓存，不会把用户拽回主页。
 
-完整说明见 [docs/HOMEPAGE-LANG.md](https://github.com/askbbtsk/pcl-lite/blob/main/docs/HOMEPAGE-LANG.md)，
-含 23 个单元测试覆盖代码归一化、标签匹配、信封分支选择与可视化树过滤。
+这套主页语言 API 仅存在于历史版本，当前 PCL Light 已固定使用简体中文并移除该功能。
 
 ## 欢迎页多语言
 
 欢迎页改用主页语言协议实现多语言，是该协议的第一个内置示例：
 
-- 标语与两张卡片的说明文字按 `lang:zh-CN` / `lang:zh-TW` / `lang:en` 分分支存放，
-  由 `HomepageLanguageApi` 在加载时按当前语言过滤
+- 标语与两张卡片的说明文字曾按 `lang:zh-CN` / `lang:zh-TW` / `lang:en` 分支存放，
+  由历史版本的语言过滤器在加载时处理
 - 卡片标题、按钮与网络授权状态行沿用 `DynamicResource` / `Lang.Text`，切换语言立即刷新
 - 切换语言后欢迎页整体重建，不会出现「切了语言但主页还是旧语言」的情况
 
@@ -114,8 +113,7 @@ XAML 中任意元素都可以带语言标签，实例化后只保留命中当前
 PCL Light 会把命中当前语言的那一支重新设为可见，原版 PCL 则只显示默认分支——
 同一份文件在两个客户端上都正常，**不会崩、不会重叠**。
 
-完整 API 参考与写法约定见
-[docs/HOMEPAGE-LANG.md](https://github.com/askbbtsk/pcl-lite/blob/main/docs/HOMEPAGE-LANG.md)。
+该机制已在当前版本移除，现行启动器固定使用简体中文。
 
 ## 更新机制：update.json
 

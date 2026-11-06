@@ -4,7 +4,6 @@
     xmlns:local="clr-namespace:PCL"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:controls="clr-namespace:PCL.Core.UI.Controls;assembly=PCL.Core"
     mc:Ignorable="d"
     KeyDown="FormMain_KeyDown" MouseDown="FormMain_MouseDown" SizeChanged="FormMain_SizeChanged"
     Closing="FormMain_Closing" Activated="FormMain_Activated" Drop="FrmMain_Drop" StateChanged="WindowStateChanged"
@@ -201,10 +200,10 @@
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="1*" />
                     </Grid.ColumnDefinitions>
-                    <controls:BlurBorder IsHitTestVisible="False">
+                    <Border IsHitTestVisible="False">
                         <local:AnimatedBackgroundGrid x:Name="RectLeftBackground" Width="0"
                                                       BackgroundBrush="{DynamicResource ColorBrushTransparentBackground}" />
-                    </controls:BlurBorder>
+                    </Border>
                     <Rectangle x:Name="RectLeftShadow" Width="4" HorizontalAlignment="Left" IsHitTestVisible="False"
                                Grid.Column="1">
                         <Rectangle.Fill>
@@ -263,10 +262,10 @@
                                          ToolTip="{DynamicResource Main.Extra.GameLog.ToolTip}" Visibility="Collapsed"
                                          SvgIcon="lucide/scroll-text" />
                 </StackPanel>
-                <controls:BlurBorder x:Name="PanMsgBackground" Grid.Row="0" Grid.RowSpan="2" Background="#00000000"
+                <Border x:Name="PanMsgBackground" Grid.Row="0" Grid.RowSpan="2" Background="#00000000"
                                      Panel.ZIndex="2" Visibility="Collapsed">
                     <Grid x:Name="PanMsg" Background="#00000000" MouseLeftButtonDown="FormDragMove" />
-                </controls:BlurBorder>
+                </Border>
             </Grid>
         </Border>
     </Grid>

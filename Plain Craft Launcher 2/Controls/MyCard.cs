@@ -5,7 +5,6 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
-using PCL.Core.UI.Controls;
 
 namespace PCL;
 
@@ -18,7 +17,7 @@ public class MyCard : AnimatedBackgroundGrid
     public static readonly DependencyProperty TitleProperty =
         DependencyProperty.Register("Title", typeof(string), typeof(MyCard), new PropertyMetadata(""));
 
-    private readonly BlurBorder mainBorder;
+    private readonly Border mainBorder;
 
     // 控件
     private readonly Grid mainGrid;
@@ -26,7 +25,7 @@ public class MyCard : AnimatedBackgroundGrid
     private bool isLoad;
 
     // UI 建立
-    public MyCard() : base(BlurBorder.BackgroundProperty)
+    public MyCard() : base(Border.BackgroundProperty)
     {
         MainChrome = new MyDropShadow
         {
@@ -35,7 +34,7 @@ public class MyCard : AnimatedBackgroundGrid
         };
         MainChrome.SetResourceReference(MyDropShadow.ColorProperty, "ColorObject1");
         Children.Insert(0, MainChrome);
-        mainBorder = new BlurBorder { CornerRadius = new CornerRadius(5d), IsHitTestVisible = false };
+        mainBorder = new Border { CornerRadius = new CornerRadius(5d), IsHitTestVisible = false };
         Children.Insert(1, mainBorder);
         mainGrid = new Grid();
         Children.Add(mainGrid);

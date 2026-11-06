@@ -1,102 +1,56 @@
 [简体中文](README.md) | **English** | [繁體中文](README-ZH_TW.md)
 
-<div align="center">
-
 # PCL Light
 
-Preface: PCL and its guard squad keep saying we "touched the cake", and hand out labels while they're at it. I'd like to know — does this hat factory have some grudge against the bakery? How come the hat factory is the one always touching the cake?
-[A mysterious article, courtesy of cubk](https://github.com/askbbtsk/pcl-lite/blob/main/readmedlc.md)
+PCL Light is a lightweight Minecraft launcher focused on the core workflow: managing instances, downloading game files and loaders, launching Minecraft, and viewing logs.
 
-[![Stars](https://img.shields.io/github/stars/askbbtsk/pcl-lite?style=for-the-badge&logo=github&labelColor=444444&color=eac54f)](https://github.com/askbbtsk/pcl-lite/stargazers)
-[![Release](https://img.shields.io/github/v/release/askbbtsk/pcl-lite?include_prereleases&label=release&logo=github&style=for-the-badge)](https://github.com/askbbtsk/pcl-lite/releases)
-[![Downloads](https://img.shields.io/github/downloads/askbbtsk/pcl-lite/total?style=for-the-badge&logo=github&labelColor=444444&color=1F883D)](https://github.com/askbbtsk/pcl-lite/releases)
+## Highlights
 
-[Source repository](https://github.com/askbbtsk/pcl-lite) |
-[Download](https://github.com/askbbtsk/pcl-lite/releases) |
-[Documentation](docs/) |
-[License](#-license) |
-[Submit issues](https://github.com/askbbtsk/pcl-lite/issues/new)
+- Built for `.NET 6.0` (`net6.0-windows`), with Windows 7 SP1 and later support.
+- Single-file x64 publishing is supported.
+- Simplified Chinese is built in; the language switcher has been removed.
+- The homepage content system, tools page, network authorization, Lunar, Bedrock, MCP, Discord RPC, advanced materials, font switching, and music playback are not included.
+- Startup keeps only the local lightweight launch panel and does not create homepage downloaders or file watchers.
 
-</div>
+PCL Light keeps the launcher core small. For a different balance with more features and lower idle memory use, see [PCL Lite](https://github.com/askbbtsk/pcl-lite).
 
-> **NOT AN OFFICIAL MINECRAFT PRODUCT.** NOT APPROVED BY OR ASSOCIATED WITH MOJANG OR MICROSOFT.
-> 非 MINECRAFT 官方产品。未经 MOJANG 或 MICROSOFT 批准，也不与 MOJANG 或 MICROSOFT 关联。
+## Size and memory
 
-PCL Light is an independent Minecraft launcher project, with extensive changes and fixes on top of its open-source base.
+The following figures are x64 single-file measurements. Memory figures are measured on the same Windows device after startup and are included for comparison, not as a hardware guarantee.
 
-This project is released under the **MIT License** with additional copyleft terms — see [License](#-license).
+| Version | Single-file size | Idle Private Bytes | Idle Working Set |
+| --- | ---: | ---: | ---: |
+| PCL CE 2.15.1 | 22.40 MiB | 167.0 MiB | 208.1 MiB |
+| PCL Light 1.0-hotfix-2 | 17.19 MiB | pending a fresh same-machine sample | pending a fresh same-machine sample |
 
-**Do not use this project if you are located in mainland China.**
+## Download
 
-## 📦 Download
+See the [PCL Light releases](https://github.com/bedkillerspacex-boop/Pcl-Light/releases).
 
-Get the latest build from [Releases](https://github.com/askbbtsk/pcl-lite/releases).
+The published x64 build is a single executable. A framework-dependent build requires the [.NET 6 Desktop Runtime](https://dotnet.microsoft.com/download/dotnet/6.0); self-contained publishing includes the runtime in the executable.
 
-| Architecture | File | Notes |
-|---|---|---|
-| x64 | `PCL-Light_[version]-[tag]_x64.exe` | Single file, no extraction needed |
+## Build
 
-`[tag]` is one of `pre`, `snapshot`, `nightly`, or `hotfix` (a patch on the stable release, e.g. `1.6.0-hotfix-1`). Builds without a tag are stable releases.
+Install the [.NET 6 SDK](https://dotnet.microsoft.com/download/dotnet/6.0) and the Windows Desktop targeting pack, then run:
 
-- Requires the [.NET 10 Desktop Runtime](https://dotnet.microsoft.com/download/dotnet/10.0)
-- The launcher updates itself from this repository's Releases
-- Pre-release versions (e.g. `0.1.0-beta`) are treated as the beta channel by the updater
+```powershell
+dotnet restore "Plain Craft Launcher 2/Plain Craft Launcher 2.csproj" -p:Platform=x64
+dotnet build "Plain Craft Launcher 2/Plain Craft Launcher 2.csproj" -c Release -p:Platform=x64 --no-restore
+```
 
-## 💻 Supported Platforms
+To publish a single-file x64 build:
 
-| Operating System | Support Status | Requirements |
-|---|---|---|
-| Windows 10 1809 (17763) or later | ✅ Fully supported | [.NET 10 Desktop Runtime](https://dotnet.microsoft.com/download/dotnet/10.0) |
-| Windows 8 to Windows 10 1809 (17763) | ⚠️ Expected to run; support offered at discretion | [.NET 10 Desktop Runtime](https://dotnet.microsoft.com/download/dotnet/10.0) |
-| Windows 7 or earlier | ❌ Not supported | N/A |
-| macOS / Linux / Other OS | ⚠️ Cross-platform development only (cross-compilation) | [.NET 10 SDK](https://dotnet.microsoft.com/download/dotnet/10.0) |
+```powershell
+dotnet publish "Plain Craft Launcher 2/Plain Craft Launcher 2.csproj" -c Release -p:Platform=x64 -r win-x64 --self-contained false -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true
+```
 
-**✅ Fully supported**: we will provide as much support as possible, but you must ensure you are using the latest version of the launcher.
+## Documentation
 
-**⚠️ Expected to run; support offered at discretion**: PCL Light should run on these platforms, but full functionality is not guaranteed. You may need to upgrade to a fully supported OS version to receive further support.
+- [Build and release](docs/BUILD.md)
+- [Configuration](docs/CONFIG.md)
+- [Themes](docs/THEME.md)
+- [Open-source inventory](docs/CREDITS.md)
 
-**❌ Not supported**: PCL Light is barely usable on these platforms and may not even launch. Please upgrade your OS to use PCL Light.
+## License
 
-**⚠️ Cross-platform development only (cross-compilation)**: PCL Light's source code can be built on macOS and Linux, but cannot run there directly. As a developer, you can develop on these platforms and then move the build output to Windows for testing.
-
-**Note**:
-Only the latest version of the launcher is supported.
-Depending on the nature of certain issues (e.g. an incomplete system environment), you may still need to upgrade your OS to keep receiving support.
-PCL Light always recommends using the latest version of your OS for the best experience.
-You can still try PCL Light on unsupported systems, but you may run into many additional problems.
-
-## 📖 Documentation
-
-> The documents below are currently written in Simplified Chinese.
-
-| Document | What it covers |
-| --- | --- |
-| [docs/README.md](docs/README.md) | Index, project layout, where the version number actually lives |
-| [Theming & colours](docs/THEME.md) | How the eight-step palette is computed, the 14 presets, custom themes, adding a new preset |
-| [Config & data directories](docs/CONFIG.md) | Where the config files are, editing them by hand, migration logic |
-| [Build & release](docs/BUILD.md) | Compiling, secret injection, signing, publishing a release |
-| [Azure login](docs/AZURE-LOGIN.md) | Registering an app from scratch to sign in with your own client_id |
-| [Open-source inventory](docs/CREDITS.md) | Where the code came from, third-party libraries, and their licenses |
-
-## 🔒 License
-
-This project is released under the **[MIT License](LICENSE)** with the additional **copyleft** terms below. The [LICENSE](LICENSE) file is authoritative.
-
-- **Copyleft**: any modified version, derivative work, or redistribution must be distributed under this same license (MIT + these additional terms); no other license may be used
-- **Attribution required**: the copyright notice and author credit must be retained in full, and must not be removed or replaced
-- **Modified distributions must be labelled PCL Light**: if you distribute a modified version, its name or description must clearly identify the project as **PCL Light**
-- **Not affiliated with Mojang / Microsoft**: this project has no relationship with Mojang Studios, Microsoft, or their affiliates, and is not approved, authorized, or endorsed by them
-- **Regional restriction**: do not use this project if you are located in mainland China
-- **License may change**: this license may be updated at any time without prior notice; updates apply only to versions obtained afterwards, and **already forked or already distributed versions are unaffected**
-
-A complete inventory of code sources and third-party libraries is in
-[the open-source inventory](docs/CREDITS.md).
-
-## ❤️ Credits
-<img width="403" height="310" alt="Sponsorship chat logs" src="docs/assets/thanks/pcl2-sponsor-chat.png" />
-<img width="832" height="573" alt="Update module analysis" src="docs/assets/thanks/pcl2-backdoor-analysis.png" />
-
-Reference: https://zhuanlan.zhihu.com/p/347828430
-
-Thanks to this person.
-Postscript: Longmao, you dumbass — can you please stop milking money out of themes?
+See [LICENSE](LICENSE). The license file is authoritative.

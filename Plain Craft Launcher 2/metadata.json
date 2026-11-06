@@ -1,7 +1,7 @@
 ﻿{
   "name": "PCL Light",
   "version": {
-    "base": "1.0",
+    "base": "1.0.0",
     "upstream": "2.12.1",
     "suffix": "hotfix-2",
     "code": 4

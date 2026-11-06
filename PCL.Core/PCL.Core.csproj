@@ -101,7 +101,6 @@
         <Compile Include="**\*.cs" Exclude="bin\**;obj\**;publish\**;**\*.g.cs;SourceGenerators\**" />
         <Page Include="**\*.xaml" Exclude="bin\**;obj\**;publish\**" />
         <Resource Include="UI\Assets\*" />
-        <Resource Include="UI\Assets\Shaders\*.ps" />
         <Resource Include="UI\Assets\IconPacks\**\*.svg" />
     </ItemGroup>
     <!-- 项目自定义源生成器 -->

@@ -1021,7 +1021,7 @@ def pcl_log_stats(
         "  - local：<产物目录>/PCL/config.v1.yml，便携模式下的扁平 `键: 值`\n"
         "  - shared：%APPDATA%/<PCLCE|PCLCE_Debug>/config.v1.json，JSON\n\n"
         "store='auto' 会先找 local 再找 shared。键名就是配置文件里的原始键，"
-        "比如 UiLiquidGlass、NetworkConsentAllowAll、SystemPrivacyMode。"
+        "比如 UiBackgroundBlur、NetworkConsentAllowAll、SystemPrivacyMode。"
     ),
 )
 def pcl_config_get(

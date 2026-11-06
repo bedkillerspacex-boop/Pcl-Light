@@ -15,7 +15,7 @@ PCL Light 1.6.4-hotfix-1。
 
 | 位置 | 内容 |
 | --- | --- |
-| `PCL.Core/UI/Effects/LiquidGlassEffect.cs` | 着色器本体，209 行 |
+| 旧 UI 着色器实现 | 已随本次清理移除 |
 | `Plain Craft Launcher 2/Modules/UI/Theme/GlassHelper.cs` | 挂载器：找控件、建 Adorner 覆盖层、拖滑块时刷新参数，305 行 |
 | `PCL.Core/App/Config.cs` | `UiLiquidGlass` / `UiLiquidGlassRefraction` / `UiLiquidGlassHighlight` / `UiLiquidGlassDispersion` 四个配置项 |
 | `PageSetupUI.xaml` | 设置页那一个复选框 + 三个滑块（高光亮度 / 边缘折射 / 色散） |

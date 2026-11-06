@@ -1,99 +1,56 @@
 [简体中文](README.md) | [English](README-EN.md) | **繁體中文**
 
-<div align="center">
-
 # PCL Light
 
-前言：pcl 和它的護衛隊天天說動了蛋糕，順手扣帽子，我想知道 pcl 這個帽子工廠和烘焙店是有仇嗎 怎麼帽子工廠天天動蛋糕？
-[神祕文章來自 cubk](https://github.com/askbbtsk/pcl-lite/blob/main/readmedlc.md)
+PCL Light 是一個專注於核心流程的輕量 Minecraft 啟動器：管理遊戲實例、下載遊戲檔案與載入器、啟動 Minecraft，以及查看日誌。
 
-[![Stars](https://img.shields.io/github/stars/askbbtsk/pcl-lite?style=for-the-badge&logo=github&labelColor=444444&color=eac54f)](https://github.com/askbbtsk/pcl-lite/stargazers)
-[![Release](https://img.shields.io/github/v/release/askbbtsk/pcl-lite?include_prereleases&label=release&logo=github&style=for-the-badge)](https://github.com/askbbtsk/pcl-lite/releases)
-[![Downloads](https://img.shields.io/github/downloads/askbbtsk/pcl-lite/total?style=for-the-badge&logo=github&labelColor=444444&color=1F883D)](https://github.com/askbbtsk/pcl-lite/releases)
+## 主要特色
 
-[來源倉庫](https://github.com/askbbtsk/pcl-lite) |
-[下載](https://github.com/askbbtsk/pcl-lite/releases) |
-[文件](docs/) |
-[授權條款](#-授權條款) |
-[提交問題](https://github.com/askbbtsk/pcl-lite/issues/new)
+- 以 `.NET 6.0`（`net6.0-windows`）編譯，支援 Windows 7 SP1 及更新版本。
+- 支援 x64 單檔發布。
+- 內建簡體中文，已移除語言切換器。
+- 不包含首頁內容系統、工具頁、網路授權、Lunar、Bedrock、MCP、Discord RPC、高級材質、字體切換與音樂播放。
+- 啟動時只保留輕量本地啟動面板，不建立首頁下載器或檔案監視器。
 
-</div>
+PCL Light 保留啟動器核心能力並縮小體積。若需要更多功能與更低的閒置記憶體占用，請參考 [PCL Lite](https://github.com/askbbtsk/pcl-lite)。
 
-> **非 MINECRAFT 官方產品。** 未經 MOJANG 或 MICROSOFT 批准，也不與 MOJANG 或 MICROSOFT 關聯。
-> NOT AN OFFICIAL MINECRAFT PRODUCT. NOT APPROVED BY OR ASSOCIATED WITH MOJANG OR MICROSOFT.
+## 體積與記憶體
 
-PCL Light 是一個獨立的 Minecraft 啟動器專案，在開放原始碼基礎上加入了大量改動與修復。
+下列為 x64 單檔測量值。記憶體數據在同一台 Windows 裝置上啟動後測量，僅供比較，不代表所有硬體環境。
 
-本專案以 **MIT 授權條款** 發布，並附帶傳染性（copyleft）附加條款，詳見[授權條款](#-授權條款)。
+| 版本 | 單檔大小 | 閒置 Private Bytes | 閒置 Working Set |
+| --- | ---: | ---: | ---: |
+| PCL CE 2.15.1 | 22.40 MiB | 167.0 MiB | 208.1 MiB |
+| PCL Light 1.0-hotfix-2 | 17.19 MiB | 待同機重新測量 | 待同機重新測量 |
 
-**中國大陸使用者請勿使用。**
+## 下載
 
-## 📦 下載
+前往 [PCL Light Releases](https://github.com/bedkillerspacex-boop/Pcl-Light/releases)。
 
-前往 [Releases](https://github.com/askbbtsk/pcl-lite/releases) 下載最新版本。
+發布的 x64 版本是單一執行檔。依賴框架的版本需要 [.NET 6 Desktop Runtime](https://dotnet.microsoft.com/download/dotnet/6.0)；自包含發布會把執行階段放入執行檔。
 
-| 架構 | 檔案 | 說明 |
-|---|---|---|
-| x64 | `PCL-Light_[version]-[tag]_x64.exe` | 單一檔案、免解壓縮 |
+## 建置
 
-`[tag]` 為 `pre`、`snapshot`、`nightly` 或 `hotfix`（熱修復，如 `1.6.0-hotfix-1`）；沒有 tag 的是穩定版。
+安裝 [.NET 6 SDK](https://dotnet.microsoft.com/download/dotnet/6.0) 與 Windows Desktop targeting pack，然後執行：
 
-- 需要已安裝 [.NET 10 桌面執行階段](https://dotnet.microsoft.com/download/dotnet/10.0)
-- 啟動器內建自動更新，更新來源指向本儲存庫的 Releases
-- 預發布版本（如 `0.1.0-beta`）會被更新通道視為 beta 通道
+```powershell
+dotnet restore "Plain Craft Launcher 2/Plain Craft Launcher 2.csproj" -p:Platform=x64
+dotnet build "Plain Craft Launcher 2/Plain Craft Launcher 2.csproj" -c Release -p:Platform=x64 --no-restore
+```
 
-## 💻 支援平台
+發布 x64 單檔版本：
 
-| 作業系統 | 支援情況 | 環境要求 |
-|---|---|---|
-| Windows 10 1809 (17763) 或更高 | ✅ 完整支援 | [.NET 10 桌面執行階段](https://dotnet.microsoft.com/download/dotnet/10.0) |
-| Windows 8 - Windows 10 1809 (17763) | ⚠️ 理論能跑，酌情提供支援 | [.NET 10 桌面執行階段](https://dotnet.microsoft.com/download/dotnet/10.0) |
-| Windows 7 或更低版本 | ❌ 不支援 | / |
-| macOS / Linux / 其他作業系統 | ⚠️ 僅跨平台開發支援（交叉編譯） | [.NET 10 SDK](https://dotnet.microsoft.com/download/dotnet/10.0) |
+```powershell
+dotnet publish "Plain Craft Launcher 2/Plain Craft Launcher 2.csproj" -c Release -p:Platform=x64 -r win-x64 --self-contained false -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true
+```
 
-**✅ 完整支援**：盡可能提供一切相關支援，但必須確保啟動器為最新版本。
+## 文件
 
-**⚠️ 理論能跑，酌情提供支援**：PCL Light 應該可以在這些平台上執行，但不保證功能完全可用。你可能需要升級到完整支援的系統版本以獲得進一步支援。
+- [建置與發布](docs/BUILD.md)
+- [設定](docs/CONFIG.md)
+- [主題](docs/THEME.md)
+- [開源專案清單](docs/CREDITS.md)
 
-**❌ 不支援**：PCL Light 在這些平台的可用性較低，甚至根本打不開。請升級作業系統以使用 PCL Light。
+## 授權條款
 
-**⚠️ 僅跨平台開發支援（交叉編譯）**：PCL Light 的原始碼可以在 macOS 與 Linux 平台編譯，但無法直接執行。作為開發者，你可以在這些平台上進行開發，然後將編譯產物轉移到 Windows 系統測試。
-
-**註**：
-僅對最新版本的啟動器提供支援。
-取決於部分問題的特殊性（如系統不完整），有時你仍然必須升級作業系統以繼續獲得支援。
-PCL Light 始終建議使用最新版本的作業系統以獲得最佳體驗。
-你仍然可以嘗試在不受支援的系統上使用 PCL Light，但可能會遇到很多額外問題。
-
-## 📖 文件
-
-| 文件 | 講什麼 |
-| --- | --- |
-| [docs/README.md](docs/README.md) | 索引、專案結構、版本號在哪裡 |
-| [主題與配色](docs/THEME.md) | 八級色階怎麼算、14 個預設、自訂主題、怎麼新增主題 |
-| [設定與資料目錄](docs/CONFIG.md) | 設定檔位置、手動改法、遷移邏輯 |
-| [建置與發布](docs/BUILD.md) | 編譯、金鑰注入、簽章、發版 |
-| [Azure 登入](docs/AZURE-LOGIN.md) | 從零註冊應用程式，用自己的 client_id 走正版登入 |
-| [開源專案清單](docs/CREDITS.md) | 程式碼來源、第三方函式庫、各自的授權條款 |
-
-## 🔒 授權條款
-
-本專案以 **[MIT 授權條款](LICENSE)** 發布，並附帶下列**傳染性（copyleft）附加條款**。完整條款以 [LICENSE](LICENSE) 檔案為準。
-
-- **傳染性**：任何修改版、衍生版或再分發版，必須同樣以本協議（MIT + 附加條款）分發，不得改用其他授權條款
-- **必須署名**：必須完整保留本專案的版權聲明與作者署名，不得刪除或替換
-- **二次修改須標註 PCL Light**：修改後分發時，必須在名稱或說明中明確標註本專案為 **PCL Light**
-- **與 Mojang / Microsoft 無關**：本專案與 Mojang Studios、Microsoft 及其關聯公司沒有任何關係，未獲其批准、授權或背書
-- **地域限制**：中國大陸使用者請勿使用
-- **協議可變**：本協議可能隨時更新，且不提前通知；更新只對之後取得的版本生效，**已經 fork 或已經分發的版本不受影響**
-
-完整的程式碼來源與第三方函式庫清單見[開源專案清單](docs/CREDITS.md)。
-
-## ❤️ 致謝
-<img width="403" height="310" alt="贊助相關聊天記錄" src="docs/assets/thanks/pcl2-sponsor-chat.png" />
-<img width="832" height="573" alt="升級模組分析" src="docs/assets/thanks/pcl2-backdoor-analysis.png" />
-
-參考文獻：https://zhuanlan.zhihu.com/p/347828430
-
-感謝這個人
-後記：龍貓你個傻逼能不能不要用主題圈錢啊
+詳見 [LICENSE](LICENSE)，完整條款以該檔案為準。

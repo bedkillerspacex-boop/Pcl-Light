@@ -1,6 +1,5 @@
 using System.IO;
 using System.Windows;
-using PCL.Core.App.Localization;
 
 namespace PCL;
 
@@ -38,7 +37,7 @@ public partial class PageLaunchRight
             }
         }
 
-        lines ??= LoadEmbeddedHints(LocalizationService.DefaultLanguageCode);
+        lines ??= LoadEmbeddedHints("zh-CN");
         if (lines.Length == 0) return string.Empty;
         if (enableLengthLimit)
         {

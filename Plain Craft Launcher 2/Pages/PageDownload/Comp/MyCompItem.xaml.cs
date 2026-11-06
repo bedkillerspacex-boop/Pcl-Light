@@ -454,9 +454,6 @@ public partial class MyCompItem
                 SetRowSpan(rect, 999);
                 Children.Insert(0, rect);
                 _RectBack = rect;
-                // <!--<corelocal:BlurBorder x:Name = "RectBack" CornerRadius="3" RenderTransformOrigin="0.5,0.5" SnapsToDevicePixels="True" 
-                // IsHitTestVisible = "False" Opacity="0" BorderThickness="1" 
-                // Grid.ColumnSpan = "4" Background="{DynamicResource ColorBrush7}" BorderBrush="{DynamicResource ColorBrush6}"/>-->
             }
 
             return _RectBack;

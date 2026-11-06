@@ -27,6 +27,14 @@ public class UpdateVersionTest
     }
 
     [TestMethod]
+    public void TwoPartLegacyVersionShouldNotCauseRepeatedUpdatePrompt()
+    {
+        Assert.IsFalse(Newer("1.0.0-hotfix-2", "1.0-hotfix-2"));
+        Assert.IsFalse(Newer("1.0.0-hotfix-1", "1.0-hotfix-2"));
+        Assert.IsTrue(Newer("1.0.0-hotfix-3", "1.0-hotfix-2"));
+    }
+
+    [TestMethod]
     public void ShouldRejectMalformedLauncherVersion()
     {
         Assert.ThrowsException<ArgumentException>(() => UpdateVersion.ParseForComparison("1..0"));
