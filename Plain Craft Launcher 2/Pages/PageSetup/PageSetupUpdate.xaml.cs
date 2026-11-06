@@ -5,6 +5,7 @@ using System.Windows.Threading;
 using PCL.Core.App;
 using PCL.Core.Utils;
 using PCL.Core.App.Localization;
+using PCL.Core.App.Updates;
 using PCL.Core.Utils.OS;
 
 namespace PCL;
@@ -73,12 +74,10 @@ public partial class PageSetupUpdate
     {
         try
         {
-            // 修复：使用 dynamic 绕过命名空间重名导致的编译期类型冲突，
-            // 或者你可以尝试替换为 PCL.Core.App.SemVer.Parse(ModBase.versionBaseName)
             if (await UpdateManager.remoteServer.IsLatestAsync(
                     UpdateManager.TargetChannel,
                     SystemInfo.IsArm64System ? UpdateArch.arm64 : UpdateArch.x64,
-                    SemVer.Parse(ModBase.versionBaseName),
+                    UpdateVersion.ParseForComparison(ModBase.versionBaseName),
                     ModBase.versionCode))
             {
                 ModBase.Log("[Update] 已是最新版本");

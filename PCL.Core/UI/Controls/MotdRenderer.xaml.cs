@@ -187,10 +187,7 @@ public partial class MotdRenderer {
         motd ??= string.Empty;
 
         var colorMap = isDarkMode ? _ColorMapWithBlackBackground : _ColorMapWithWhiteBackground;
-        var font = Config.Preference.MotdFont;
-        var fontFamily = new FontFamily(string.IsNullOrWhiteSpace(font)
-            ? "./Resources/#PCL English, Segoe UI, Microsoft YaHei UI"
-            : font);
+        var fontFamily = new FontFamily("./Resources/#PCL English, Segoe UI, Microsoft YaHei UI");
         var canvasWidth = MotdCanvas.ActualWidth > 0 ? MotdCanvas.ActualWidth : 300; // Prevent zero width
         var canvasHeight = MotdCanvas.ActualHeight > 0 ? MotdCanvas.ActualHeight : 34; // Prevent zero height
         double y = 10;

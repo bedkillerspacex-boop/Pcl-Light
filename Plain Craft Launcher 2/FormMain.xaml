@@ -262,9 +262,6 @@
                                          Click="BtnExtraLog_Click"
                                          ToolTip="{DynamicResource Main.Extra.GameLog.ToolTip}" Visibility="Collapsed"
                                          SvgIcon="lucide/scroll-text" />
-                    <local:MyExtraButton x:Name="BtnExtraMusic" HorizontalAlignment="Right" VerticalAlignment="Center"
-                                         Click="BtnExtraMusic_Click" RightClick="BtnExtraMusic_RightClick"
-                                         Visibility="Collapsed" CanRightClick="True" />
                 </StackPanel>
                 <controls:BlurBorder x:Name="PanMsgBackground" Grid.Row="0" Grid.RowSpan="2" Background="#00000000"
                                      Panel.ZIndex="2" Visibility="Collapsed">

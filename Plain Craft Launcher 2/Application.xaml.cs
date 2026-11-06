@@ -58,7 +58,6 @@ public partial class Application
 
             // 初始化文件结构
             Directory.CreateDirectory(ModBase.exePath + @"PCL\Pictures");
-            Directory.CreateDirectory(ModBase.exePath + @"PCL\Musics");
             Directory.CreateDirectory(Path.Combine(ModBase.pathTemp, "Cache"));
             Directory.CreateDirectory(Path.Combine(ModBase.pathTemp, "Download"));
             Directory.CreateDirectory(ModBase.pathAppdata);
@@ -86,7 +85,6 @@ public partial class Application
             _ = Config.Network.HttpProxy.Type;
             _ = Config.Download.ThreadLimit;
             _ = Config.Download.SpeedLimit;
-            _ = Config.Preference.Font;
             var updateBranchCfg = Config.Update.UpdateChannelConfig;
             if (updateBranchCfg.IsDefault())
             {

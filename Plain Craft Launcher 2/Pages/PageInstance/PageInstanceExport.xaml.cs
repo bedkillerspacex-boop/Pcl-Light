@@ -980,8 +980,6 @@ public partial class PageInstanceExport : IRefreshable
             {
                 if (Directory.Exists(Path.Combine(ModBase.exePath, "PCL", "Pictures")))
                     ModBase.CopyDirectory(Path.Combine(ModBase.exePath, "PCL", "Pictures"), Path.Combine(cacheFolder, "PCL", "Pictures"));
-                if (Directory.Exists(Path.Combine(ModBase.exePath, "PCL", "Musics")))
-                    ModBase.CopyDirectory(Path.Combine(ModBase.exePath, "PCL", "Musics"), Path.Combine(cacheFolder, "PCL", "Musics"));
                 if (File.Exists(Path.Combine(ModBase.exePath, "PCL", "Custom.xaml")))
                     ModBase.CopyFile(Path.Combine(ModBase.exePath, "PCL", "Custom.xaml"), Path.Combine(cacheFolder, "PCL", "Custom.xaml"));
                 if (File.Exists(Path.Combine(ModBase.exePath, "PCL", "Setup.ini")))

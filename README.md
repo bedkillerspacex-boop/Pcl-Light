@@ -2,6 +2,23 @@
 
 PCL Light 是基于 PCL 的轻量化 Minecraft 启动器版本，目标是更快启动、更低常驻占用和更简洁的界面。
 
+## PCL Light 的优势
+
+PCL Light 面向只需要启动器核心能力的用户，保留 Minecraft 启动、下载、实例管理、设置和日志，同时去掉不参与核心启动流程的功能：主页内容系统、工具页、网络授权、Lunar、Bedrock、MCP、Discord RPC、高级材质、字体切换和背景音乐。启动阶段也不再创建音乐目录、查询硬件 WMI 或分配逐实例图片缓存。
+
+### 体积和内存对比
+
+文件大小为 x64 单文件实测值。内存数据来自同一台 Windows 设备：每个版本启动三次，每次等待 20 秒后连续采样五次（间隔 5 秒），先取每次运行的中位数，再取三次运行的中位数。Private Bytes 反映进程提交内存；Working Set 会受到系统文件缓存等因素影响。
+
+PCL Light 基于 .NET 6，支持 Windows 7 SP1 及以上系统。
+
+| 版本 | x64 单文件 | 空闲 Private Bytes（中位数；三次范围） | 空闲 Working Set（中位数；三次范围） |
+| --- | ---: | ---: | ---: |
+| PCL CE 2.15.1 | 22.40 MiB | 167.0 MiB（156.5–175.8） | 208.1 MiB（204.3–217.9） |
+| PCL Light 1.0-hotfix-1 | 17.74 MiB | 156.1 MiB（133.3–159.7） | 210.1 MiB（188.6–214.7） |
+
+PCL Light 1.0-hotfix-1 的单文件比 PCL CE 2.15.1 小约 20.8%，Private Bytes 中位数低约 6.5%；两者 Working Set 中位数接近。若更看重功能完整度和更低的 Private Bytes 占用，PCL Lite 提供更多功能且空闲 Private Bytes 更低，可访问 [PCL Lite 仓库](https://github.com/askbbtsk/pcl-lite)。
+
 ## 当前版本特性
 
 - 目标框架：`.NET 6.0`（`net6.0-windows`）

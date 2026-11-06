@@ -89,6 +89,40 @@ public static class UpdateVersion
     /// </summary>
     public static bool IsUpToDate(string? remote, string? current) => !IsNewer(remote, current);
 
+    /// <summary>
+    /// 把启动器自己的版本名转换成严格的 SemVer。
+    /// 旧版显示版本允许写成「1.0」，这里只对缺少的段补零，保留显示文本不变。
+    /// </summary>
+    public static SemVer ParseForComparison(string? name)
+    {
+        if (string.IsNullOrWhiteSpace(name))
+            throw new ArgumentException("Invalid semantic version format", nameof(name));
+
+        var text = name.Trim();
+        if (text.StartsWith('v') || text.StartsWith('V')) text = text[1..];
+
+        var suffixIndex = text.IndexOfAny(['-', '+']);
+        var core = suffixIndex >= 0 ? text[..suffixIndex] : text;
+        var suffix = suffixIndex >= 0 ? text[suffixIndex..] : string.Empty;
+        var parts = core.Split('.');
+        if (parts.Length is < 1 or > 3)
+            throw new ArgumentException("Invalid semantic version format", nameof(name));
+
+        foreach (var part in parts)
+        {
+            if (part.Length == 0)
+                throw new ArgumentException("Invalid semantic version format", nameof(name));
+            foreach (var character in part)
+            {
+                if (character is < '0' or > '9')
+                    throw new ArgumentException("Invalid semantic version format", nameof(name));
+            }
+        }
+
+        while (parts.Length < 3) parts = [.. parts, "0"];
+        return SemVer.Parse(string.Join('.', parts) + suffix);
+    }
+
     /// <summary>把一个版本名拆成可比较的键。</summary>
     public static bool TryParse(string? name, out Key key)
     {

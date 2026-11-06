@@ -2688,17 +2688,6 @@ public static class ModLaunch
     {
         McLaunchLog("开始启动结束处理");
 
-        // 暂停或开始音乐播放
-        if (Config.Preference.Music.StopInGame)
-            ModBase.RunInUi(() =>
-            {
-                if (ModMusic.MusicPause()) ModBase.Log("[Music] 已根据设置，在启动后暂停音乐播放");
-            });
-        else if (Config.Preference.Music.StartInGame)
-            ModBase.RunInUi(() =>
-            {
-                if (ModMusic.MusicResume()) ModBase.Log("[Music] 已根据设置，在启动后开始音乐播放");
-            });
         // 暂停视频背景播放
         ModVideoBack.IsGaming = true;
         ModVideoBack.VideoPause();

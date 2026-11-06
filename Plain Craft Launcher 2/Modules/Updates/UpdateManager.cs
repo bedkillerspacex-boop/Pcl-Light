@@ -65,7 +65,7 @@ public static class UpdateManager
         {
             // 包含式通道 + SemVer 比较已经覆盖了「从激进通道切回保守通道」的情形：
             // 手里的 nightly 比当前通道最新版还新时 IsLatest 自然为 true，不会提示降级。
-            return remoteServer.IsLatest(TargetChannel, CurrentArch, SemVer.Parse(ModBase.versionBaseName),
+            return remoteServer.IsLatest(TargetChannel, CurrentArch, UpdateVersion.ParseForComparison(ModBase.versionBaseName),
                 ModBase.versionCode)
                 ? UpdateEnums.VersionStatus.Latest
                 : UpdateEnums.VersionStatus.NotLatest;

@@ -3034,18 +3034,6 @@ public static class ModBase
 
     #region UI
 
-    public static void SetLaunchFont(string fontName = null)
-    {
-        try
-        {
-            LocalizationFontService.ApplyLaunchFont(fontName, LocalizationService.CurrentLanguage);
-        }
-        catch (Exception ex)
-        {
-            Log(ex, "设置字体失败", LogLevel.Hint);
-        }
-    }
-
     // 边距改变
     /// <summary>
     ///     相对增减控件的左边距。

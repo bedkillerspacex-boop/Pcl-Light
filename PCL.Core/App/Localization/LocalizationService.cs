@@ -121,9 +121,7 @@ public sealed partial class LocalizationService
         _ApplyLanguageResources(language.Code, uiCulture, formatCulture);
 
         CurrentLanguage = language;
-        LocalizationFontService.ApplyLaunchFont(
-            ConfigService.IsInitialized ? Config.Preference.Font : null,
-            language);
+        LocalizationFontService.ApplyLaunchFont(null, language);
         CurrentFormatCulture = formatCulture;
 
         _SaveConfigIfNeeded(save, normalizedLanguageCode, language, normalizedFormatCultureCode);

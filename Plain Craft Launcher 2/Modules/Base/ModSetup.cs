@@ -59,20 +59,6 @@ public class ModSetup
         Config.Preference.Background.WallpaperSuitModeConfig.Observe(new ConfigObserver(ConfigEvent.Changed,
             e => UiBackgroundSuit((int)e.Value!)));
 
-        // UI - Font
-        Config.Preference.FontConfig.Observe(new ConfigObserver(ConfigEvent.Changed,
-            e => UiFont((string)(e.Value ?? ""))));
-
-        // UI - Blur
-        Config.Preference.Blur.IsEnabledConfig.Observe(new ConfigObserver(ConfigEvent.Changed,
-            e => UiBlur((bool)e.Value!)));
-        Config.Preference.Blur.RadiusConfig.Observe(new ConfigObserver(ConfigEvent.Changed,
-            e => UiBlurValue((int)e.Value!)));
-        Config.Preference.Blur.SamplingRateConfig.Observe(new ConfigObserver(ConfigEvent.Changed,
-            e => UiBlurSamplingRate((int)e.Value!)));
-        Config.Preference.Blur.KernelTypeConfig.Observe(new ConfigObserver(ConfigEvent.Changed,
-            e => UiBlurType((int)e.Value!)));
-
         // UI - 用户文件夹名打码
         // 关掉之后界面上（含启动日志）的 C:\Users\xxx 原样显示；崩溃报告不受这个开关影响，始终打码
         Config.Preference.MaskUserFolderConfig.Observe(new ConfigObserver(ConfigEvent.Changed,
@@ -134,23 +120,6 @@ public class ModSetup
         UiBackgroundOpacity(Config.Preference.Background.WallpaperOpacity);
         UiBackgroundBlur(Config.Preference.Background.WallpaperBlurRadius);
         UiBackgroundSuit(Config.Preference.Background.WallpaperSuitMode);
-
-        // UI - Font
-        UiFont(Config.Preference.Font);
-
-        // UI - Blur
-        if (Config.Preference.Blur.IsEnabled)
-        {
-            UiBlurValue(Config.Preference.Blur.Radius);
-            UiBlurSamplingRate(Config.Preference.Blur.SamplingRate);
-            UiBlurType(Config.Preference.Blur.KernelType);
-        }
-        else
-        {
-            UiBlurValue(0);
-        }
-
-        UiBlur(Config.Preference.Blur.IsEnabled);
 
         // UI - 用户文件夹名打码（默认开）
         UserPathMasker.Enabled = Config.Preference.MaskUserFolder;
@@ -430,48 +399,6 @@ public class ModSetup
                 break;
             }
         }
-    }
-
-    // 字体
-    public static void UiFont(string value)
-    {
-        try
-        {
-            ModBase.SetLaunchFont(value);
-        }
-        catch (Exception ex)
-        {
-            ModBase.Log(
-                ex,
-                "字体加载失败",
-                ModBase.LogLevel.Hint,
-                userSummary: Lang.Text("Setup.Error.OperationFailed"));
-        }
-    }
-
-    // 高级材质
-    public static void UiBlur(bool value)
-    {
-        if (ModMain.frmSetupUI is null)
-            return;
-
-        ModMain.frmSetupUI.PanBlurValue.Visibility = value ? Visibility.Visible : Visibility.Collapsed;
-        UiBlurValue(value ? Config.Preference.Blur.Radius : 0);
-    }
-
-    public static void UiBlurValue(int value)
-    {
-        System.Windows.Application.Current.Resources["BlurRadius"] = value * 1.0d;
-    }
-
-    public static void UiBlurSamplingRate(int value)
-    {
-        System.Windows.Application.Current.Resources["BlurSamplingRate"] = value * 0.01d;
-    }
-
-    public static void UiBlurType(int value)
-    {
-        System.Windows.Application.Current.Resources["BlurType"] = (KernelType)value;
     }
 
     // 顶部栏

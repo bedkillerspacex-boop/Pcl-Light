@@ -1,3 +1,4 @@
+using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PCL.Core.App.Updates;
 
@@ -15,6 +16,22 @@ namespace PCL.Core.Test;
 public class UpdateVersionTest
 {
     private static bool Newer(string a, string b) => UpdateVersion.IsNewer(a, b);
+
+    [TestMethod]
+    public void ShouldNormalizeTwoPartLauncherVersionForSemVerComparison()
+    {
+        Assert.AreEqual("1.0.0", UpdateVersion.ParseForComparison("1.0").ToString());
+        Assert.AreEqual("1.0.0", UpdateVersion.ParseForComparison("v1.0").ToString());
+        Assert.AreEqual("1.0.0-hotfix-1", UpdateVersion.ParseForComparison("1.0-hotfix-1").ToString());
+        Assert.AreEqual("1.0.1", UpdateVersion.ParseForComparison("1.0.1").ToString());
+    }
+
+    [TestMethod]
+    public void ShouldRejectMalformedLauncherVersion()
+    {
+        Assert.ThrowsException<ArgumentException>(() => UpdateVersion.ParseForComparison("1..0"));
+        Assert.ThrowsException<ArgumentException>(() => UpdateVersion.ParseForComparison("1.0.0.1"));
+    }
 
     // ─────────────────────────────────────────────────────────────
     //  三段版本号

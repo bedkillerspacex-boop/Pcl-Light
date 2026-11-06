@@ -226,16 +226,6 @@ public static partial class Config
         [ConfigItem<bool>("UiLogoLeft", false, ConfigSource.Local)] public partial bool TopBarLeftAlign { get; set; }
 
         /// <summary>
-        /// 全局字体。
-        /// </summary>
-        [ConfigItem<string>("UiFont", "", ConfigSource.Local)] public partial string Font { get; set; }
-
-        /// <summary>
-        /// MOTD 字体。
-        /// </summary>
-        [ConfigItem<string>("UiMotdFont", "", ConfigSource.Local)] public partial string MotdFont { get; set; }
-
-        /// <summary>
         /// 详细实例分类。
         /// </summary>
         [ConfigItem<bool>("DetailedInstanceClassification", false, ConfigSource.Local)] public partial bool DetailedInstanceClassification {  get; set; }
@@ -369,68 +359,6 @@ public static partial class Config
             /// 视频自动暂停。
             /// </summary>
             [ConfigItem<bool>("UiAutoPauseVideo", true, ConfigSource.Local)] public partial bool AutoPauseVideo { get; set; }
-        }
-
-        /// <summary>
-        /// 高级材质。
-        /// </summary>
-        [ConfigGroup("Blur")] partial class BlurConfigGroup
-        {
-            /// <summary>
-            /// 是否启用。
-            /// </summary>
-            [ConfigItem<bool>("UiBlur", false, ConfigSource.Local)] public partial bool IsEnabled { get; set; }
-
-            /// <summary>
-            /// 模糊半径。
-            /// </summary>
-            [ConfigItem<int>("UiBlurValue", 16, ConfigSource.Local)] public partial int Radius { get; set; }
-
-            /// <summary>
-            /// 采样率。
-            /// </summary>
-            [ConfigItem<int>("UiBlurSamplingRate", 70, ConfigSource.Local)] public partial int SamplingRate { get; set; }
-
-            /// <summary>
-            /// 模糊方法。
-            /// </summary>
-            [ConfigItem<int>("UiBlurType", 0, ConfigSource.Local)] public partial int KernelType { get; set; }
-        }
-
-        /// <summary>
-        /// 背景音乐。
-        /// </summary>
-        [ConfigGroup("Music")] partial class MusicConfigGroup
-        {
-            /// <summary>
-            /// 音量。
-            /// </summary>
-            [ConfigItem<int>("UiMusicVolume", 500, ConfigSource.Local)] public partial int Volume { get; set; }
-
-            /// <summary>
-            /// 启动游戏后自动暂停。
-            /// </summary>
-            [ConfigItem<bool>("UiMusicStop", false, ConfigSource.Local)] public partial bool StopInGame { get; set; }
-
-            /// <summary>
-            /// 启动游戏后自动开始播放。
-            /// </summary>
-            [ConfigItem<bool>("UiMusicStart", false, ConfigSource.Local)] public partial bool StartInGame { get; set; }
-
-            /// <summary>
-            /// 自动开始播放。
-            /// </summary>
-            [ConfigItem<bool>("UiMusicAuto", true, ConfigSource.Local)] public partial bool StartOnStartup { get; set; }
-
-            /// <summary>
-            /// 随机播放。
-            /// </summary>
-            [ConfigItem<bool>("UiMusicRandom", true, ConfigSource.Local)] public partial bool ShufflePlayback { get; set; }
-
-            /// <summary>
-            /// 启用 SMTC。
-            /// </summary>
-            [ConfigItem<bool>("UiMusicSMTC", true, ConfigSource.Local)] public partial bool EnableSMTC { get; set; }
         }
 
         /// <summary>

@@ -53,17 +53,6 @@ public static class ModWatcher
         ModLaunch.McLaunchLog("[全局] 已无运行中的 Minecraft");
         hasRunningMinecraft = false;
         ModMain.frmMain.BtnExtraShutdown.ShowRefresh();
-        // 音乐播放
-        if (Config.Preference.Music.StopInGame)
-            ModBase.RunInUi(() =>
-            {
-                if (ModMusic.MusicResume()) ModBase.Log("[Music] 已根据设置，在结束后开始音乐播放");
-            });
-        else if (Config.Preference.Music.StartInGame)
-            ModBase.RunInUi(() =>
-            {
-                if (ModMusic.MusicPause()) ModBase.Log("[Music] 已根据设置，在结束后暂停音乐播放");
-            });
         // 开始视频背景播放
         ModVideoBack.IsGaming = false;
         ModVideoBack.VideoPlay();

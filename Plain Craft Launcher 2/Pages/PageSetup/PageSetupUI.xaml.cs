@@ -54,15 +54,6 @@ public partial class PageSetupUI
             CheckShowLaunchingHint.Checked = Config.Preference.ShowLaunchingHint;
             CheckMaskUserFolder.Checked = Config.Preference.MaskUserFolder;
 
-            // 字体设置
-            ComboUiFont.SelectedFontTag = Config.Preference.Font;
-            ComboUiMotdFont.SelectedFontTag = Config.Preference.MotdFont;
-
-            CheckBlur.Checked = Config.Preference.Blur.IsEnabled;
-            SliderBlurValue.Value = Config.Preference.Blur.Radius;
-            SliderBlurSamplingRate.Value = Config.Preference.Blur.SamplingRate;
-            ComboBlurType.SelectedIndex = Config.Preference.Blur.KernelType;
-            PanBlurValue.Visibility = CheckBlur.Checked == true ? Visibility.Visible : Visibility.Collapsed;
             CheckLockWindowSize.Checked = Config.Preference.LockWindowSize;
             RefreshWindowSize();
 
@@ -87,15 +78,6 @@ public partial class PageSetupUI
             PanLogoChange.Visibility = RadioLogoType3.Checked ? Visibility.Visible : Visibility.Collapsed;
             TextLogoText.Text = Config.Preference.WindowTitleCustomText;
             CheckLogoLeft.Checked = Config.Preference.TopBarLeftAlign;
-
-            // 背景音乐
-            CheckMusicRandom.Checked = Config.Preference.Music.ShufflePlayback;
-            CheckMusicAuto.Checked = Config.Preference.Music.StartOnStartup;
-            CheckMusicStop.Checked = Config.Preference.Music.StopInGame;
-            CheckMusicStart.Checked = Config.Preference.Music.StartInGame;
-            CheckMusicSMTC.Checked = Config.Preference.Music.EnableSMTC;
-            SliderMusicVolume.Value = Config.Preference.Music.Volume;
-            MusicRefreshUI();
 
             // 功能隐藏
             // 获取配置组引用
@@ -213,16 +195,6 @@ public partial class PageSetupUI
     private static void SetByTag(string tag, object value)
     {
         ConfigService.TrySetValue(tag, value);
-    }
-
-    private void ComboFontChange(object sender, SelectionChangedEventArgs e)
-    {
-        if (ModAnimation.AniControlEnabled == 0) Config.Preference.Font = ComboUiFont.SelectedFontTag;
-    }
-
-    private void ComboMotdFontChange(object sender, SelectionChangedEventArgs e)
-    {
-        if (ModAnimation.AniControlEnabled == 0) Config.Preference.MotdFont = ComboUiMotdFont.SelectedFontTag;
     }
 
     // 背景图片
@@ -528,101 +500,6 @@ public partial class PageSetupUI
                 ModBase.LogLevel.Msgbox,
                 userSummary: Lang.Text("Setup.Ui.Error.OperationFailed"));
         }
-    }
-
-    // 背景音乐
-    private void BtnMusicOpen_Click(object sender, MouseButtonEventArgs e)
-    {
-        ModBase.OpenExplorer(ModBase.exePath + @"PCL\Musics\");
-    }
-
-    private void BtnMusicRefresh_Click(object sender, MouseButtonEventArgs e)
-    {
-        ModMusic.MusicRefreshPlay(true);
-    }
-
-    public void MusicRefreshUI()
-    {
-        if (PanBackgroundOpacity is null)
-            return;
-        if (ModMusic.musicAllList.Any())
-        {
-            PanMusicVolume.Visibility = Visibility.Visible;
-            PanMusicDetail.Visibility = Visibility.Visible;
-            BtnMusicClear.Visibility = Visibility.Visible;
-            CardMusic.Title = Lang.Text("Setup.Ui.Music.TitleWithCount", ModBase.EnumerateFiles(ModBase.exePath + @"PCL\Musics\").Count());
-        }
-        else
-        {
-            PanMusicVolume.Visibility = Visibility.Collapsed;
-            PanMusicDetail.Visibility = Visibility.Collapsed;
-            BtnMusicClear.Visibility = Visibility.Collapsed;
-            CardMusic.Title = Lang.Text("Setup.Ui.Music.Title");
-        }
-
-        CardMusic.TriggerForceResize();
-    }
-
-    private void BtnMusicClear_Click(object sender, MouseButtonEventArgs e)
-    {
-        if (ModMain.MyMsgBox(Lang.Text("Setup.Ui.Music.Clear.Confirm.Message"),
-                Lang.Text("Common.Dialog.Warning"), button2: Lang.Text("Common.Action.Cancel"),
-                isWarn: true) == 1)
-            ModBase.RunInThread(() =>
-            {
-                HintService.Hint(Lang.Text("Setup.Ui.Music.Deleting"));
-                // 停止播放音乐
-                ModMusic.musicNAudio = null;
-                ModMusic.musicWaitingList = new List<string>();
-                ModMusic.musicAllList = new List<string>();
-                Thread.Sleep(200);
-                // 删除文件
-                try
-                {
-                    ModBase.DeleteDirectory(ModBase.exePath + @"PCL\Musics");
-                    // DisableSMTCSupport()
-                    HintService.Hint(Lang.Text("Setup.Ui.Music.Delete.Success"), HintType.Success);
-                }
-                catch (Exception ex)
-                {
-                    ModBase.Log(
-                        ex,
-                        "删除背景音乐失败",
-                        ModBase.LogLevel.Msgbox,
-                        userSummary: Lang.Text("Setup.Ui.Error.OperationFailed"));
-                }
-
-                try
-                {
-                    Directory.CreateDirectory(ModBase.exePath + @"PCL\Musics");
-                    ModBase.RunInUi(() => ModMusic.MusicRefreshPlay(false));
-                }
-                catch (Exception ex)
-                {
-                    ModBase.Log(
-                        ex,
-                        "重建背景音乐文件夹失败",
-                        ModBase.LogLevel.Msgbox,
-                        userSummary: Lang.Text("Setup.Ui.Error.OperationFailed"));
-                }
-            });
-    }
-
-    private void CheckMusicStart_Change(object sender, bool user)
-    {
-        CheckBoxChange(sender, user);
-        if (ModAnimation.AniControlEnabled != 0)
-            return;
-        if (CheckMusicStart.Checked == true)
-            CheckMusicStop.Checked = false;
-    }
-
-    private void CheckMusicStop_Change()
-    {
-        if (ModAnimation.AniControlEnabled != 0)
-            return;
-        if (CheckMusicStop.Checked == true)
-            CheckMusicStart.Checked = false;
     }
 
     // 主题
@@ -1083,27 +960,11 @@ public partial class PageSetupUI
     // 滑动条
     private void SliderLoad()
     {
-        SliderMusicVolume.getHintText = new Func<object, object>(v =>
-            Lang.Number(Math.Ceiling(Convert.ToDouble(v) * 0.1d) / 100d, "P0"));
         SliderLauncherOpacity.getHintText = new Func<object, object>(v =>
             Lang.Number(Math.Round(40 + Convert.ToDouble(v) * 0.1d) / 100d, "P0"));
         SliderBackgroundOpacity.getHintText = new Func<object, object>(v =>
             Lang.Number(Math.Round(Convert.ToDouble(v) * 0.1d) / 100d, "P0"));
         SliderBackgroundBlur.getHintText = new Func<object, object>(v => Lang.Text("Setup.Ui.Slider.Pixel", Lang.Number(Convert.ToDouble(v), "N0")));
-        SliderBlurValue.getHintText = new Func<object, object>(v => Lang.Text("Setup.Ui.Slider.Pixel", Lang.Number(Convert.ToDouble(v), "N0")));
-        SliderBlurSamplingRate.getHintText = new Func<object, object>(v => Lang.Number(Convert.ToDouble(v) / 100d, "P0"));
-    }
-
-    private void CheckMusicStart_OnChange(object sender, bool user)
-    {
-        CheckBoxChange(sender, user);
-        CheckMusicStart_Change(sender, user);
-    }
-
-    private void CheckMusicStop_OnChange(object sender, bool user)
-    {
-        CheckBoxChange(sender, user);
-        CheckMusicStop_Change();
     }
 
     #region 功能隐藏

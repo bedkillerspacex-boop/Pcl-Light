@@ -150,7 +150,6 @@ public partial class FormMain
         ModBase.frmHandle = new WindowInteropHelper(this).Handle;
         // 读取设置
         PageSetupUI.BackgroundRefresh(false, true);
-        ModMusic.MusicRefreshPlay(false, true);
         // 扩展按钮
         BtnExtraUpdateRestart.showCheck = BtnExtraUpdateRestart_ShowCheck;
         BtnExtraDownload.showCheck = BtnExtraDownload_ShowCheck;
@@ -172,12 +171,6 @@ public partial class FormMain
 
         ThemeManager.ThemeRefresh();
         ModSetup.ApplyAll();
-        Lifecycle.CurrentApplication.Resources["BlurSamplingRate"] = Config.Preference.Blur.SamplingRate * 0.01d;
-        Lifecycle.CurrentApplication.Resources["BlurType"] = Config.Preference.Blur.KernelType;
-        if (Config.Preference.Blur.IsEnabled)
-            Lifecycle.CurrentApplication.Resources["BlurRadius"] = Config.Preference.Blur.Radius * 1.0d;
-        else
-            Lifecycle.CurrentApplication.Resources["BlurRadius"] = 0.0d;
 
         // #If DEBUG Then
         // MinHeight = 50
@@ -2095,17 +2088,6 @@ public partial class FormMain
     private bool BtnExtraUpdateRestart_ShowCheck()
     {
         return UpdateManager.isUpdateWaitingRestart;
-    }
-
-    // 音乐
-    private void BtnExtraMusic_Click(object sender, MouseButtonEventArgs e)
-    {
-        ModMusic.MusicControlPause();
-    }
-
-    private void BtnExtraMusic_RightClick(object sender, MouseButtonEventArgs e)
-    {
-        ModMusic.MusicControlNext();
     }
 
     // 任务管理
