@@ -33,14 +33,13 @@ dotnet publish "Plain Craft Launcher 2/Plain Craft Launcher 2.csproj" `
 
 `PCL.Core.SourceGenerators/EnvironmentInteropGenerator.cs` 在**编译期**扫描环境变量：
 
-- 存在 `PCL_WRITE_SECRET` 时，把**所有** `PCL_` 前缀的变量（排除 `PCL_WRITE_SECRET` 本身）
-  去掉 `PCL_` 前缀后，生成到 `EnvironmentInterop.g.cs`：
+- 存在 `PCL_WRITE_SECRET` 时，只允许 `PCL_MS_CLIENT_ID` 和 `PCL_GITHUB_SHA` 两个变量进入
+  `EnvironmentInterop.g.cs`。其他 `PCL_` 变量（尤其是 API key、服务器密钥）不会写进客户端：
 
   ```csharp
   private static readonly Dictionary<string, string?> SecretDictionary = new()
   {
       ["MS_CLIENT_ID"] = @"...",
-      ["CURSEFORGE_API_KEY"] = @"...",
   };
   ```
 
@@ -49,7 +48,8 @@ dotnet publish "Plain Craft Launcher 2/Plain Craft Launcher 2.csproj" `
 所以：
 
 - **源码里搜不到任何 client_id**，这是设计如此，不是漏了
-- 密钥是程序集元数据里的 UTF-16 字符串，**能被从 exe 里抠出来**。别把别人的密钥当自己的用
+- Client ID 是程序集元数据里的 UTF-16 字符串，**能被从 exe 里抠出来**；它是公开客户端标识，
+  不要把任何 API key 或服务器密钥注入发布包
 - 没设环境变量编出来的包，登录会提示"未配置 Client ID"
 
 ### 怎么带密钥编译
@@ -61,8 +61,8 @@ dotnet publish "Plain Craft Launcher 2/Plain Craft Launcher 2.csproj" `
   -c Release -p:Platform=x64 --no-self-contained -o ./publish-x64
 ```
 
-也可以只在运行时给：`Secrets` 会回退读环境变量 `PCL_MS_CLIENT_ID`，这样不用重编译。
-但**发布给别人时别依赖这个**，用户机器上没有这个变量。
+Debug 构建可以临时回退读取运行时环境变量 `PCL_MS_CLIENT_ID`；Release 构建不读取运行时环境变量，
+发布时必须在编译阶段注入。
 
 ### ⚠️ 改密钥后必须重启编译服务器
 

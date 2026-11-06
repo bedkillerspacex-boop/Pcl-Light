@@ -46,26 +46,27 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Install git-cliff
-        uses: taiki-e/install-action@e407f7bafb71fd004bc5c2da3032e5470cbb6ef0 # v2.87.24
-        with:
-          tool: git-cliff
-
       - name: Create local release tag
-        run: git tag -f "v${{ inputs.version }}"
-
-      - name: Generate changelog
-        run: git-cliff --latest -o CHANGELOG.md
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RELEASE_VERSION: ${{ inputs.version }}
+        run: |
+          if [[ ! "$RELEASE_VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z.-]+)?$ ]]; then
+            echo "Invalid release version" >&2
+            exit 1
+          fi
+          if [[ ! -f "release/notes-$RELEASE_VERSION.md" ]]; then
+            echo "Release notes file not found" >&2
+            exit 1
+          fi
+          git tag -f "v$RELEASE_VERSION"
 
       - name: Create or update release
         uses: softprops/action-gh-release@efb35369e0ad2afab669f228072c1b0d510eae64 # v3.0.3
         with:
           draft: true
           tag_name: v${{ inputs.version }}
-          name: Release ${{ inputs.version }}
-          body_path: CHANGELOG.md
+          name: PCL Light ${{ inputs.version }}
+          body_path: release/notes-${{ inputs.version }}.md
           prerelease: ${{ inputs.configuration == 'Beta' }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -85,20 +86,36 @@ jobs:
           - configuration: ${{ inputs.configuration }}
             architecture: ARM64
     steps:
+      - name: Require the release branch
+        env:
+          RELEASE_REF: ${{ github.ref }}
+        run: |
+          if [[ "$RELEASE_REF" != "refs/heads/main" ]]; then
+            echo "Releases must be dispatched from refs/heads/main" >&2
+            exit 1
+          fi
+
       - name: Download Build Artifact
         uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
         with:
-          name: PCL2_CE_${{ matrix.configuration }}_${{ matrix.architecture }}
+          name: PCL-Light_${{ matrix.configuration }}_${{ matrix.architecture }}
           path: ./artifact
 
       - name: Rename binaries
+        env:
+          RELEASE_CONFIGURATION: ${{ matrix.configuration }}
+          RELEASE_ARCHITECTURE: ${{ matrix.architecture }}
+          RELEASE_VERSION: ${{ inputs.version }}
         run: |
-          mv "./artifact/Plain Craft Launcher 2.exe" "PCL-Light_${{ matrix.configuration }}_${{ matrix.architecture }}.exe"
+          if [[ "$RELEASE_CONFIGURATION" != "Release" && "$RELEASE_CONFIGURATION" != "Beta" ]]; then exit 1; fi
+          if [[ "$RELEASE_ARCHITECTURE" != "x64" && "$RELEASE_ARCHITECTURE" != "ARM64" ]]; then exit 1; fi
+          if [[ ! "$RELEASE_VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z.-]+)?$ ]]; then exit 1; fi
+          mv "./artifact/Plain Craft Launcher 2.exe" "PCL-Light_${RELEASE_VERSION}_${RELEASE_ARCHITECTURE}.exe"
 
       - name: Sign the binary
         uses: sigstore/gh-action-sigstore-python@790bc6befb9d733738f18d8f895854b453640ec9 # v3.5.0
         with:
-          inputs: PCL-Light_${{ matrix.configuration }}_${{ matrix.architecture }}.exe
+          inputs: PCL-Light_${{ inputs.version }}_${{ matrix.architecture }}.exe
           verify: true
           # 这里原本写死成上游 PCL-Community/PCL-CE。fork 之后签名证书的颁发对象变成了本仓库，
           # 写死会导致校验失败、整个 job 直接挂掉，所以改成跟着当前仓库和分支走。
@@ -111,8 +128,8 @@ jobs:
           draft: true
           tag_name: v${{ inputs.version }}
           files: |
-            PCL-Light_${{ matrix.configuration }}_${{ matrix.architecture }}.exe
-            PCL-Light_${{ matrix.configuration }}_${{ matrix.architecture }}.exe.sigstore.json
+            PCL-Light_${{ inputs.version }}_${{ matrix.architecture }}.exe
+            PCL-Light_${{ inputs.version }}_${{ matrix.architecture }}.exe.sigstore.json
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 

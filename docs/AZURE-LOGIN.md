@@ -129,9 +129,9 @@ private const string TokenEndpoint  = "https://login.microsoftonline.com/consume
 
 本项目有三种注入方式，按场景选。
 
-### 方式 A：环境变量（推荐，不用重新编译）
+### 方式 A：环境变量（仅 Debug 开发构建）
 
-项目特意允许 **Release 版也读运行时环境变量**，所以改完直接重启启动器就生效。
+只有 Debug 构建会读取运行时环境变量。Release 发布包不读取用户机器上的环境变量，必须在编译阶段注入 Client ID。
 
 ```bat
 :: 当前用户永久生效
@@ -144,9 +144,9 @@ setx PCL_MS_CLIENT_ID "你的-client-id"
 [Environment]::SetEnvironmentVariable("PCL_MS_CLIENT_ID", "你的-client-id", "User")
 ```
 
-**设完必须关掉启动器重新开** —— `Secrets` 是静态属性，只在进程启动时读一次。
+**设完必须关掉 Debug 启动器重新开** —— `Secrets` 是静态属性，只在进程启动时读一次。
 
-验证是否生效：启动后在 `PCL/Log/Log*.log` 里搜 `读取到环境变量 PCL_MS_CLIENT_ID`。
+验证 Debug 环境变量是否生效：启动后在 `PCL/Log/Log*.log` 里搜 `读取到环境变量 PCL_MS_CLIENT_ID`。Release 则通过编译期注入。
 
 ### 方式 B：编译期写死（适合自己打包分发）
 
@@ -158,7 +158,7 @@ set PCL_MS_CLIENT_ID=你的-client-id
 dotnet build "Plain Craft Launcher 2/Plain Craft Launcher 2.csproj" -c Release
 ```
 
-`PCL.Core.SourceGenerators/EnvironmentInteropGenerator.cs` 会把所有 `PCL_*` 变量
+`PCL.Core.SourceGenerators/EnvironmentInteropGenerator.cs` 只允许 `PCL_MS_CLIENT_ID` 和 `PCL_GITHUB_SHA`
 （去掉 `PCL_` 前缀）生成进 `SecretDictionary`，编进 dll 里。
 
 > ⚠️ 这样 client_id 会以明文躺在你的二进制里。client_id 本身不是秘密（它会在授权 URL 里公开出现），
@@ -180,7 +180,7 @@ var provider = new MicrosoftProvider("你的-client-id");
 new MicrosoftProvider("xxx")     ← 最高
   ↓ 没传
 编译期 SecretDictionary（PCL_WRITE_SECRET）
-  ↓ 没有
+  ↓ 没有（仅 Debug）
 运行时环境变量 PCL_MS_CLIENT_ID
   ↓ 没有
 抛 InvalidOperationException: "Microsoft OAuth client id is not configured."
@@ -289,7 +289,7 @@ GitHub README 顶部、关于页、下载页都该有。这条最容易被忽略
 
 ## 7. 验证
 
-1. 确保 `PCL_MS_CLIENT_ID` 已设好，**重启**启动器
+1. 确保 Client ID 已编译进 Release 包，或在 Debug 进程中设置环境变量后重启
 2. 点「正版登录」
 3. 界面会显示一个 8 位左右的代码，比如 `K7Q2X9PLM`
 4. 打开 <https://microsoft.com/link>，输入这个代码，用你的微软账号登录并同意授权
@@ -300,7 +300,7 @@ GitHub README 顶部、关于页、下载页都该有。这条最容易被忽略
 `PCL/Log/Log*.log` 里依次应该出现：
 
 ```
-读取到环境变量 PCL_MS_CLIENT_ID          ← 确认 client_id 进来了
+[Environment] 读取到环境变量 PCL_MS_CLIENT_ID  ← Debug 环境变量回退时才出现
 [Login] 获取设备代码成功
 [Login] 轮询授权状态: authorization_pending   ← 正常，说明在等你操作
 [Login] 微软账号登录成功

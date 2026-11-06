@@ -86,7 +86,7 @@ dotnet build "Plain Craft Launcher 2/Plain Craft Launcher 2.csproj" -c Debug
 **单例锁是全机共用的**（`%LOCALAPPDATA%\PCLLite\instance.lock`）。调试版和正式版**不能同时开**，
 第二个会直接被顶掉或者报"已有一个实例在运行"。改代码前先把正式版关掉。
 
-想编发布版（单文件、约 19 MB）：
+想编发布版（单文件、约 17 MB）：
 
 ```powershell
 dotnet publish "Plain Craft Launcher 2/Plain Craft Launcher 2.csproj" `

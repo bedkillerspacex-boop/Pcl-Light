@@ -1882,6 +1882,8 @@ public static class ModComp
             return project is not null && (Id ?? "") == (project.Id ?? "");
         }
 
+        public override int GetHashCode() => (Id ?? "").GetHashCode(StringComparison.Ordinal);
+
         public static bool operator ==(CompProject left, CompProject right)
         {
             return EqualityComparer<CompProject>.Default.Equals(left, right);
@@ -2152,6 +2154,9 @@ public static class ModComp
                    (gameVersion ?? "") == (request.gameVersion ?? "") &&
                    (searchText ?? "") == (request.searchText ?? "") && sort == request.sort;
         }
+
+        public override int GetHashCode() => HashCode.Combine(type, targetResultCount, tag ?? "", modLoader,
+            source, gameVersion ?? "", searchText ?? "", sort);
 
         public static bool operator ==(CompProjectRequest left, CompProjectRequest right)
         {

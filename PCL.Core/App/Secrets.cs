@@ -11,12 +11,12 @@ public static class Secrets
     /// 微软 OAuth 的 Client ID
     /// <para>
     /// 优先取编译期注入的密钥（构建时设 <c>PCL_WRITE_SECRET=1</c> 与 <c>PCL_MS_CLIENT_ID</c>），
-    /// 其次读取运行时环境变量 <c>PCL_MS_CLIENT_ID</c>。
-    /// 这里刻意允许 Release 读取运行时环境变量，这样用户不必重新编译就能接上自己的 Azure 应用。
+    /// 仅 Debug 构建会回退读取运行时环境变量 <c>PCL_MS_CLIENT_ID</c>；Release 只使用编译期注入值，
+    /// 避免运行环境变量覆盖随发布包执行的登录身份。
     /// </para>
     /// <para><b>这是 PCL Light 自己的身份</b>，主页面登录、普通账号刷新都用它。</para>
     /// </summary>
-    public static string MSOAuthClientId { get; } = EnvironmentInterop.GetSecret("MS_CLIENT_ID").ReplaceNullOrEmpty();
+    public static string MSOAuthClientId { get; } = EnvironmentInterop.GetSecret("MS_CLIENT_ID", readEnvDebugOnly: true).ReplaceNullOrEmpty();
 
 
     /// <summary>
