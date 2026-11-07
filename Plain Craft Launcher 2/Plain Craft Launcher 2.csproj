@@ -121,7 +121,8 @@
         <ApplicationDefinition Include="Application.xaml" Condition="Exists('Application.xaml')" />
         <ApplicationDefinition Include="App.xaml" Condition="Exists('App.xaml')" />
         <Page Include="**\*.xaml" Exclude="bin\**;obj\**;@(ApplicationDefinition)" />
-        <Resource Include="Images\**" />
+        <!-- Archived launcher icons are kept in the source tree but are never loaded at runtime. -->
+        <Resource Include="Images\**" Exclude="Images\icon-lite-backup.ico;Images\icon-pclce-backup.ico;Images\icon-pclce-backup.png" />
         <!-- English hints are no longer used; keep them out of the single-file payload. -->
         <Resource Include="Resources\**" Exclude="Resources\hints\en-US.txt" />
         <EmbeddedResource Include="metadata.json" />
