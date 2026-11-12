@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Text.Json.Nodes;
 using PCL.Core.App;
 using PCL.Core.Utils;
@@ -25,6 +26,16 @@ public static class ModLibrary
         ///     是否为 Natives 文件。
         /// </summary>
         public bool IsNatives;
+
+        /// <summary>
+        ///     是否进入 JVM classpath；部分普通 artifact 同时包含需要提取的本地库。
+        /// </summary>
+        public bool IsClasspath = true;
+
+        /// <summary>
+        ///     原生库提取时要排除的 ZIP 路径前缀。
+        /// </summary>
+        public List<string> ExtractExcludes { get; } = new();
 
         /// <summary>
         ///     文件的完整本地路径。
@@ -82,10 +93,11 @@ public static class ModLibrary
     ///     检查是否符合 JSON 中的 Rules。
     /// </summary>
     /// <param name="ruleToken">JSON 中的 "rules" 项目。</param>
-    public static bool McJsonRuleCheck(JsonNode ruleToken)
+    public static bool McJsonRuleCheck(JsonNode ruleToken, bool? is64BitJava = null)
     {
         if (ruleToken is null)
             return true;
+        var javaArchitecture = is64BitJava ?? Environment.Is64BitOperatingSystem;
 
         // 初始化
         var required = false;
@@ -115,8 +127,24 @@ public static class ModLibrary
                     }
                 }
 
-                if (Rule["os"]["arch"] is not null) // 操作系统架构
-                    isRightRule = isRightRule && Rule["os"]["arch"].ToString() == "x86" == SystemInfo.Is32BitSystem;
+                if (Rule["os"]["arch"] is not null) // Java 运行时架构
+                {
+                    var architectureName = javaArchitecture ? "x86_64" : "x86";
+                    try
+                    {
+                        var pattern = Rule["os"]["arch"]!.ToString();
+                        var aliases = javaArchitecture
+                            ? new[] { "amd64", "x86_64" }
+                            : new[] { "x86", "i386", "i686" };
+                        isRightRule = isRightRule && aliases.Any(alias =>
+                            Regex.IsMatch(alias, $"^(?:{pattern})$",
+                                RegexOptions.IgnoreCase | RegexOptions.CultureInvariant));
+                    }
+                    catch (ArgumentException)
+                    {
+                        isRightRule = false;
+                    }
+                }
             }
 
             if (Rule["features"] is not null) // 标签
@@ -146,11 +174,13 @@ public static class ModLibrary
     /// <summary>
     ///     递归获取 Minecraft 某一实例的完整支持库列表。
     /// </summary>
-    public static List<McLibToken> McLibListGet(McInstance mcInstance, bool includeInstanceJar)
+    public static List<McLibToken> McLibListGet(McInstance mcInstance, bool includeInstanceJar,
+        bool? is64BitJava = null)
     {
         // 获取当前支持库列表
         ModBase.Log("[Minecraft] 获取支持库列表：" + mcInstance.Name);
-        var result = McLibListGetWithJson(mcInstance.JsonObject, targetMcInstance: mcInstance);
+        var result = McLibListGetWithJson(mcInstance.JsonObject, targetMcInstance: mcInstance,
+            is64BitJava: is64BitJava);
 
         // 需要添加原版 Jar
         if (includeInstanceJar)
@@ -219,9 +249,14 @@ public static class ModLibrary
     ///     获取 Minecraft 某一实例忽视继承的支持库列表，即结果中没有继承项。
     /// </summary>
     public static List<McLibToken> McLibListGetWithJson(JsonObject jsonObject,
-        bool keepSameNameDifferentVersionResult = false, string customMcFolder = null, McInstance targetMcInstance = null)
+        bool keepSameNameDifferentVersionResult = false, string customMcFolder = null,
+        McInstance targetMcInstance = null, bool? is64BitJava = null)
     {
         customMcFolder = customMcFolder ?? ModFolder.mcFolderSelected;
+        is64BitJava ??= targetMcInstance is null
+            ? Environment.Is64BitOperatingSystem
+            : Is64BitJavaForInstance(targetMcInstance);
+        var javaArchitecture = is64BitJava.Value ? "64" : "32";
         var basicArray = new List<McLibToken>();
 
         // 添加基础 Json 项
@@ -237,7 +272,7 @@ public static class ModLibrary
                 library.Remove(key);
 
             // 检查是否需要（Rules）
-            if (!McJsonRuleCheck(library["rules"]))
+            if (!McJsonRuleCheck(library["rules"], is64BitJava))
                 continue;
 
             // 获取根节点下的 url
@@ -266,6 +301,8 @@ public static class ModLibrary
                     if (library["downloads"] is not null && library["downloads"]["artifact"] is not null)
                     {
                         var init = new McLibToken();
+                        var artifactIsNative = artifactPath?.ToString().Contains("natives-windows",
+                            StringComparison.OrdinalIgnoreCase) == true;
                         basicArray.Add((init.OriginalName = (string)library["name"],
                             init.Url = (string)(rootUrl ?? library["downloads"]["artifact"]["url"]),
                             init.LocalPath = artifactPath is null
@@ -273,8 +310,10 @@ public static class ModLibrary
                                 : McLibGetByArtifactPath(artifactPath.ToString(), customMcFolder),
                             init.size = (long)Math.Round(
                                 ModBase.Val(library["downloads"]["artifact"]["size"].ToString())),
-                            init.IsNatives = false, init.Sha1 = library["downloads"]["artifact"]["sha1"]?.ToString(),
+                            init.IsNatives = artifactIsNative, init.IsClasspath = true,
+                            init.Sha1 = library["downloads"]["artifact"]["sha1"]?.ToString(),
                             init.IsLocal = isLocal, init).init);
+                        if (artifactIsNative) AddExtractExcludes(init, library);
                     }
                     else
                     {
@@ -302,38 +341,80 @@ public static class ModLibrary
             }
             else if (library["natives"]["windows"] is not null) // 有 Windows Natives
             {
-                var nativePath = library["downloads"] is not null && library["downloads"]["classifiers"] is not null &&
-                                 library["downloads"]["classifiers"]["natives-windows"] is not null
-                    ? library["downloads"]["classifiers"]["natives-windows"]["path"]
-                    : null;
+                var artifact = library["downloads"]?["artifact"];
+                var artifactIsNative = (string?)artifact?["path"] is { } artifactNativePath &&
+                                       artifactNativePath.Contains("natives-windows",
+                                           StringComparison.OrdinalIgnoreCase);
+                if (artifact is not null)
+                {
+                    var artifactPath = (string?)artifact["path"];
+                    try
+                    {
+                        var artifactToken = new McLibToken
+                        {
+                            OriginalName = (string?)library["name"],
+                            Url = (string?)(rootUrl ?? artifact["url"]),
+                            LocalPath = artifactPath is null
+                                ? McLibGet((string)library["name"], customMcFolder: customMcFolder)
+                                : McLibGetByArtifactPath(artifactPath, customMcFolder),
+                            size = (long)Math.Round(ModBase.Val(artifact["size"]?.ToString())),
+                            IsNatives = artifactIsNative,
+                            Sha1 = (string?)artifact["sha1"],
+                            IsLocal = isLocal
+                        };
+                        artifactToken.IsClasspath = !artifactToken.IsNatives;
+                        if (artifactToken.IsNatives) AddExtractExcludes(artifactToken, library);
+                        basicArray.Add(artifactToken);
+                    }
+                    catch (Exception ex) when (artifactPath is not null &&
+                                               (ex is ArgumentException || ex is IOException))
+                    {
+                        ModBase.Log(ex, "支持库下载路径非法，已跳过（artifact，" +
+                            (library["name"] ?? "Nothing") + "）");
+                    }
+                }
+
+                var nativeClassifier = library["natives"]["windows"]!.ToString()
+                    .Replace("${arch}", javaArchitecture, StringComparison.Ordinal);
+                var classifier = library["downloads"]?["classifiers"]?[nativeClassifier];
+                if (classifier is null && artifactIsNative)
+                    continue;
+                var nativePath = (string?)classifier?["path"];
+                if (nativePath is not null)
+                    nativePath = nativePath.Replace("${arch}", javaArchitecture, StringComparison.Ordinal);
+
+                var defaultNativeRelativePath = McLibGet((string)library["name"], withHead: false,
+                        ignoreLiteLoader: true, customMcFolder: customMcFolder)
+                    .Replace(".jar", "-" + nativeClassifier + ".jar", StringComparison.Ordinal)
+                    .Replace("${arch}", javaArchitecture, StringComparison.Ordinal);
+                string? nativeUrl = (string?)classifier?["url"];
+                if (!string.IsNullOrWhiteSpace(rootUrl))
+                {
+                    var artifactRelativePath = McLibGet((string)library["name"], withHead: false,
+                        ignoreLiteLoader: true, customMcFolder: customMcFolder).Replace('\\', '/');
+                    var nativeRelativeUrlPath = (nativePath ?? defaultNativeRelativePath).Replace('\\', '/');
+                    nativeUrl = rootUrl[..^artifactRelativePath.Length] + nativeRelativeUrlPath;
+                }
+
                 try
                 {
-                    if (library["downloads"] is not null && library["downloads"]["classifiers"] is not null &&
-                        library["downloads"]["classifiers"]["natives-windows"] is not null)
-                        basicArray.Add(new McLibToken
-                        {
-                            OriginalName = (string)library["name"],
-                            Url = (string)(rootUrl ?? library["downloads"]["classifiers"]["natives-windows"]["url"]),
-                            LocalPath = nativePath is null
-                                ? McLibGet((string)library["name"], customMcFolder: customMcFolder)
-                                    .Replace(".jar", "-" + library["natives"]["windows"] + ".jar")
-                                    .Replace("${arch}", Environment.Is64BitOperatingSystem ? "64" : "32")
-                                : McLibGetByArtifactPath(nativePath.ToString(), customMcFolder),
-                            size = (long)Math.Round(
-                                ModBase.Val(library["downloads"]["classifiers"]["natives-windows"]["size"].ToString())),
-                            IsNatives = true,
-                            Sha1 = library["downloads"]["classifiers"]["natives-windows"]["sha1"].ToString(),
-                            IsLocal = isLocal
-                        });
-                    else
-                        basicArray.Add(new McLibToken
-                        {
-                            OriginalName = (string)library["name"], Url = rootUrl,
-                            LocalPath = McLibGet((string)library["name"], customMcFolder: customMcFolder)
-                                .Replace(".jar", "-" + library["natives"]["windows"] + ".jar")
-                                .Replace("${arch}", Environment.Is64BitOperatingSystem ? "64" : "32"),
-                            size = 0L, IsNatives = true, Sha1 = null, IsLocal = isLocal
-                        });
+                    var nativeToken = new McLibToken
+                    {
+                        OriginalName = (string)library["name"],
+                        Url = nativeUrl,
+                        LocalPath = nativePath is null
+                            ? Path.Combine(customMcFolder, "libraries",
+                                defaultNativeRelativePath.Replace('/', Path.DirectorySeparatorChar)
+                                    .Replace('\\', Path.DirectorySeparatorChar))
+                            : McLibGetByArtifactPath(nativePath, customMcFolder),
+                        size = (long)Math.Round(ModBase.Val(classifier?["size"]?.ToString())),
+                        IsNatives = true,
+                        IsClasspath = false,
+                        Sha1 = (string?)classifier?["sha1"],
+                        IsLocal = isLocal
+                    };
+                    AddExtractExcludes(nativeToken, library);
+                    basicArray.Add(nativeToken);
                 }
                 catch (Exception ex) when (nativePath is not null && (ex is ArgumentException || ex is IOException))
                 {
@@ -346,10 +427,10 @@ public static class ModLibrary
                     basicArray.Add(new McLibToken
                     {
                         OriginalName = (string)library["name"], Url = rootUrl,
-                        LocalPath = McLibGet((string)library["name"], customMcFolder: customMcFolder)
-                            .Replace(".jar", "-" + library["natives"]["windows"] + ".jar")
-                            .Replace("${arch}", Environment.Is64BitOperatingSystem ? "64" : "32"),
-                        size = 0L, IsNatives = true, Sha1 = null, IsLocal = false
+                        LocalPath = Path.Combine(customMcFolder, "libraries",
+                            defaultNativeRelativePath.Replace('/', Path.DirectorySeparatorChar)
+                                .Replace('\\', Path.DirectorySeparatorChar)),
+                        size = 0L, IsNatives = true, IsClasspath = false, Sha1 = null, IsLocal = false
                     });
                 }
             }
@@ -369,7 +450,7 @@ public static class ModLibrary
 
         for (int i = 0, loopTo = basicArray.Count - 1; i <= loopTo; i++)
         {
-            var key = basicArray[i].Name + basicArray[i].IsNatives;
+            var key = basicArray[i].Name + basicArray[i].IsNatives + basicArray[i].IsClasspath;
             if (resultArray.ContainsKey(key))
             {
                 var basicArrayVersion = GetVersion(basicArray[i]);
@@ -394,6 +475,32 @@ public static class ModLibrary
         }
 
         return resultArray.Values.ToList();
+    }
+
+    private static bool Is64BitJavaForInstance(McInstance instance)
+    {
+        try
+        {
+            return ModJava.IsGameSet64BitJava(instance);
+        }
+        catch (Exception ex)
+        {
+            ModBase.Log(ex, "读取实例 Java 架构失败，按系统架构选择支持库");
+            return Environment.Is64BitOperatingSystem;
+        }
+    }
+
+    private static void AddExtractExcludes(McLibToken token, JsonObject library)
+    {
+        if (library["extract"]?["exclude"] is not JsonArray excludes)
+            return;
+
+        foreach (var exclude in excludes)
+        {
+            var value = exclude?.ToString();
+            if (!string.IsNullOrWhiteSpace(value))
+                token.ExtractExcludes.Add(value);
+        }
     }
 
     /// <summary>

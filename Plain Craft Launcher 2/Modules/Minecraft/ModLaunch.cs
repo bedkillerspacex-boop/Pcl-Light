@@ -18,6 +18,7 @@ using PCL.Core.Minecraft.Profile.Authentication;
 using PCL.Core.Minecraft.Profile.Models;
 using System.Globalization;
 using PCL.Core.Logging;
+using PCL.Core.IO;
 
 namespace PCL;
 
@@ -1446,24 +1447,23 @@ public static class ModLaunch
         {
             // 若自定义信息为空，则去掉该部分
             arguments = arguments.Replace(" --versionType ${version_type}", "");
-            replaceArguments["${version_type}"] = "\"\"";
+            replaceArguments["${version_type}"] = string.Empty;
         }
 
-        var finalArguments = "";
-        foreach (var argumentRaw in arguments.Split(" "))
+        var substitutedArguments = new List<string>();
+        foreach (var argumentRaw in WindowsCommandLine.ParseArguments(arguments))
         {
             var argument = argumentRaw;
             foreach (var entry in replaceArguments)
                 argument = argument.Replace(entry.Key, entry.Value);
-            if ((argument.Contains(" ") || argument.Contains(@":\")) && !argument.EndsWithF("\""))
-                argument = $"\"{argument}\"";
-            finalArguments += argument + " ";
+            substitutedArguments.Add(argument);
         }
 
-        finalArguments = finalArguments.TrimEnd();
+        var finalArguments = WindowsCommandLine.FormatArguments(substitutedArguments);
         // 进存档
         var worldName = currentLaunchOptions.WorldName;
-        if (worldName is not null) finalArguments += $" --quickPlaySingleplayer \"{worldName}\"";
+        if (worldName is not null)
+            finalArguments += " --quickPlaySingleplayer " + WindowsCommandLine.QuoteArgument(worldName);
         // 进服
         var server = string.IsNullOrEmpty(currentLaunchOptions.ServerIp)
             ? Config.Instance.ServerToEnter[ModInstanceList.McMcInstanceSelected?.PathInstance]
@@ -1473,17 +1473,21 @@ public static class ModLaunch
             if (ModInstanceList.McMcInstanceSelected.releaseTime > new DateTime(2023, 4, 4))
             {
                 // QuickPlay
-                finalArguments += $" --quickPlayMultiplayer \"{server}\"";
+                finalArguments += " --quickPlayMultiplayer " + WindowsCommandLine.QuoteArgument(server);
             }
             else
             {
                 // 老版本
                 if (server.Contains(":"))
+                {
                     // 包含端口号
-                    finalArguments += " --server " + server.Split(":")[0] + " --port " + server.Split(":")[1];
+                    var serverParts = server.Split(':', 2);
+                    finalArguments += " --server " + WindowsCommandLine.QuoteArgument(serverParts[0]) +
+                                      " --port " + WindowsCommandLine.QuoteArgument(serverParts[1]);
+                }
                 else
                     // 不包含端口号
-                    finalArguments += " --server " + server + " --port 25565";
+                    finalArguments += " --server " + WindowsCommandLine.QuoteArgument(server) + " --port 25565";
                 if (ModInstanceList.McMcInstanceSelected.Info.HasOptiFine)
                     HintService.Hint(Lang.Text("Minecraft.Launch.Error.OptiFineAutoJoinWarning"), HintType.Error);
             }
@@ -1653,7 +1657,8 @@ public static class ModLaunch
                         dataList.Add(subJson.ToString());
                     }
                     // 非字符串类型
-                    else if (ModLibrary.McJsonRuleCheck(subJson["rules"]))
+                    else if (ModLibrary.McJsonRuleCheck(subJson["rules"],
+                                 mcLaunchJavaSelected?.Installation?.Is64Bit))
                     {
                         // 满足准则
                         if (subJson["value"].GetValueKind() == JsonValueKind.String)
@@ -1852,7 +1857,8 @@ public static class ModLaunch
                         dataList.Add(subJson.ToString());
                     }
                     // 非字符串类型
-                    else if (ModLibrary.McJsonRuleCheck(subJson["rules"]))
+                    else if (ModLibrary.McJsonRuleCheck(subJson["rules"],
+                                 mcLaunchJavaSelected?.Installation?.Is64Bit))
                     {
                         // 满足准则
                         if (subJson["value"].GetValueKind() == JsonValueKind.String)
@@ -2003,7 +2009,7 @@ public static class ModLaunch
         gameArguments.Add("${assets_index_name}", ModAssets.McAssetsGetIndexName(instance));
 
         // 支持库参数
-        var libList = ModLibrary.McLibListGet(instance, true);
+        var libList = ModLibrary.McLibListGet(instance, true, mcLaunchJavaSelected?.Installation?.Is64Bit);
         loader.output = libList;
         var cpStrings = new List<string>();
         string optiFineCp = null;
@@ -2039,7 +2045,7 @@ public static class ModLaunch
 
         foreach (var library in libList)
         {
-            if (library.IsNatives)
+            if (!library.IsClasspath)
                 continue;
             if (ModInstanceList.McMcInstanceSelected.Info.HasCleanroom 
                 && library.OriginalName is not null 
@@ -2074,8 +2080,8 @@ public static class ModLaunch
     private static void McLaunchNatives(ModLoader.LoaderTask<List<ModLibrary.McLibToken>, int> loader)
     {
         // 创建文件夹
-        var target = GetNativesFolder() + @"\";
-        Directory.CreateDirectory(target);
+        var targetRoot = GetNativesFolder();
+        Directory.CreateDirectory(targetRoot);
 
         // 解压文件
         McLaunchLog("正在解压 Natives 文件");
@@ -2096,49 +2102,59 @@ public static class ModLaunch
                 throw new Exception(Lang.Text("Minecraft.Launch.Error.NativesCorrupted", native.LocalPath));
             }
 
-            foreach (var entry in zip.Entries)
+            try
             {
-                var fileName = entry.FullName;
-                if (fileName.EndsWithF(".dll", true))
+                foreach (var entry in zip.Entries)
                 {
-                    // 实际解压文件的步骤
-                    var filePath = target + fileName;
-                    existFiles.Add(filePath);
-                    var originalFile = new FileInfo(filePath);
-                    if (originalFile.Exists)
+                    var fileName = entry.FullName;
+                    if (fileName.EndsWithF(".dll", true))
                     {
-                        if (originalFile.Length == entry.Length)
-                        {
-                            if (ModBase.modeDebug)
-                                McLaunchLog("无需解压：" + filePath);
+                        if (ZipEntryPath.IsExcluded(fileName, native.ExtractExcludes))
                             continue;
+                        if (!ZipEntryPath.TryGetSafeDestinationPath(targetRoot, fileName, out var safePath))
+                            throw new InvalidDataException("Natives ZIP 含有越界路径：" + fileName);
+
+                        // 实际解压文件的步骤
+                        var filePath = safePath!;
+                        existFiles.Add(filePath);
+                        var originalFile = new FileInfo(filePath);
+                        if (originalFile.Exists)
+                        {
+                            if (originalFile.Length == entry.Length)
+                            {
+                                if (ModBase.modeDebug)
+                                    McLaunchLog("无需解压：" + filePath);
+                                continue;
+                            }
+
+                            // 删除原文件
+                            try
+                            {
+                                File.Delete(filePath);
+                            }
+                            catch (UnauthorizedAccessException ex)
+                            {
+                                McLaunchLog("删除原 dll 访问被拒绝，这通常代表有一个 MC 正在运行，跳过解压：" + filePath);
+                                McLaunchLog("实际的错误信息：" + ex);
+                                break;
+                            }
                         }
 
-                        // 删除原文件
-                        try
-                        {
-                            File.Delete(filePath);
-                        }
-                        catch (UnauthorizedAccessException ex)
-                        {
-                            McLaunchLog("删除原 dll 访问被拒绝，这通常代表有一个 MC 正在运行，跳过解压：" + filePath);
-                            McLaunchLog("实际的错误信息：" + ex);
-                            break;
-                        }
+                        // 解压新文件
+                        Directory.CreateDirectory(Path.GetDirectoryName(filePath)!);
+                        ModBase.WriteFile(filePath, entry.Open());
+                        McLaunchLog("已解压：" + filePath);
                     }
-
-                    // 解压新文件
-                    ModBase.WriteFile(filePath, entry.Open());
-                    McLaunchLog("已解压：" + filePath);
                 }
             }
-
-            if (zip is not null)
+            finally
+            {
                 zip.Dispose();
+            }
         }
 
         // 删除多余文件
-        foreach (var fileName in Directory.GetFiles(target))
+        foreach (var fileName in Directory.GetFiles(targetRoot, "*", SearchOption.AllDirectories))
         {
             if (existFiles.Contains(fileName))
                 continue;

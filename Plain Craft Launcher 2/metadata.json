@@ -1,10 +1,10 @@
 ﻿{
   "name": "PCL Light",
   "version": {
-    "base": "1.0.0",
+    "base": "1.0.1",
     "upstream": "2.12.1",
-    "suffix": "hotfix-4",
-    "code": 6
+    "suffix": "",
+    "code": 7
   },
   "licenses": [
     {

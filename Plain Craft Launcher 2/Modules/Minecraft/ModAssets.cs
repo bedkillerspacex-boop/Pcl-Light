@@ -6,6 +6,7 @@ using System.Runtime.InteropServices;
 using System.Text.Json.Nodes;
 using PCL;
 using PCL.Core.App.Localization;
+using PCL.Core.Minecraft;
 using PCL.Core.Utils;
 using PCL.Network;
 
@@ -148,19 +149,13 @@ namespace PCL
                 // 读取列表
                 foreach (var file in json["objects"].AsObject())
                 {
-                    string localPath;
                     var hash = file.Value["hash"].ToString();
-                    if (json["map_to_resources"] is not null && json["map_to_resources"].ToObject<bool>())
-                        // Remap
-                        localPath = Path.Combine(mcInstance.PathIndie, "resources", file.Key.Replace("/", @"\"));
-                    else if (json["virtual"] is not null && json["virtual"].ToObject<bool>())
-                        // Virtual
-                        localPath = Path.Combine(ModFolder.mcFolderSelected, "assets", "virtual", "legacy", file.Key.Replace("/", @"\"));
-                    else
-                    {
-                        // 正常
-                        localPath = Path.Combine(ModFolder.mcFolderSelected, "assets", "objects", McAssetsHashPrefix(hash), hash);
-                    }
+                    var mapToResources = json["map_to_resources"]?.ToObject<bool>() == true;
+                    var isVirtual = json["virtual"]?.ToObject<bool>() == true;
+                    var assetsRoot = Path.Combine(ModFolder.mcFolderSelected, "assets");
+                    var resourcesRoot = Path.Combine(mcInstance.PathIndie, "resources");
+                    var localPath = AssetIndexPath.ResolveLocalPath(assetsRoot, resourcesRoot, file.Key,
+                        hash, mapToResources, isVirtual);
                     result.Add(new McAssetsToken
                     {
                         localPath = localPath,
